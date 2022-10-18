@@ -1,0 +1,18 @@
+/* purgecss start ignore */
+@tailwind base;
+
+@tailwind components;
+/* purgecss end ignore */
+
+@tailwind utilities;
+
+@layer base {
+
+    body {
+        @apply bg-gray-200 w-full;
+    }
+}
+
+.js-plotly-plot .plotly .modebar-group {
+    display: flex !important;
+}
