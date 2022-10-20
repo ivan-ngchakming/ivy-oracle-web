@@ -4,11 +4,18 @@ import { GetServerSideProps } from "next/types";
 import NProgress from "nprogress";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import Layout from "../../../components/Layout";
-import { Provider } from "../../../types";
-import { truncateEthAddress } from "../../../utils";
+import Layout from "../../../../components/Layout";
+import Table, {
+  TableHead,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "../../../../components/Table";
+import { Delegation, Paginated, Provider } from "../../../../types";
+import { truncateEthAddress } from "../../../../utils";
 
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
@@ -20,9 +27,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  const [data, towoData] = await Promise.all([
-    fetch(`${BASE_URL}/ftso/data-provider/${params.address as string}`).then(
-      (res) => res.json()
+  const [data, towoData, delegations] = await Promise.all([
+    fetch(`${BASE_URL}/ftso/data-provider/${params.address}`).then((res) =>
+      res.json()
     ),
     fetch(
       `https://raw.githubusercontent.com/TowoLabs/ftso-signal-providers/master/bifrost-wallet.providerlist.json`
@@ -32,6 +39,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       ).providers.find(
         (p: any) => p.chainId === 19 && p.address === params.address
       )
+    ),
+    fetch(`${BASE_URL}/delegation?to=${params.address}`).then((res) =>
+      res.json()
     ),
   ]);
 
@@ -59,11 +69,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 
   return {
-    props: { provider },
+    props: { provider, delegations },
   };
 };
 
-const ProviderPage = ({ provider }: { provider: Provider }) => {
+const ProviderPage = ({
+  provider,
+  delegations,
+}: {
+  provider: Provider;
+  delegations: Paginated<Delegation>;
+}) => {
   const router = useRouter();
   const { address } = router.query;
 
@@ -262,6 +278,38 @@ const ProviderPage = ({ provider }: { provider: Provider }) => {
                 ))}
               </div>
             </div>
+          </div>
+          <div className="mt-4 xl:mt-0">
+            <h2 className="text-xl font-extrabold mb-3">Delegations</h2>
+            <Table className="sm:table">
+              <TableHead>
+                <tr>
+                  <TableColumn>Delegator</TableColumn>
+                  <TableColumn>Amount</TableColumn>
+                </tr>
+              </TableHead>
+              <TableBody>
+                {delegations.data.map((delegation) => (
+                  <TableRow key={delegation.fromAddress}>
+                    <TableCell>{delegation.fromAddress}</TableCell>
+                    <TableCell>
+                      {Math.round(delegation.amount).toLocaleString()}
+                    </TableCell>
+                  </TableRow>
+                ))}
+                {delegations.totalCount > 11 && (
+                  <TableRow>
+                    <TableCell colSpan={2}>
+                      <Link href={`/ftso/data-provider/${address}/delegations`}>
+                        <div className="hover:text-blue-700 hover:cursor-pointer">
+                          See {delegations.totalCount - 10} more...
+                        </div>
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
           </div>
         </div>
       </div>

@@ -12,7 +12,7 @@ import { SYMBOLS } from "../../../constants";
 import { ProviderBasic } from "../../../types";
 import { truncateEthAddress } from "../../../utils";
 
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const [data, towoData] = await Promise.all([

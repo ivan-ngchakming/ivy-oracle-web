@@ -12,10 +12,20 @@ export type Ethereum = {
   isConnected(): boolean;
 };
 
+export type Paginated<T> = {
+  data: T[];
+  totalCount: number;
+  page: number;
+  limit: number;
+  hasMore: boolean;
+};
+
 export interface Delegation {
-  from: string;
+  fromAddress: string;
+  toAddress: string;
   amount: number;
-  updatedAt: number;
+  updatedAtBlock: number;
+  createdAtBlock: number;
 }
 
 export interface ScheduledFeeChange {
