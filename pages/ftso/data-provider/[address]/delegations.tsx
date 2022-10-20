@@ -1,3 +1,4 @@
+import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
@@ -10,17 +11,58 @@ import Table, {
   TableRow,
 } from "../../../../components/Table";
 
-import { Delegation, Paginated } from "../../../../types";
+import { Delegation, Paginated, Provider } from "../../../../types";
 import { truncateEthAddress } from "../../../../utils";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-const DelegationsPage = () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { params } = context;
+  if (!params || !params.address) {
+    return {
+      props: {
+        provider: null,
+      },
+    };
+  }
+
+  const [towoData, delegations] = await Promise.all([
+    fetch(
+      `https://raw.githubusercontent.com/TowoLabs/ftso-signal-providers/master/bifrost-wallet.providerlist.json`
+    ).then(async (res) =>
+      (
+        await res.json()
+      ).providers.find(
+        (p: any) => p.chainId === 19 && p.address === params.address
+      )
+    ),
+    fetch(`${BASE_URL}/delegation?to=${params.address}`).then((res) =>
+      res.json()
+    ),
+  ]);
+
+  const provider = {
+    address: params.address,
+    name: towoData?.name ?? params.address,
+  };
+
+  return {
+    props: { provider, delegations },
+  };
+};
+
+const DelegationsPage = ({
+  provider,
+  delegations: initDelegations,
+}: {
+  provider: Provider;
+  delegations: Paginated<Delegation>;
+}) => {
   const router = useRouter();
   const { address } = router.query;
 
   const [delegations, setDelegations] = useState<Paginated<Delegation> | null>(
-    null
+    initDelegations
   );
   const [page, setPage] = useState(0);
 
@@ -47,8 +89,12 @@ const DelegationsPage = () => {
 
   return (
     <Layout
-      title="FTSO Providers"
-      bannerTitle={truncateEthAddress(address as string)}
+      title={`FTSO Providers | ${provider.name} | Delegations`}
+      bannerTitle={
+        (provider.address === provider.name
+          ? truncateEthAddress(provider.address)
+          : provider.name) + " Delegations"
+      }
     >
       <div className="-translate-y-14 translate-x-5 text-white w-fit">
         <Link href={`/ftso/data-provider/${address}`}>
