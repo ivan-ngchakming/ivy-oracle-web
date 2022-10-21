@@ -1,5 +1,5 @@
-import { GetServerSideProps } from "next";
-import { useMemo, useState } from "react";
+import { GetStaticProps } from "next";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Layout from "../../../components/Layout";
 import Table, {
   TableBody,
@@ -10,11 +10,40 @@ import Table, {
 } from "../../../components/Table";
 import { SYMBOLS } from "../../../constants";
 import { ProviderBasic } from "../../../types";
+import { APIProvider } from "../../../types/api";
+import { TowoProvider } from "../../../types/external";
 import { truncateEthAddress } from "../../../utils";
+import NProgress from "nprogress";
+import Button from "../../../components/Button";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+const mapProvider = (
+  apiProvider: APIProvider,
+  towoProvider: TowoProvider
+): ProviderBasic => ({
+  address: apiProvider.address,
+  name: towoProvider?.name ?? apiProvider.address,
+  logoUrl: towoProvider
+    ? towoProvider.logoURI
+    : "https://cdn.flaremetrics.io/flare/ftso/emblem/unknown@64.png",
+  accuracy: apiProvider.accuracy,
+  fee: apiProvider.fee,
+  scheduledFeeChange: apiProvider.scheduledFeeChanges,
+  currentVotePower: apiProvider.currentVotePower,
+  lockedVotePower: apiProvider.lockedVotePower,
+  currentRewardRate: apiProvider.rewardRate,
+  averageRewardRate: null,
+  currentReward: apiProvider.providerRewards,
+  totalReward: apiProvider.totalRewards,
+  availability: apiProvider.availability,
+  whitelistedSymbols: apiProvider.whitelistedSymbols,
+  flareMetricsLink: null,
+  ftsoMonitorLink: `https://songbird-ftso-monitor.flare.network/price?currency=XRP&startTime=30m&providerAddress=${apiProvider.address.toLowerCase()}`,
+  blockChainExplorerLink: `https://songbird-explorer.flare.network/address/${apiProvider.address}`,
+});
+
+export const getStaticProps: GetStaticProps = async (context) => {
   const [data, towoData] = await Promise.all([
     fetch(`${BASE_URL}/ftso/data-provider`).then((res) => res.json()),
     fetch(
@@ -26,37 +55,25 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      providers: data.map((row: any) => {
-        const towoInfo = towoData.find((p: any) => p.address === row.address);
+      providers: data.map((provider: any) => {
+        const towoInfo = towoData.find(
+          (p: any) => p.address === provider.address
+        );
 
-        return {
-          address: row.address,
-          name: row.name ?? towoInfo?.name ?? row.address,
-          logoUrl: towoInfo
-            ? towoInfo.logoURI
-            : row.logo ??
-              "https://cdn.flaremetrics.io/flare/ftso/emblem/unknown@64.png",
-          accuracy: row.accuracy,
-          fee: row.fee,
-          scheduledFeeChange: row.scheduledFeeChanges,
-          currentVotePower: row.currentVotePower,
-          lockedVotePower: row.lockedVotePower,
-          currentRewardRate: row.rewardRate,
-          averageRewardRate: null,
-          currentReward: row.providerRewards,
-          totalReward: row.totalRewards,
-          availability: row.availability,
-          whitelistedSymbols: row.whitelistedSymbols,
-          flareMetricsLink: null,
-          ftsoMonitorLink: `https://songbird-ftso-monitor.flare.network/price?currency=XRP&startTime=30m&providerAddress=${row.address.toLowerCase()}`,
-          blockChainExplorerLink: `https://songbird-explorer.flare.network/address/${row.address}`,
-        };
+        return mapProvider(provider, towoInfo);
       }),
     },
+    revalidate: 5,
   };
 };
 
-const ProviderPage = ({ providers }: { providers: ProviderBasic[] }) => {
+const ProviderPage = ({
+  providers: initProviders,
+}: {
+  providers: ProviderBasic[];
+}) => {
+  const [providers, setProviders] = useState(initProviders);
+  const [fetching, setFetching] = useState(false);
   const [sortKey, setSortKey] = useState("accuracy");
   const [isAsc, setIsAsc] = useState(false);
 
@@ -120,9 +137,46 @@ const ProviderPage = ({ providers }: { providers: ProviderBasic[] }) => {
     });
   }, [providers, sortKey, isAsc]);
 
+  const refetchProviders = useCallback(async () => {
+    setFetching(true);
+    const [data, towoData] = await Promise.all([
+      fetch(`${BASE_URL}/ftso/data-provider`).then((res) => res.json()),
+      fetch(
+        `https://raw.githubusercontent.com/TowoLabs/ftso-signal-providers/master/bifrost-wallet.providerlist.json`
+      ).then(async (res) =>
+        (await res.json()).providers.filter((p: any) => p.chainId === 19)
+      ),
+    ]);
+    const providers = data.map((provider: any) => {
+      const towoInfo = towoData.find(
+        (p: any) => p.address === provider.address
+      );
+
+      return mapProvider(provider, towoInfo);
+    });
+    setProviders(providers);
+    setFetching(false);
+  }, []);
+
+  useEffect(() => {
+    NProgress.start();
+    refetchProviders().then(() => {
+      NProgress.done();
+    });
+  }, [refetchProviders]);
+
   return (
     <Layout title="FTSO Providers" bannerTitle="FTSO Data Providers">
       <div className="m-5 lg:m-28 mb-40">
+        <div className="flex justify-end m-2">
+          <Button
+            className="w-32"
+            onClick={refetchProviders}
+            loading={fetching}
+          >
+            Refresh
+          </Button>
+        </div>
         <Table>
           <TableHead>
             <tr>
