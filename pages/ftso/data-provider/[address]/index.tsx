@@ -12,11 +12,10 @@ import Table, {
   TableRow,
   TableCell,
 } from "../../../../components/Table";
+import { BASE_URL, CHAIN_ID } from "../../../../lib/constants";
 import { mapFTSODataProvider } from "../../../../lib/mappers";
-import { Delegation, Paginated, Provider } from "../../../../lib/types";
+import { Delegation, Paginated, FTSODataProvider } from "../../../../lib/types";
 import { truncateEthAddress } from "../../../../utils";
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
@@ -38,7 +37,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       (
         await res.json()
       ).providers.find(
-        (p: any) => p.chainId === 19 && p.address === params.address
+        (p: any) => p.chainId === CHAIN_ID && p.address === params.address
       )
     ),
     fetch(`${BASE_URL}/delegation?to=${params.address}`).then((res) =>
@@ -57,7 +56,7 @@ const ProviderPage = ({
   provider,
   delegations,
 }: {
-  provider: Provider;
+  provider: FTSODataProvider;
   delegations: Paginated<Delegation>;
 }) => {
   const router = useRouter();

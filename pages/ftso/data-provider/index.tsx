@@ -8,34 +8,19 @@ import Table, {
   TableHead,
   TableRow,
 } from "../../../components/Table";
-import { SYMBOLS } from "../../../constants";
-import { ProviderBasic } from "../../../lib/types";
+import { SYMBOLS } from "../../../lib/constants";
+import { FTSODataProviderBasic } from "../../../lib/types";
 import { truncateEthAddress } from "../../../utils";
 import NProgress from "nprogress";
 import Button from "../../../components/Button";
-import { mapFTSODataProvider } from "../../../lib/mappers";
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+import { fetchFTSODataProviders } from "../../../lib/queries";
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const [data, towoData] = await Promise.all([
-    fetch(`${BASE_URL}/ftso/data-provider`).then((res) => res.json()),
-    fetch(
-      `https://raw.githubusercontent.com/TowoLabs/ftso-signal-providers/master/bifrost-wallet.providerlist.json`
-    ).then(async (res) =>
-      (await res.json()).providers.filter((p: any) => p.chainId === 19)
-    ),
-  ]);
+  const providers = await fetchFTSODataProviders();
 
   return {
     props: {
-      providers: data.map((provider: any) => {
-        const towoInfo = towoData.find(
-          (p: any) => p.address === provider.address
-        );
-
-        return mapFTSODataProvider(provider, towoInfo);
-      }),
+      providers,
     },
     revalidate: 5,
   };
@@ -44,7 +29,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 const ProviderPage = ({
   providers: initProviders,
 }: {
-  providers: ProviderBasic[];
+  providers: FTSODataProviderBasic[];
 }) => {
   const [providers, setProviders] = useState(initProviders);
   const [fetching, setFetching] = useState(false);
@@ -113,21 +98,7 @@ const ProviderPage = ({
 
   const refetchProviders = useCallback(async () => {
     setFetching(true);
-    const [data, towoData] = await Promise.all([
-      fetch(`${BASE_URL}/ftso/data-provider`).then((res) => res.json()),
-      fetch(
-        `https://raw.githubusercontent.com/TowoLabs/ftso-signal-providers/master/bifrost-wallet.providerlist.json`
-      ).then(async (res) =>
-        (await res.json()).providers.filter((p: any) => p.chainId === 19)
-      ),
-    ]);
-    const providers = data.map((provider: any) => {
-      const towoInfo = towoData.find(
-        (p: any) => p.address === provider.address
-      );
-
-      return mapFTSODataProvider(provider, towoInfo);
-    });
+    const providers = await fetchFTSODataProviders();
     setProviders(providers);
     setFetching(false);
   }, []);

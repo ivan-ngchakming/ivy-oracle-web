@@ -1,5 +1,5 @@
 import { AbiItem } from "web3-utils";
-import { CHAIN } from "../constants";
+import { CHAIN } from "../lib/constants";
 
 export const addresses = {
   songbird: "0xa76906EfBA6dFAe155FfC4c0eb36cDF0A28ae24D",

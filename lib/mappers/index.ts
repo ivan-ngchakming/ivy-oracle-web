@@ -1,11 +1,11 @@
-import { ProviderBasic } from "../types";
+import { FTSODataProviderBasic } from "../types";
 import { APIProvider } from "../types/api";
 import { TowoProvider } from "../types/external";
 
 export const mapFTSODataProvider = (
   apiProvider: APIProvider,
   towoProvider: TowoProvider
-): ProviderBasic => ({
+): FTSODataProviderBasic => ({
   address: apiProvider.address,
   name: towoProvider?.name ?? apiProvider.address,
   logoUrl: towoProvider

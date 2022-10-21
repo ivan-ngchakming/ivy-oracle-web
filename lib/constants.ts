@@ -3,6 +3,9 @@ export enum Chain {
   Flare = "flare",
 }
 
+export const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL ?? "https://api.ivyoracle.xyz";
+
 export const CHAIN = (process.env.NEXT_PUBLIC_CHAIN ?? "songbird") as Chain;
 
 export const RPC_ENDPOINT = {

@@ -28,19 +28,19 @@ export interface Delegation {
   createdAtBlock: number;
 }
 
-export interface ScheduledFeeChange {
+export interface FTSODataProviderScheduledFeeChange {
   fee: number;
   validFromEpoch: number;
 }
 
-export interface ProviderBasic {
+export interface FTSODataProviderBasic {
   address: string;
   name: string;
   logoUrl: string;
 
   accuracy: number | null;
   fee: number | null;
-  scheduledFeeChange: ScheduledFeeChange[] | null;
+  scheduledFeeChange: FTSODataProviderScheduledFeeChange[] | null;
   currentVotePower: number | null;
   lockedVotePower: number | null;
   currentRewardRate: number | null;
@@ -63,7 +63,7 @@ export interface AccuracyDataPoint {
   result: number;
 }
 
-export interface Provider extends ProviderBasic {
+export interface FTSODataProvider extends FTSODataProviderBasic {
   selfDelegation: Delegation;
   delegations: Delegation[];
   delegationsCount: number;

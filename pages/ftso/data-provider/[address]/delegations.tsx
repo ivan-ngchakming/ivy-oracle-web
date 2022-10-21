@@ -11,7 +11,7 @@ import Table, {
   TableRow,
 } from "../../../../components/Table";
 
-import { Delegation, Paginated, Provider } from "../../../../lib/types";
+import { Delegation, Paginated, FTSODataProvider } from "../../../../lib/types";
 import { truncateEthAddress } from "../../../../utils";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -55,7 +55,7 @@ const DelegationsPage = ({
   provider,
   delegations: initDelegations,
 }: {
-  provider: Provider;
+  provider: FTSODataProvider;
   delegations: Paginated<Delegation>;
 }) => {
   const router = useRouter();
