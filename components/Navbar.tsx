@@ -1,8 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useWeb3API } from "../lib/api";
+import classNames from "classnames";
+import { toast } from "react-toastify";
+import { truncateEthAddress } from "../utils";
 
 function Navbar(props: { transparent: boolean }) {
+  const { connect, disconnect, isConnected, address } = useWeb3API();
+
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  const handleConnectWallet = async () => {
+    setIsConnecting(true);
+    if (!isConnected) {
+      try {
+        await connect();
+        toast.success("Connected to wallet.", {
+          toastId: "connected-to-wallet",
+        });
+      } catch (err) {
+        toast.error("Failed to connect wallet.", {
+          toastId: "failed-to-connect-to-wallet",
+        });
+      }
+    } else {
+      disconnect();
+      toast.info("Disconnected from wallet.", {
+        toastId: "disconnected-from-wallet",
+      });
+    }
+    setIsConnecting(false);
+  };
 
   return (
     <nav
@@ -65,6 +94,28 @@ function Navbar(props: { transparent: boolean }) {
                   Providers
                 </div>
               </Link>
+            </li>
+          </ul>
+          <ul>
+            <li className="flex items-center">
+              <button
+                className={classNames(
+                  props.transparent
+                    ? "bg-white text-gray-800 active:bg-gray-100"
+                    : "bg-pink-500 text-white active:bg-pink-600",
+                  "text-xs font-bold uppercase px-4 py-2 rounded shadow-md hover:shadow-lg outline-none focus:outline-none lg:mr-1 lg:mb-0 lg:m-0",
+                  "disabled:bg-gray-400 w-full m-5",
+                  "transition-all",
+                  "min-w-[150px]"
+                )}
+                disabled={isConnecting}
+                type="button"
+                style={{ transition: "all .15s ease" }}
+                onClick={handleConnectWallet}
+              >
+                <i className="fas fa-caret-square-o-right"></i>{" "}
+                {isConnected ? truncateEthAddress(address) : "Connect Wallet"}
+              </button>
             </li>
           </ul>
         </div>
