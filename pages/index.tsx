@@ -33,22 +33,26 @@ const IndexPage = () => {
         </div>
       }
     >
-      <div className="mx-80 mt-10 mb-20 flex gap-2">
-        <Card
-          title="FTSO Data Providers"
-          actionLabel="View page"
-          actionType="link"
-          href={Route.FTSODataProvider}
-        >
-          <p className="pb-2">
-            See performance overview of FTSO data providers with metrics such
-            accuracy, reward rates and vote power.
-          </p>
-          <p className="pb-2">
-            You can also find the detail break down of each FTSO provider&apos;s
-            delegations, and their earnings for the current reward epoch.
-          </p>
-        </Card>
+      <div className="mx-20 mt-10 mb-40">
+        {/* <h2 className="text-center mb-5 text-xl font-bold">Navigation</h2> */}
+        <div className="flex justify-center gap-4 flex-wrap">
+          <Card
+            title="FTSO Data Providers"
+            actionLabel="View page"
+            actionType="link"
+            href={Route.FTSODataProvider}
+          >
+            <p className="pb-2">
+              See performance overview of FTSO data providers with metrics such
+              accuracy, reward rates and vote power.
+            </p>
+            <p className="pb-2">
+              You can also find the detail break down of each FTSO
+              provider&apos;s delegations, and their earnings for the current
+              reward epoch.
+            </p>
+          </Card>
+        </div>
       </div>
     </Layout>
   );
