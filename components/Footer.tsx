@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import { Route } from "../lib/constants/routes";
+import classNames from "classnames";
 
 function Footer() {
   return (
@@ -32,34 +34,27 @@ function Footer() {
             <h5 className="text-lg mt-0 mb-2 text-gray-700">
               Find us on any of these platforms.
             </h5>
-            <div className="mt-6">
-              {/* <button
-								className="bg-white text-blue-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-								type="button"
-							>
-								<i className="flex fab fa-twitter"></i>
-							</button>
-							<button
-								className="bg-white text-blue-600 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-								type="button"
-							>
-								<i className="flex fab fa-facebook-square"></i>
-							</button>
-							<button
-								className="bg-white text-pink-400 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-								type="button"
-							>
-								<i className="flex fab fa-dribbble"></i>
-							</button> */}
-              <Link
-                className="flex bg-white text-gray-900 shadow-lg font-normal h-10 w-10 items-center justify-center align-center rounded-full outline-none focus:outline-none mr-2"
-                type="button"
+            <div className={classNames("mt-6", "flex")}>
+              <a
+                className={classNames(
+                  "flex fab fa-github",
+                  "mr-4",
+                  "hover:cursor-pointer"
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
                 href="https://github.com/ivy-oracle"
-              >
-                <i className="flex fab fa-github"></i>
-              </Link>
+              ></a>
+              <a
+                className={classNames(
+                  "flex fab fa-twitter",
+                  "mr-4",
+                  "hover:cursor-pointer"
+                )}
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://twitter.com/ivy_oracle"
+              ></a>
             </div>
           </div>
           <div className="w-full sm:w-6/12 mt-5 sm:mt-0">
@@ -72,33 +67,25 @@ function Footer() {
                   <li>
                     <Link
                       className="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                      href="/"
+                      href={Route.Index}
                     >
-                      About Us
+                      Home
                     </Link>
                   </li>
                   <li>
                     <Link
                       className="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                      href="/"
+                      href={Route.FTSODataProvider}
                     >
-                      Blog
+                      FTSO Data Providers
                     </Link>
                   </li>
                   <li>
                     <Link
                       className="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                      href="/"
+                      href="https://github.com/ivy-oracle"
                     >
                       Github
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                      href="/"
-                    >
-                      Free Products
                     </Link>
                   </li>
                 </ul>
@@ -111,23 +98,7 @@ function Footer() {
                   <li>
                     <Link
                       className="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                      href="/"
-                    >
-                      Terms & Conditions
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                      href="/"
-                    >
-                      Privacy Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      className="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                      href="/"
+                      href="mailto:ivy.oracle.flare@gmail.com"
                     >
                       Contact Us
                     </Link>
