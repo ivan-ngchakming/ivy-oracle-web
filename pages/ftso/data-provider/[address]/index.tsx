@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { GetServerSideProps } from "next/types";
+import { GetStaticProps } from "next/types";
 import NProgress from "nprogress";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -12,12 +12,13 @@ import Table, {
   TableRow,
   TableCell,
 } from "../../../../components/Table";
+import { mapFTSODataProvider } from "../../../../lib/mappers";
 import { Delegation, Paginated, Provider } from "../../../../lib/types";
 import { truncateEthAddress } from "../../../../utils";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
   if (!params || !params.address) {
     return {
@@ -45,28 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     ),
   ]);
 
-  const provider = {
-    address: data.address,
-    name: data.name ?? towoData?.name ?? data.address,
-    logoUrl: towoData
-      ? towoData.logoURI
-      : data.logo ??
-        "https://cdn.flaremetrics.io/flare/ftso/emblem/unknown@64.png",
-    accuracy: data.accuracy,
-    fee: data.fee,
-    scheduledFeeChange: data.scheduledFeeChanges,
-    currentVotePower: data.currentVotePower,
-    lockedVotePower: data.lockedVotePower,
-    currentRewardRate: data.rewardRate,
-    averageRewardRate: null,
-    currentReward: data.providerRewards,
-    totalReward: data.totalRewards,
-    availability: data.availability,
-    whitelistedSymbols: data.whitelistedSymbols,
-    flareMetricsLink: null,
-    ftsoMonitorLink: `https://songbird-ftso-monitor.flare.network/price?currency=XRP&startTime=30m&providerAddress=${data.address.toLowerCase()}`,
-    blockChainExplorerLink: `https://songbird-explorer.flare.network/address/${data.address}`,
-  };
+  const provider = mapFTSODataProvider(data, towoData);
 
   return {
     props: { provider, delegations },

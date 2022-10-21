@@ -10,38 +10,12 @@ import Table, {
 } from "../../../components/Table";
 import { SYMBOLS } from "../../../constants";
 import { ProviderBasic } from "../../../lib/types";
-import { APIProvider } from "../../../lib/types/api";
-import { TowoProvider } from "../../../lib/types/external";
 import { truncateEthAddress } from "../../../utils";
 import NProgress from "nprogress";
 import Button from "../../../components/Button";
+import { mapFTSODataProvider } from "../../../lib/mappers";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
-const mapProvider = (
-  apiProvider: APIProvider,
-  towoProvider: TowoProvider
-): ProviderBasic => ({
-  address: apiProvider.address,
-  name: towoProvider?.name ?? apiProvider.address,
-  logoUrl: towoProvider
-    ? towoProvider.logoURI
-    : "https://cdn.flaremetrics.io/flare/ftso/emblem/unknown@64.png",
-  accuracy: apiProvider.accuracy,
-  fee: apiProvider.fee,
-  scheduledFeeChange: apiProvider.scheduledFeeChanges,
-  currentVotePower: apiProvider.currentVotePower,
-  lockedVotePower: apiProvider.lockedVotePower,
-  currentRewardRate: apiProvider.rewardRate,
-  averageRewardRate: null,
-  currentReward: apiProvider.providerRewards,
-  totalReward: apiProvider.totalRewards,
-  availability: apiProvider.availability,
-  whitelistedSymbols: apiProvider.whitelistedSymbols,
-  flareMetricsLink: null,
-  ftsoMonitorLink: `https://songbird-ftso-monitor.flare.network/price?currency=XRP&startTime=30m&providerAddress=${apiProvider.address.toLowerCase()}`,
-  blockChainExplorerLink: `https://songbird-explorer.flare.network/address/${apiProvider.address}`,
-});
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const [data, towoData] = await Promise.all([
@@ -60,7 +34,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
           (p: any) => p.address === provider.address
         );
 
-        return mapProvider(provider, towoInfo);
+        return mapFTSODataProvider(provider, towoInfo);
       }),
     },
     revalidate: 5,
@@ -152,7 +126,7 @@ const ProviderPage = ({
         (p: any) => p.address === provider.address
       );
 
-      return mapProvider(provider, towoInfo);
+      return mapFTSODataProvider(provider, towoInfo);
     });
     setProviders(providers);
     setFetching(false);
