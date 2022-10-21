@@ -277,13 +277,18 @@ const ProviderPage = ({
                       if (provider.whitelistedSymbols.length < 3) {
                         return provider.whitelistedSymbols.join(", ") + " Only";
                       }
-                      if (provider.whitelistedSymbols.length === 11) {
+                      if (
+                        provider.whitelistedSymbols.length ===
+                        SYMBOLS.length - 1
+                      ) {
                         return `All except ${SYMBOLS.filter(
                           (symbol) =>
                             !provider.whitelistedSymbols.includes(symbol)
                         )}`;
                       }
-                      if (provider.whitelistedSymbols.length === 12) {
+                      if (
+                        provider.whitelistedSymbols.length === SYMBOLS.length
+                      ) {
                         return "All";
                       }
                       return `${provider.whitelistedSymbols.length} FTSOs`;

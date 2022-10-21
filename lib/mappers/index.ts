@@ -1,3 +1,4 @@
+import { CHAIN } from "../constants";
 import { FTSODataProviderBasic } from "../types";
 import { APIProvider } from "../types/api";
 import { FTSODataProviderTowo } from "../types/external";
@@ -23,6 +24,6 @@ export const mapFTSODataProvider = (
   availability: apiProvider.availability,
   whitelistedSymbols: apiProvider.whitelistedSymbols,
   flareMetricsLink: null,
-  ftsoMonitorLink: `https://songbird-ftso-monitor.flare.network/price?currency=XRP&startTime=30m&providerAddress=${apiProvider.address.toLowerCase()}`,
-  blockChainExplorerLink: `https://songbird-explorer.flare.network/address/${apiProvider.address}`,
+  ftsoMonitorLink: `https://${CHAIN}-ftso-monitor.flare.network/price?currency=XRP&startTime=30m&providerAddress=${apiProvider.address.toLowerCase()}`,
+  blockChainExplorerLink: `https://${CHAIN}-explorer.flare.network/address/${apiProvider.address}`,
 });

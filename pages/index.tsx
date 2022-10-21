@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import Card from "../components/Card";
 import Layout from "../components/Layout";
+import { CHAIN } from "../lib/constants";
 import { Route } from "../lib/constants/routes";
 
 const IndexPage = () => {
@@ -35,16 +36,40 @@ const IndexPage = () => {
     >
       <div className="mx-20 mt-10 mb-40">
         {/* <h2 className="text-center mb-5 text-xl font-bold">Navigation</h2> */}
-        <div className="flex justify-center gap-4 flex-wrap">
+        <div className="flex justify-center gap-8 flex-wrap">
+          <Card
+            title="STSO Data Providers"
+            actionLabel="View page"
+            actionType="link"
+            href={
+              CHAIN === "songbird"
+                ? Route.FTSODataProvider
+                : "https://songbird.ivyoracle.xyz" + Route.FTSODataProvider
+            }
+          >
+            <p className="pb-2">
+              See performance overview of Songbird Time Series Oracle providers
+              with metrics such accuracy, reward rates and vote power.
+            </p>
+            <p className="pb-2">
+              You can also find the detail break down of each STSO
+              provider&apos;s delegations, and their earnings for the current
+              reward epoch.
+            </p>
+          </Card>
           <Card
             title="FTSO Data Providers"
             actionLabel="View page"
             actionType="link"
-            href={Route.FTSODataProvider}
+            href={
+              CHAIN === "flare"
+                ? Route.FTSODataProvider
+                : "https://flare.ivyoracle.xyz" + Route.FTSODataProvider
+            }
           >
             <p className="pb-2">
-              See performance overview of FTSO data providers with metrics such
-              accuracy, reward rates and vote power.
+              See performance overview of Flare Time Series Oracle data
+              providers with metrics such accuracy, reward rates and vote power.
             </p>
             <p className="pb-2">
               You can also find the detail break down of each FTSO
