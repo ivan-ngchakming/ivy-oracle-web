@@ -1,4 +1,4 @@
-export interface TowoProvider {
+export interface FTSODataProviderTowo {
   chainId: number;
   name: string;
   description: string;

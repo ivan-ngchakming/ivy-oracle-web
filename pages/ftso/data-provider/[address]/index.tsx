@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { GetStaticProps } from "next/types";
+import { GetStaticPaths, GetStaticProps } from "next/types";
 import NProgress from "nprogress";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -12,10 +12,19 @@ import Table, {
   TableRow,
   TableCell,
 } from "../../../../components/Table";
-import { BASE_URL, CHAIN_ID } from "../../../../lib/constants";
-import { mapFTSODataProvider } from "../../../../lib/mappers";
+import { BASE_URL } from "../../../../lib/constants";
+import { fetchFTSODataProvider } from "../../../../lib/queries";
 import { Delegation, Paginated, FTSODataProvider } from "../../../../lib/types";
 import { truncateEthAddress } from "../../../../utils";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const addresses: string[] = [];
+
+  return {
+    paths: addresses.map((address) => ({ params: { id: "1" } })),
+    fallback: "blocking",
+  };
+};
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { params } = context;
@@ -27,25 +36,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
     };
   }
 
-  const [data, towoData, delegations] = await Promise.all([
-    fetch(`${BASE_URL}/ftso/data-provider/${params.address}`).then((res) =>
-      res.json()
-    ),
-    fetch(
-      `https://raw.githubusercontent.com/TowoLabs/ftso-signal-providers/master/bifrost-wallet.providerlist.json`
-    ).then(async (res) =>
-      (
-        await res.json()
-      ).providers.find(
-        (p: any) => p.chainId === CHAIN_ID && p.address === params.address
-      )
-    ),
+  const [provider, delegations] = await Promise.all([
+    fetchFTSODataProvider(params.address as string),
     fetch(`${BASE_URL}/delegation?to=${params.address}`).then((res) =>
       res.json()
     ),
   ]);
-
-  const provider = mapFTSODataProvider(data, towoData);
 
   return {
     props: { provider, delegations },

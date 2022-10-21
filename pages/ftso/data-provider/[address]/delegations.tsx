@@ -10,11 +10,12 @@ import Table, {
   TableHead,
   TableRow,
 } from "../../../../components/Table";
-
-import { Delegation, Paginated, FTSODataProvider } from "../../../../lib/types";
+import {
+  fetchDelegations,
+  fetchFTSODataProviderTowo,
+} from "../../../../lib/queries";
+import { Delegation, FTSODataProvider, Paginated } from "../../../../lib/types";
 import { truncateEthAddress } from "../../../../utils";
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { params } = context;
@@ -27,18 +28,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   const [towoData, delegations] = await Promise.all([
-    fetch(
-      `https://raw.githubusercontent.com/TowoLabs/ftso-signal-providers/master/bifrost-wallet.providerlist.json`
-    ).then(async (res) =>
-      (
-        await res.json()
-      ).providers.find(
-        (p: any) => p.chainId === 19 && p.address === params.address
-      )
-    ),
-    fetch(`${BASE_URL}/delegation?to=${params.address}`).then((res) =>
-      res.json()
-    ),
+    fetchFTSODataProviderTowo(params.address as string),
+    fetchDelegations({ to: params.address as string }),
   ]);
 
   const provider = {
@@ -75,11 +66,9 @@ const DelegationsPage = ({
 
   useEffect(() => {
     if (address) {
-      fetch(`${BASE_URL}/delegation?to=${address}&page=${page}&size=100`)
-        .then((res) => res.json())
-        .then((res) => {
-          setDelegations(res);
-        });
+      fetchDelegations({ to: address as string, page }).then((res) => {
+        setDelegations(res);
+      });
     }
   }, [address, page]);
 
