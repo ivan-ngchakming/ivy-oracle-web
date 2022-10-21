@@ -9,6 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
 import * as gtag from "../lib/gtm";
+import { Web3Provider } from "../lib/providers";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
@@ -63,12 +64,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         `}
       </Script>
 
-      <Component {...pageProps} />
-      <ToastContainer
-        hideProgressBar={true}
-        theme="dark"
-        position={toast.POSITION.TOP_CENTER}
-      />
+      <Web3Provider>
+        <Component {...pageProps} />
+        <ToastContainer
+          hideProgressBar={true}
+          theme="dark"
+          position={toast.POSITION.TOP_CENTER}
+        />
+      </Web3Provider>
     </>
   );
 }
