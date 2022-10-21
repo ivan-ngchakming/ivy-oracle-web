@@ -3,6 +3,12 @@ import { mapFTSODataProvider } from "../mappers";
 import { FTSODataProviderBasic } from "../types";
 import { FTSODataProviderTowo } from "../types/external";
 
+export const fetchFTSODataProviderAddresses = async (): Promise<string[]> => {
+  return fetch(`${BASE_URL}/ftso/data-provider/addresses`).then((res) =>
+    res.json()
+  );
+};
+
 export const fetchFTSODataProviders = async (): Promise<
   FTSODataProviderBasic[]
 > => {

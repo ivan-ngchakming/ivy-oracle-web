@@ -13,15 +13,18 @@ import Table, {
   TableCell,
 } from "../../../../components/Table";
 import { BASE_URL } from "../../../../lib/constants";
-import { fetchFTSODataProvider } from "../../../../lib/queries";
+import {
+  fetchFTSODataProvider,
+  fetchFTSODataProviderAddresses,
+} from "../../../../lib/queries";
 import { Delegation, Paginated, FTSODataProvider } from "../../../../lib/types";
 import { truncateEthAddress } from "../../../../utils";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const addresses: string[] = [];
+  const addresses = await fetchFTSODataProviderAddresses();
 
   return {
-    paths: addresses.map((address) => ({ params: { id: "1" } })),
+    paths: addresses.map((address) => ({ params: { address } })),
     fallback: "blocking",
   };
 };
