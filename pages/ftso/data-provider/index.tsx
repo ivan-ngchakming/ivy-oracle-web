@@ -9,9 +9,9 @@ import Table, {
   TableRow,
 } from "../../../components/Table";
 import { SYMBOLS } from "../../../constants";
-import { ProviderBasic } from "../../../types";
-import { APIProvider } from "../../../types/api";
-import { TowoProvider } from "../../../types/external";
+import { ProviderBasic } from "../../../lib/types";
+import { APIProvider } from "../../../lib/types/api";
+import { TowoProvider } from "../../../lib/types/external";
 import { truncateEthAddress } from "../../../utils";
 import NProgress from "nprogress";
 import Button from "../../../components/Button";

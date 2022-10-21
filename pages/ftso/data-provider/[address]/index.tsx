@@ -12,7 +12,7 @@ import Table, {
   TableRow,
   TableCell,
 } from "../../../../components/Table";
-import { Delegation, Paginated, Provider } from "../../../../types";
+import { Delegation, Paginated, Provider } from "../../../../lib/types";
 import { truncateEthAddress } from "../../../../utils";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
