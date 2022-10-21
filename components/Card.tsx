@@ -3,13 +3,13 @@ import Button, { buttonClassNames } from "./Button";
 
 const Card = ({
   title,
-  content,
+  children,
   actionLabel,
   actionType,
   href,
 }: {
   title: string;
-  content: string;
+  children: React.ReactNode;
   actionLabel: string;
   actionType: "button" | "link";
   href?: string;
@@ -19,7 +19,7 @@ const Card = ({
       <h5 className="text-gray-900 text-xl leading-tight font-medium mb-2">
         {title}
       </h5>
-      <p className="text-gray-700 text-base mb-4">{content}</p>
+      <div className="text-gray-700 text-base mb-4">{children}</div>
       {actionType === "button" ? (
         <Button>{actionLabel}</Button>
       ) : (
