@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticProps } from "next/types";
 import NProgress from "nprogress";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Layout from "../../../../components/Layout";
 import Table, {
@@ -14,10 +14,16 @@ import Table, {
 } from "../../../../components/Table";
 import { BASE_URL } from "../../../../lib/constants";
 import {
+  fetchDelegations,
   fetchFTSODataProvider,
   fetchFTSODataProviderAddresses,
 } from "../../../../lib/queries";
-import { Delegation, Paginated, FTSODataProvider } from "../../../../lib/types";
+import {
+  Delegation,
+  Paginated,
+  FTSODataProvider,
+  FTSODataProviderBasic,
+} from "../../../../lib/types";
 import { truncateEthAddress } from "../../../../utils";
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -41,25 +47,27 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const [provider, delegations] = await Promise.all([
     fetchFTSODataProvider(params.address as string),
-    fetch(`${BASE_URL}/delegation?to=${params.address}`).then((res) =>
-      res.json()
-    ),
+    fetchDelegations({ to: params.address as string }),
   ]);
 
   return {
     props: { provider, delegations },
+    revalidate: 5,
   };
 };
 
 const ProviderPage = ({
-  provider,
-  delegations,
+  provider: initProvider,
+  delegations: initDelegations,
 }: {
-  provider: FTSODataProvider;
+  provider: FTSODataProviderBasic;
   delegations: Paginated<Delegation>;
 }) => {
   const router = useRouter();
   const { address } = router.query;
+
+  const [provider, setProvider] = useState(initProvider);
+  const [delegations, setDelegations] = useState(initDelegations);
 
   const copy = async () => {
     await navigator.clipboard.writeText(address as string);
@@ -70,6 +78,10 @@ const ProviderPage = ({
     if (!address) {
       NProgress.start();
     } else {
+      fetchFTSODataProvider(address as string).then((res) => setProvider(res));
+      fetchDelegations({ to: address as string }).then((res) =>
+        setDelegations(res)
+      );
       NProgress.done();
     }
   }, [address]);
