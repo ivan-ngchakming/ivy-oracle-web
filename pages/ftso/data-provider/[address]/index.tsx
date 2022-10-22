@@ -21,7 +21,6 @@ import {
 import {
   Delegation,
   Paginated,
-  FTSODataProvider,
   FTSODataProviderBasic,
 } from "../../../../lib/types";
 import { truncateEthAddress } from "../../../../utils";
