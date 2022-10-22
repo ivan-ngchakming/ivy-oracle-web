@@ -47,7 +47,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const [provider, delegations] = await Promise.all([
     fetchFTSODataProvider(params.address as string),
-    fetchDelegations({ to: params.address as string }),
+    fetchDelegations({ to: params.address as string, size: 10 }),
   ]);
 
   return {
@@ -79,7 +79,7 @@ const ProviderPage = ({
       NProgress.start();
     } else {
       fetchFTSODataProvider(address as string).then((res) => setProvider(res));
-      fetchDelegations({ to: address as string }).then((res) =>
+      fetchDelegations({ to: address as string, size: 10 }).then((res) =>
         setDelegations(res)
       );
       NProgress.done();
