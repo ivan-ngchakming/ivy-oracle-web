@@ -1,3 +1,4 @@
+import { getAddress } from "@ethersproject/address";
 import { BASE_URL, CHAIN_ID } from "../constants";
 import { mapFTSODataProvider } from "../mappers";
 import { FTSODataProviderBasic } from "../types";
@@ -15,20 +16,32 @@ export const fetchFTSODataProviderAddresses = async (): Promise<string[]> => {
 export const fetchFTSODataProviders = async (): Promise<
   FTSODataProviderBasic[]
 > => {
-  const [data, towoData] = await Promise.all([
+  const [data, towoData, flaremetricsData] = await Promise.all([
     fetch(`${BASE_URL}/ftso/data-provider`).then((res) => res.json()),
-    fetch(
-      `https://raw.githubusercontent.com/TowoLabs/ftso-signal-providers/master/bifrost-wallet.providerlist.json`
-    ).then(async (res) =>
-      (await res.json()).providers.filter((p: any) => p.chainId === CHAIN_ID)
-    ),
+    fetchFTSODataProvidersTowo(),
+    fetchFTSODataProvidersFlaremetrics(),
   ]);
   const providers = data.map((provider: any) => {
-    const towoInfo = towoData.find((p: any) => p.address === provider.address);
+    const towoInfo = towoData.find(
+      (p) => getAddress(p.address) === getAddress(provider.address)
+    );
+    const flaremetricsInfo = flaremetricsData.find(
+      (p) => getAddress(p.address) === getAddress(provider.address)
+    );
 
-    return mapFTSODataProvider(provider, towoInfo);
+    return mapFTSODataProvider(provider, towoInfo, flaremetricsInfo);
   });
   return providers;
+};
+
+export const fetchFTSODataProvidersTowo = (): Promise<
+  FTSODataProviderTowo[]
+> => {
+  return fetch(
+    `https://raw.githubusercontent.com/TowoLabs/ftso-signal-providers/master/bifrost-wallet.providerlist.json`
+  ).then(async (res) =>
+    (await res.json()).providers.filter((p: any) => p.chainId === CHAIN_ID)
+  );
 };
 
 export const fetchFTSODataProvidersFlaremetrics = async () => {
