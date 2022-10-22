@@ -1,7 +1,10 @@
 import { BASE_URL, CHAIN_ID } from "../constants";
 import { mapFTSODataProvider } from "../mappers";
 import { FTSODataProviderBasic } from "../types";
-import { FTSODataProviderTowo } from "../types/external";
+import {
+  FTSODataProviderFlaremetrics,
+  FTSODataProviderTowo,
+} from "../types/external";
 
 export const fetchFTSODataProviderAddresses = async (): Promise<string[]> => {
   return fetch(`${BASE_URL}/ftso/data-provider/addresses`).then((res) =>
@@ -25,6 +28,29 @@ export const fetchFTSODataProviders = async (): Promise<
 
     return mapFTSODataProvider(provider, towoInfo);
   });
+  return providers;
+};
+
+export const fetchFTSODataProvidersFlaremetrics = async () => {
+  let providers: FTSODataProviderFlaremetrics[] = [];
+  let has_next_page = true;
+  let page = 1;
+
+  while (has_next_page) {
+    try {
+      const res = await fetch(
+        `https://flaremetrics.io/api/ftso/providers?search=&select=&orderBy=live_votepower&orderDir=desc&rewardRateGreaterThan=0&rewardRateMode=live&feeLessThan=50&page=${page}&network=songbird`
+      );
+      const data = await res.json();
+      has_next_page = data.next_page_url != null;
+      page = page + 1;
+
+      providers = [...providers, ...data.data];
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return providers;
 };
 
