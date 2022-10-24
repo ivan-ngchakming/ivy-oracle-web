@@ -269,7 +269,9 @@ const ProviderPage = ({
             </div>
           </div>
           <div className="mt-4 xl:mt-0">
-            <h2 className="text-xl font-extrabold mb-3">Delegations</h2>
+            <h2 className="text-xl font-extrabold mb-3">
+              Delegators ({delegations.totalCount})
+            </h2>
             <Table className="sm:table">
               <TableHead>
                 <tr>
