@@ -6,13 +6,12 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Layout from "../../../../components/Layout";
 import Table, {
-  TableHead,
-  TableColumn,
   TableBody,
-  TableRow,
   TableCell,
+  TableColumn,
+  TableHead,
+  TableRow,
 } from "../../../../components/Table";
-import { BASE_URL } from "../../../../lib/constants";
 import {
   fetchDelegations,
   fetchFTSODataProvider,
@@ -20,8 +19,8 @@ import {
 } from "../../../../lib/queries";
 import {
   Delegation,
-  Paginated,
   FTSODataProviderBasic,
+  Paginated,
 } from "../../../../lib/types";
 import { truncateEthAddress } from "../../../../utils";
 
