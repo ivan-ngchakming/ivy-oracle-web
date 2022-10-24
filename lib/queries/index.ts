@@ -2,10 +2,7 @@ import { getAddress } from "@ethersproject/address";
 import { BASE_URL, CHAIN_ID } from "../constants";
 import { mapFTSODataProvider } from "../mappers";
 import { FTSODataProviderBasic } from "../types";
-import {
-  FTSODataProviderFlaremetrics,
-  FTSODataProviderTowo,
-} from "../types/external";
+import { FTSODataProviderTowo } from "../types/external";
 
 export const fetchFTSODataProviderAddresses = async (): Promise<string[]> => {
   return fetch(`${BASE_URL}/ftso/data-provider/addresses`).then((res) =>
@@ -16,55 +13,29 @@ export const fetchFTSODataProviderAddresses = async (): Promise<string[]> => {
 export const fetchFTSODataProviders = async (): Promise<
   FTSODataProviderBasic[]
 > => {
-  const [data, towoData, flaremetricsData] = await Promise.all([
+  const [data, towoData] = await Promise.all([
     fetch(`${BASE_URL}/ftso/data-provider`).then((res) => res.json()),
     fetchFTSODataProvidersTowo(),
-    fetchFTSODataProvidersFlaremetrics(),
   ]);
   const providers = data.map((provider: any) => {
     const towoInfo = towoData.find(
       (p) => getAddress(p.address) === getAddress(provider.address)
     );
-    const flaremetricsInfo = flaremetricsData.find(
-      (p) => getAddress(p.address) === getAddress(provider.address)
-    );
 
-    return mapFTSODataProvider(provider, towoInfo, flaremetricsInfo);
+    return mapFTSODataProvider(provider, towoInfo);
   });
   return providers;
 };
 
-export const fetchFTSODataProvidersTowo = (): Promise<
+export const fetchFTSODataProvidersTowo = async (): Promise<
   FTSODataProviderTowo[]
 > => {
-  return fetch(
+  const res = await fetch(
     `https://raw.githubusercontent.com/TowoLabs/ftso-signal-providers/master/bifrost-wallet.providerlist.json`
-  ).then(async (res) =>
-    (await res.json()).providers.filter((p: any) => p.chainId === CHAIN_ID)
   );
-};
-
-export const fetchFTSODataProvidersFlaremetrics = async () => {
-  let providers: FTSODataProviderFlaremetrics[] = [];
-  let has_next_page = true;
-  let page = 1;
-
-  while (has_next_page) {
-    try {
-      const res = await fetch(
-        `https://flaremetrics.io/api/ftso/providers?search=&select=&orderBy=live_votepower&orderDir=desc&rewardRateGreaterThan=0&rewardRateMode=live&feeLessThan=50&page=${page}&network=songbird`
-      );
-      const data = await res.json();
-      has_next_page = data.next_page_url != null;
-      page = page + 1;
-
-      providers = [...providers, ...data.data];
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  return providers;
+  return await (
+    await res.json()
+  ).providers.filter((p: any) => p.chainId === CHAIN_ID);
 };
 
 export const fetchFTSODataProviderTowo = async (

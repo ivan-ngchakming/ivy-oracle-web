@@ -1,15 +1,12 @@
 import { Chain, CHAIN } from "../constants";
 import { FTSODataProviderBasic } from "../types";
 import { APIProvider } from "../types/api";
-import {
-  FTSODataProviderFlaremetrics,
-  FTSODataProviderTowo,
-} from "../types/external";
+import { FTSODataProviderTowo } from "../types/external";
+import flareMetricsData from "../../assets/flaremetricLinks.json";
 
 export const mapFTSODataProvider = (
   apiProvider: APIProvider,
-  towoProvider?: FTSODataProviderTowo,
-  flaremetricsProvider?: FTSODataProviderFlaremetrics
+  towoProvider?: FTSODataProviderTowo
 ): FTSODataProviderBasic => ({
   address: apiProvider.address,
   name: towoProvider?.name ?? apiProvider.address,
@@ -29,9 +26,7 @@ export const mapFTSODataProvider = (
   whitelistedSymbols: apiProvider.whitelistedSymbols,
   flareMetricsLink:
     CHAIN === Chain.Songbird
-      ? `https://flaremetrics.io/ftso/provider/${
-          flaremetricsProvider?.data_provider.route_name ?? apiProvider.address
-        }`
+      ? (flareMetricsData as any)[apiProvider.address] // TODO: link to Flaremetrics by URL when available
       : null,
   ftsoMonitorLink: `https://${CHAIN}-ftso-monitor.flare.network/price?currency=XRP&startTime=30m&providerAddress=${apiProvider.address.toLowerCase()}`,
   blockChainExplorerLink: `https://${CHAIN}-explorer.flare.network/address/${apiProvider.address}`,
