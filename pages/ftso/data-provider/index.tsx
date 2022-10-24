@@ -14,6 +14,7 @@ import { truncateEthAddress } from "../../../utils";
 import NProgress from "nprogress";
 import Button from "../../../components/Button";
 import { fetchFTSODataProviders } from "../../../lib/queries";
+import Link from "next/link";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const providers = await fetchFTSODataProviders();
@@ -199,7 +200,7 @@ const ProviderPage = ({
                   />
                 </TableCell>
                 <TableCell>
-                  <a href={`/ftso/data-provider/${provider.address}`}>
+                  <Link href={`/ftso/data-provider/${provider.address}`}>
                     <div className="flex items-center justify-center hover:cursor-pointer">
                       <div>
                         <p className="font-medium">
@@ -216,7 +217,7 @@ const ProviderPage = ({
                         aria-hidden="true"
                       ></i>
                     </div>
-                  </a>
+                  </Link>
                 </TableCell>
                 <TableCell>
                   <p className="font-medium">
