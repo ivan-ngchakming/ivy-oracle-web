@@ -11,6 +11,7 @@ import Table, {
   TableHead,
   TableRow,
 } from "../components/Table";
+import { Chain, CHAIN } from "../lib/constants";
 import { fetchValidators } from "../lib/queries";
 import { Validator } from "../lib/types";
 
@@ -40,6 +41,18 @@ const ValidatorPage = ({
   }, []);
 
   useEffect(() => {}, []);
+
+  if (CHAIN === Chain.Songbird) {
+    return (
+      <Layout title="Validators" bannerTitle="Validators">
+        <div className="m-5 lg:m-28 mb-40">
+          <p className="text-center">
+            Validator data not yet available on Songbird
+          </p>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout title="Validators" bannerTitle="Validators">
