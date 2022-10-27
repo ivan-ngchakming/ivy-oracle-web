@@ -69,3 +69,16 @@ export interface FTSODataProvider extends FTSODataProviderBasic {
   delegationsCount: number;
   accuracyData: AccuracyDataPoint[];
 }
+
+export interface Validator {
+  nodeID: string;
+  rewardOwner: {
+    addresses: string[];
+    checksumAddresses: string[];
+  };
+  stakeAmount: number;
+  potentialReward: number;
+  delegationFee: number;
+  uptime: number;
+  connected: boolean;
+}

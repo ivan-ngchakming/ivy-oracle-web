@@ -87,3 +87,7 @@ export const fetchDelegations = async ({
     res.json()
   );
 };
+
+export const fetchValidators = async () => {
+  return await fetch(`${BASE_URL}/validator`).then((res) => res.json());
+};
