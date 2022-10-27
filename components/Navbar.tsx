@@ -1,9 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useWeb3API } from "../lib/api";
 import classNames from "classnames";
 import { toast } from "react-toastify";
 import { truncateEthAddress } from "../utils";
+import { Route } from "../lib/constants/routes";
+import { Chain, CHAIN } from "../lib/constants";
+
+const MENU_ITEMS = [
+  { path: Route.FTSODataProvider, label: "Providers", iconClass: "fa-compass" },
+];
+
+if (CHAIN === Chain.Flare) {
+  MENU_ITEMS.push({
+    path: Route.Validator,
+    label: "Validators",
+    iconClass: "fa-check",
+  });
+}
 
 function Navbar(props: { transparent: boolean }) {
   const { connect, disconnect, isConnected, address } = useWeb3API();
@@ -73,28 +87,31 @@ function Navbar(props: { transparent: boolean }) {
           id="example-navbar-warning"
         >
           <ul className="flex flex-col lg:flex-row list-none mr-auto">
-            <li className="flex items-center">
-              <Link href="/ftso/data-provider">
-                <div
-                  className={
-                    (props.transparent
-                      ? "lg:text-white lg:hover:text-gray-300 text-gray-800"
-                      : "text-gray-800 hover:text-gray-600") +
-                    " px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold hover:cursor-pointer w-full hover:bg-slate-100 sm:hover:bg-transparent"
-                  }
-                >
-                  <i
+            {MENU_ITEMS.map((menuItem) => (
+              <li key={menuItem.path} className="flex items-center">
+                <Link href={menuItem.path}>
+                  <div
                     className={
                       (props.transparent
-                        ? "lg:text-gray-300 text-gray-500"
-                        : "text-gray-500") +
-                      " far fa-compass text-lg leading-lg mr-2"
+                        ? "lg:text-white lg:hover:text-gray-300 text-gray-800"
+                        : "text-gray-800 hover:text-gray-600") +
+                      " px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-bold hover:cursor-pointer w-full hover:bg-slate-100 sm:hover:bg-transparent"
                     }
-                  />{" "}
-                  Providers
-                </div>
-              </Link>
-            </li>
+                  >
+                    <i
+                      className={classNames(
+                        props.transparent
+                          ? "lg:text-gray-300 text-gray-500"
+                          : "text-gray-500",
+                        "fa text-lg leading-lg mr-2",
+                        menuItem.iconClass
+                      )}
+                    />{" "}
+                    {menuItem.label}
+                  </div>
+                </Link>
+              </li>
+            ))}
           </ul>
           <ul>
             <li className="flex items-center">
