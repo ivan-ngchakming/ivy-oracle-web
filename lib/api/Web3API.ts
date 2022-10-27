@@ -4,6 +4,8 @@ import { useWeb3 } from "../providers/Web3Provider";
 const useWeb3API = () => {
   const { web3, setAddress, address } = useWeb3();
 
+  const isConnected = useMemo(() => address !== "", [address]);
+
   const connect = useCallback(async () => {
     if (web3) {
       const accounts = await web3.send("eth_requestAccounts", []);
@@ -16,8 +18,6 @@ const useWeb3API = () => {
       setAddress("");
     }
   }, [setAddress, web3]);
-
-  const isConnected = useMemo(() => address !== "", [address]);
 
   return useMemo(
     () => ({
