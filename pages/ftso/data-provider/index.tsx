@@ -66,10 +66,16 @@ const ProviderPage = ({
           }
           return (a.accuracy - b.accuracy) * (isAsc ? 1 : -1);
         case "rewardRate":
-          if (!a.currentRewardRate) {
+          if (
+            a.currentRewardRate === null ||
+            String(a.currentRewardRate) === "NaN"
+          ) {
             return isAsc ? -1 : 1;
           }
-          if (!b.currentRewardRate) {
+          if (
+            b.currentRewardRate === null ||
+            String(b.currentRewardRate) === "NaN"
+          ) {
             return isAsc ? 1 : -1;
           }
           return (a.currentRewardRate - b.currentRewardRate) * (isAsc ? 1 : -1);
