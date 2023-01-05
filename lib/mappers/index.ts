@@ -26,7 +26,7 @@ export const mapFTSODataProvider = (
   whitelistedSymbols: apiProvider.whitelistedSymbols,
   flareMetricsLink:
     CHAIN === Chain.Songbird
-      ? (flareMetricsData as any)[apiProvider.address] // TODO: link to Flaremetrics by URL when available
+      ? (flareMetricsData as any)[apiProvider.address] ?? null // TODO: link to Flaremetrics by URL when available
       : null,
   ftsoMonitorLink: `https://${CHAIN}-ftso-monitor.flare.network/price?currency=XRP&startTime=30m&providerAddress=${apiProvider.address.toLowerCase()}`,
   blockChainExplorerLink: `https://${CHAIN}-explorer.flare.network/address/${apiProvider.address}`,
