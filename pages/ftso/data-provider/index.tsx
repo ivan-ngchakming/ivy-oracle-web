@@ -15,6 +15,8 @@ import NProgress from "nprogress";
 import Button from "../../../components/Button";
 import { fetchFTSODataProviders } from "../../../lib/queries";
 import Link from "next/link";
+import ToggleButton from "../../../components/ToggleButton";
+import classNames from "classnames";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const providers = await fetchFTSODataProviders();
@@ -36,6 +38,7 @@ const ProviderPage = ({
   const [fetching, setFetching] = useState(false);
   const [sortKey, setSortKey] = useState("accuracy");
   const [isAsc, setIsAsc] = useState(false);
+  const [showVotePowerPercentage, setShowVotePowerPercentage] = useState(false);
 
   const handleSort = (key: string) => {
     if (sortKey === key) {
@@ -120,7 +123,14 @@ const ProviderPage = ({
   return (
     <Layout title="FTSO Providers" bannerTitle="FTSO Data Providers">
       <div className="m-5 lg:m-28 mb-40">
-        <div className="flex justify-end m-2">
+        <div className="flex justify-between m-2">
+          <div className="flex justify-center items-center">
+            <ToggleButton
+              toggled={showVotePowerPercentage}
+              onChange={setShowVotePowerPercentage}
+            />
+            <span className="pl-2">Show vote power in %</span>
+          </div>
           <Button
             className="w-32"
             onClick={refetchProviders}
@@ -225,16 +235,56 @@ const ProviderPage = ({
                     </div>
                   </Link>
                 </TableCell>
-                <TableCell>
+                <TableCell
+                  className={classNames(
+                    "min-w-[140px]",
+                    provider.currentVotePowerPercentage &&
+                      provider.currentVotePowerPercentage > 0.025
+                      ? "text-red-800"
+                      : ""
+                  )}
+                >
                   <p className="font-medium">
-                    {provider.currentVotePower
-                      ? Math.round(provider.currentVotePower).toLocaleString()
-                      : "N/A"}
+                    {(() => {
+                      if (showVotePowerPercentage) {
+                        return provider.currentVotePowerPercentage
+                          ? (
+                              provider.currentVotePowerPercentage * 100
+                            ).toLocaleString() + "%"
+                          : "N/A";
+                      } else {
+                        return provider.currentVotePower
+                          ? Math.round(
+                              provider.currentVotePower
+                            ).toLocaleString()
+                          : "N/A";
+                      }
+                    })()}
                   </p>
-                  <p className="text-gray-500">
-                    {provider.lockedVotePower
-                      ? Math.round(provider.lockedVotePower).toLocaleString()
-                      : "N/A"}
+                  <p
+                    className={classNames(
+                      provider.lockedVotePowerPercentage &&
+                        provider.lockedVotePowerPercentage > 0.025
+                        ? "text-red-900"
+                        : "",
+                      "text-gray-500"
+                    )}
+                  >
+                    {(() => {
+                      if (showVotePowerPercentage) {
+                        return provider.lockedVotePowerPercentage
+                          ? (
+                              provider.lockedVotePowerPercentage * 100
+                            ).toLocaleString() + "%"
+                          : "N/A";
+                      } else {
+                        return provider.lockedVotePower
+                          ? Math.round(
+                              provider.lockedVotePower
+                            ).toLocaleString()
+                          : "N/A";
+                      }
+                    })()}
                   </p>
                 </TableCell>
                 <TableCell>
