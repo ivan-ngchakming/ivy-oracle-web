@@ -8,6 +8,8 @@ export interface APIProvider {
   whitelistedSymbols: string[];
   lockedVotePower: number;
   currentVotePower: number;
+  lockedVotePowerPercentage: number;
+  currentVotePowerPercentage: number;
   totalRewards: number;
   providerRewards: number;
   rewardRate: number;

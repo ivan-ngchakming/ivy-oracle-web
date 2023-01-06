@@ -43,6 +43,8 @@ export interface FTSODataProviderBasic {
   scheduledFeeChange: FTSODataProviderScheduledFeeChange[] | null;
   currentVotePower: number | null;
   lockedVotePower: number | null;
+  currentVotePowerPercentage: number | null;
+  lockedVotePowerPercentage: number | null;
   currentRewardRate: number | null;
   averageRewardRate: number | null;
   currentReward: number | null;

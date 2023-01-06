@@ -18,6 +18,8 @@ export const mapFTSODataProvider = (
   scheduledFeeChange: apiProvider.scheduledFeeChanges,
   currentVotePower: apiProvider.currentVotePower,
   lockedVotePower: apiProvider.lockedVotePower,
+  currentVotePowerPercentage: apiProvider.currentVotePowerPercentage,
+  lockedVotePowerPercentage: apiProvider.lockedVotePowerPercentage,
   currentRewardRate: apiProvider.rewardRate,
   averageRewardRate: null,
   currentReward: apiProvider.providerRewards,
