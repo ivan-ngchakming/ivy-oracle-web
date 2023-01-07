@@ -71,8 +71,14 @@ export const TableHead = ({ children }: { children: React.ReactNode }) => {
   return <thead className="border-b bg-gray-800">{children}</thead>;
 };
 
-export const TableBody = ({ children }: { children: React.ReactNode }) => {
-  return <tbody>{children}</tbody>;
+export const TableBody = ({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return <tbody className={className}>{children}</tbody>;
 };
 
 const Table = ({

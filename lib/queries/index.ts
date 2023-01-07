@@ -1,6 +1,6 @@
 import { getAddress } from "@ethersproject/address";
 import { BASE_URL, CHAIN_ID } from "../constants";
-import { mapFTSODataProvider } from "../mappers";
+import { mapEthBlock, mapFTSODataProvider } from "../mappers";
 import { FTSODataProviderBasic } from "../types";
 import { FTSODataProviderTowo } from "../types/external";
 
@@ -90,4 +90,11 @@ export const fetchDelegations = async ({
 
 export const fetchValidators = async () => {
   return await fetch(`${BASE_URL}/validator`).then((res) => res.json());
+};
+
+export const fetchBlock = async (blockNumber: number) => {
+  const apiEthBlock = await fetch(`${BASE_URL}/indexer/block/${blockNumber}`)
+    .then((res) => res.text())
+    .then((data) => (data.length == 0 ? null : JSON.parse(data)));
+  return apiEthBlock ? mapEthBlock(apiEthBlock) : null;
 };

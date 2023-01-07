@@ -19,3 +19,9 @@ export interface APIProvider {
   fee: number;
   scheduledFeeChanges: APIProviderScheduledFeeChange[];
 }
+
+export interface APIEthBlock {
+  blockHash: string;
+  blockNumber: number;
+  timestamp: string;
+}

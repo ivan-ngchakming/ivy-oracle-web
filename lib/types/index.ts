@@ -84,3 +84,9 @@ export interface Validator {
   uptime: number;
   connected: boolean;
 }
+
+export interface EthBlock {
+  blockHash: string;
+  blockNumber: number;
+  timestamp: string;
+}

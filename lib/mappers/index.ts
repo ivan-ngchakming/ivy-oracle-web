@@ -1,6 +1,6 @@
 import { Chain, CHAIN } from "../constants";
-import { FTSODataProviderBasic } from "../types";
-import { APIProvider } from "../types/api";
+import { EthBlock, FTSODataProviderBasic } from "../types";
+import { APIEthBlock, APIProvider } from "../types/api";
 import { FTSODataProviderTowo } from "../types/external";
 import flareMetricsData from "../../assets/flaremetricLinks.json";
 
@@ -33,3 +33,11 @@ export const mapFTSODataProvider = (
   ftsoMonitorLink: `https://${CHAIN}-ftso-monitor.flare.network/price?currency=XRP&startTime=30m&providerAddress=${apiProvider.address.toLowerCase()}`,
   blockChainExplorerLink: `https://${CHAIN}-explorer.flare.network/address/${apiProvider.address}`,
 });
+
+export const mapEthBlock = (apiEthBlock: APIEthBlock): EthBlock => {
+  return {
+    blockHash: apiEthBlock.blockHash,
+    blockNumber: apiEthBlock.blockNumber,
+    timestamp: apiEthBlock.timestamp,
+  };
+};
