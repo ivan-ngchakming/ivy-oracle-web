@@ -8,6 +8,11 @@ export const BASE_URL =
 
 export const CHAIN = (process.env.NEXT_PUBLIC_CHAIN ?? "songbird") as Chain;
 
+export const FTSO_PROVIDER_ADDRESS = {
+  [Chain.Songbird]: "0xA174D46EF49D7d4a0328f9910222689E9eAb2f45",
+  [Chain.Flare]: "0x64D998BC81424131E5aF05071263fDeBD1a82986",
+}[CHAIN];
+
 export const RPC_ENDPOINT = {
   [Chain.Songbird]:
     process.env.NEXT_PUBLIC_SONGBIRD_RPC ??

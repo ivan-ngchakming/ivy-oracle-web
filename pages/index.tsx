@@ -1,14 +1,12 @@
 import { toast } from "react-toastify";
 import Card from "../components/Card";
 import Layout from "../components/Layout";
-import { CHAIN } from "../lib/constants";
+import { CHAIN, FTSO_PROVIDER_ADDRESS } from "../lib/constants";
 import { Route } from "../lib/constants/routes";
 
 const IndexPage = () => {
   const copy = async () => {
-    await navigator.clipboard.writeText(
-      "0xA174D46EF49D7d4a0328f9910222689E9eAb2f45"
-    );
+    await navigator.clipboard.writeText(FTSO_PROVIDER_ADDRESS);
     toast.info("Address copied");
   };
 
@@ -27,7 +25,7 @@ const IndexPage = () => {
                 className="px-4 py-1 text-gray-300 font-bold mt-2 break-all"
                 onClick={copy}
               >
-                0xA174D46EF49D7d4a0328f9910222689E9eAb2f45
+                {FTSO_PROVIDER_ADDRESS}
               </button>
             </div>
           </div>
