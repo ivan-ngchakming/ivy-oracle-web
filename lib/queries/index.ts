@@ -1,7 +1,12 @@
 import { getAddress } from "@ethersproject/address";
 import { BASE_URL, CHAIN_ID } from "../constants";
-import { mapEthBlock, mapFTSODataProvider } from "../mappers";
+import {
+  mapDelegationStat,
+  mapEthBlock,
+  mapFTSODataProvider,
+} from "../mappers";
 import { FTSODataProviderBasic } from "../types";
+import { APIDelegationStat } from "../types/api";
 import { FTSODataProviderTowo } from "../types/external";
 
 export const fetchFTSODataProviderAddresses = async (): Promise<string[]> => {
@@ -97,4 +102,20 @@ export const fetchBlock = async (blockNumber: number) => {
     .then((res) => res.text())
     .then((data) => (data.length == 0 ? null : JSON.parse(data)));
   return apiEthBlock ? mapEthBlock(apiEthBlock) : null;
+};
+
+export const fetchDelegationStats = async () => {
+  const [apiDelegationStats, apiTowoDataProviders] = await Promise.all([
+    fetch(`${BASE_URL}/delegation/stats`).then((res) => res.json()),
+    fetchFTSODataProvidersTowo(),
+  ]);
+
+  return apiDelegationStats.map((apiDelegationStat: APIDelegationStat) =>
+    mapDelegationStat(
+      apiDelegationStat,
+      apiTowoDataProviders.find(
+        (dp) => dp.address === apiDelegationStat.address
+      )
+    )
+  );
 };

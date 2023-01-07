@@ -25,3 +25,11 @@ export interface APIEthBlock {
   blockNumber: number;
   timestamp: string;
 }
+
+export interface APIDelegationStat {
+  address: string;
+  count: number;
+  average: number;
+  standardDeviation: number;
+  percentageChange24Hour: number;
+}

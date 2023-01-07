@@ -1,6 +1,6 @@
 import { Chain, CHAIN } from "../constants";
-import { EthBlock, FTSODataProviderBasic } from "../types";
-import { APIEthBlock, APIProvider } from "../types/api";
+import { DelegationStat, EthBlock, FTSODataProviderBasic } from "../types";
+import { APIDelegationStat, APIEthBlock, APIProvider } from "../types/api";
 import { FTSODataProviderTowo } from "../types/external";
 import flareMetricsData from "../../assets/flaremetricLinks.json";
 
@@ -39,5 +39,22 @@ export const mapEthBlock = (apiEthBlock: APIEthBlock): EthBlock => {
     blockHash: apiEthBlock.blockHash,
     blockNumber: apiEthBlock.blockNumber,
     timestamp: apiEthBlock.timestamp,
+  };
+};
+
+export const mapDelegationStat = (
+  apiDelegationStat: APIDelegationStat,
+  apiTowoDataProvider?: FTSODataProviderTowo
+): DelegationStat => {
+  return {
+    address: String(apiDelegationStat.address),
+    name: apiTowoDataProvider?.name ?? apiDelegationStat.address,
+    logoUrl: apiTowoDataProvider
+      ? apiTowoDataProvider.logoURI
+      : "https://cdn.flaremetrics.io/flare/ftso/emblem/unknown@64.png",
+    count: Number(apiDelegationStat.count),
+    average: Number(apiDelegationStat.average),
+    standardDeviation: Number(apiDelegationStat.standardDeviation),
+    percentageChange24Hour: Number(apiDelegationStat.percentageChange24Hour),
   };
 };

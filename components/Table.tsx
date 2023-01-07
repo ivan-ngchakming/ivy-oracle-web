@@ -53,7 +53,7 @@ export const TableCell = ({
     <td
       className={classNames(
         "text-sm px-6 py-4 whitespace-nowrap",
-        isIndex ? "font-medium text-gray-900" : "text-sm font-light ",
+        isIndex ? "font-medium text-gray-900" : "text-sm font-light",
         className
       )}
       colSpan={colSpan}

@@ -9,6 +9,7 @@ import { Chain, CHAIN } from "../lib/constants";
 
 const MENU_ITEMS = [
   { path: Route.FTSODataProvider, label: "Providers", iconClass: "fa-compass" },
+  { path: Route.Delegation, label: "Delegations", iconClass: "fa-user" },
 ];
 
 if (CHAIN === Chain.Flare) {

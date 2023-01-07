@@ -90,3 +90,13 @@ export interface EthBlock {
   blockNumber: number;
   timestamp: string;
 }
+
+export interface DelegationStat {
+  address: string;
+  name: string;
+  logoUrl: string;
+  count: number;
+  average: number;
+  standardDeviation: number;
+  percentageChange24Hour: number;
+}
