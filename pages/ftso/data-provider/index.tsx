@@ -123,7 +123,7 @@ const ProviderPage = ({
   return (
     <Layout title="FTSO Providers" bannerTitle="FTSO Data Providers">
       <div className="m-5 lg:m-28 mb-40">
-        <div className="flex justify-between m-2">
+        <div className="flex sm:flex-row flex-col justify-between m-2 gap-y-2 items-start">
           <div className="flex justify-center items-center">
             <ToggleButton
               toggled={showVotePowerPercentage}
@@ -145,6 +145,7 @@ const ProviderPage = ({
               <TableColumn>#</TableColumn>
               <TableColumn className="sm:table-cell hidden"></TableColumn>
               <TableColumn
+                className="sm:table-cell sm:left-auto sticky left-0"
                 onClick={() => handleSort("name")}
                 asc={isAsc}
                 sorted={sortKey === "name"}
@@ -215,7 +216,7 @@ const ProviderPage = ({
                     alt=""
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell className="sm:table-cell sm:left-auto sticky left-0 bg-white">
                   <Link href={`/ftso/data-provider/${provider.address}`}>
                     <div className="flex items-center justify-center hover:cursor-pointer">
                       <div>
@@ -229,7 +230,7 @@ const ProviderPage = ({
                         </p>
                       </div>
                       <i
-                        className="fa fa-external-link ml-4"
+                        className="fa fa-external-link ml-4 sm:block hidden"
                         aria-hidden="true"
                       ></i>
                     </div>

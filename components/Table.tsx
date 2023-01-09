@@ -24,7 +24,7 @@ export const TableColumn = ({
     <th
       scope="col"
       className={classNames(
-        "text-sm font-medium text-white px-6 py-4",
+        "text-sm font-medium bg-gray-800 text-white sm:px-6 sm:py-4 px-1 py-2",
         onClick && "hover:cursor-pointer",
         className
       )}
@@ -52,7 +52,7 @@ export const TableCell = ({
   return (
     <td
       className={classNames(
-        "text-sm px-6 py-4 whitespace-nowrap",
+        "text-sm sm:px-6 sm:py-4 px-1 py-2 whitespace-nowrap",
         isIndex ? "font-medium text-gray-900" : "text-sm font-light",
         className
       )}
