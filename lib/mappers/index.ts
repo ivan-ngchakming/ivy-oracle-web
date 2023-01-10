@@ -15,7 +15,12 @@ export const mapFTSODataProvider = (
     : "https://cdn.flaremetrics.io/flare/ftso/emblem/unknown@64.png",
   accuracy: apiProvider.accuracy,
   fee: apiProvider.fee,
-  scheduledFeeChange: apiProvider.scheduledFeeChanges,
+  scheduledFeeChange: apiProvider.scheduledFeeChanges.map(
+    (scheduledFeeChanges) => ({
+      fee: Number(scheduledFeeChanges.fee),
+      validFromEpoch: Number(scheduledFeeChanges.validFromEpoch),
+    })
+  ),
   currentVotePower: apiProvider.currentVotePower,
   lockedVotePower: apiProvider.lockedVotePower,
   currentVotePowerPercentage: apiProvider.currentVotePowerPercentage,

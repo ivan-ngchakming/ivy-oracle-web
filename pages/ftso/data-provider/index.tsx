@@ -316,7 +316,7 @@ const ProviderPage = ({
                           const { fee, validFromEpoch } =
                             provider.scheduledFeeChange[0];
                           return `${
-                            fee * 100
+                            Math.round(fee * 10000) / 100
                           }% effective from ${validFromEpoch}`;
                         })()}
                       </p>
