@@ -33,3 +33,18 @@ export interface APIDelegationStat {
   standardDeviation: number;
   percentageChange24Hour: number;
 }
+
+export interface APIFundMovementTransaction {
+  transactionHash: string;
+  fromAccount: string;
+  toAccount: string;
+  amount: number;
+  timestamp: string;
+  isContractInteraction: boolean;
+}
+
+export interface APIFundMovementNode {
+  address: string;
+  initiatedTransactions: APIFundMovementTransaction[];
+  receivedTransactions: APIFundMovementTransaction[];
+}

@@ -119,3 +119,17 @@ export const fetchDelegationStats = async () => {
     )
   );
 };
+
+export const fetchFundMovements = async (
+  address: string,
+  fromDate: string,
+  toDate: string,
+  levels: string
+) => {
+  const url = encodeURI(
+    `${BASE_URL}/fund-trace?fromAddress=${address}&fromDate=${fromDate}&toDate=${toDate}&levels=${levels}`
+  );
+  const apiFundMovementNodes = await fetch(url).then((res) => res.json());
+
+  return apiFundMovementNodes;
+};

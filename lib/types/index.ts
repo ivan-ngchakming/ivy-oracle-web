@@ -100,3 +100,24 @@ export interface DelegationStat {
   standardDeviation: number;
   percentageChange24Hour: number;
 }
+
+export interface FundMovementTransaction {
+  transactionHash: string;
+  fromAccount: string;
+  toAccount: string;
+  amount: number;
+  timestamp: string;
+  isContractInteraction: boolean;
+}
+
+export interface FundMovement extends Paginated<FundMovementTransaction> {
+  amount: number;
+}
+
+export interface FundMovementNode {
+  address: string;
+  childNodesCount: number;
+  hasMoreChildNodes: boolean;
+  initiatedTransactions?: FundMovement;
+  receivedTransactions: FundMovement;
+}
