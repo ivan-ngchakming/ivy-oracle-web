@@ -18,16 +18,20 @@ export const fetchFTSODataProviderAddresses = async (): Promise<string[]> => {
 export const fetchFTSODataProviders = async (): Promise<
   FTSODataProviderBasic[]
 > => {
-  const [data, towoData] = await Promise.all([
+  const [data, towoData, ivyData] = await Promise.all([
     fetch(`${BASE_URL}/ftso/data-provider`).then((res) => res.json()),
     fetchFTSODataProvidersTowo(),
+    fetchFTSODataProvidersIvy(),
   ]);
   const providers = data.map((provider: any) => {
     const towoInfo = towoData.find(
       (p) => getAddress(p.address) === getAddress(provider.address)
     );
+    const ivyInfo = ivyData.find(
+      (p) => getAddress(p.address) === getAddress(provider.address)
+    );
 
-    return mapFTSODataProvider(provider, towoInfo);
+    return mapFTSODataProvider(provider, towoInfo ?? ivyInfo);
   });
   return providers;
 };
@@ -55,16 +59,37 @@ export const fetchFTSODataProviderTowo = async (
   );
 };
 
+export const fetchFTSODataProvidersIvy = async (): Promise<
+  FTSODataProviderTowo[]
+> => {
+  const res = await fetch(
+    `https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/index.json`
+  );
+  return await (await res.json()).filter((p: any) => p.chainId === CHAIN_ID);
+};
+
+export const fetchFTSODataProviderIvy = async (
+  address: string
+): Promise<FTSODataProviderTowo | null> => {
+  const res = await fetch(
+    `https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/index.json`
+  );
+  return await (
+    await res.json()
+  ).find((p: any) => p.chainId === CHAIN_ID && p.address === address);
+};
+
 export const fetchFTSODataProvider = async (
   address: string
 ): Promise<FTSODataProviderBasic> => {
-  const [data, towoData] = await Promise.all([
+  const [data, towoData, ivyData] = await Promise.all([
     fetch(`${BASE_URL}/ftso/data-provider/${address}`).then((res) =>
       res.json()
     ),
     fetchFTSODataProviderTowo(address),
+    fetchFTSODataProviderIvy(address),
   ]);
-  return mapFTSODataProvider(data, towoData);
+  return mapFTSODataProvider(data, towoData ?? ivyData);
 };
 
 export const fetchDelegations = async ({

@@ -54,6 +54,7 @@ export interface FTSODataProviderBasic {
 
   whitelistedSymbols: string[];
 
+  website: string | null;
   flareMetricsLink: string | null;
   ftsoMonitorLink: string | null;
   blockChainExplorerLink: string | null;

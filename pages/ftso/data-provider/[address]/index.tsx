@@ -138,6 +138,16 @@ const ProviderPage = ({
               >
                 {provider.address}
               </div>
+              <div className="font-bold text-gray-900">Website</div>
+              <div className="col-span-2 break-all hover:text-blue-700 transition-colors hover:cursor-pointer">
+                <a
+                  href={provider.website ?? ""}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {provider.website}
+                </a>
+              </div>
 
               <div className="font-bold">Availability</div>
               <div className="col-span-2">

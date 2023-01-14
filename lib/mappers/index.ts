@@ -31,6 +31,7 @@ export const mapFTSODataProvider = (
   totalReward: apiProvider.totalRewards,
   availability: apiProvider.availability,
   whitelistedSymbols: apiProvider.whitelistedSymbols,
+  website: towoProvider?.url ?? null,
   flareMetricsLink:
     CHAIN === Chain.Songbird
       ? (flareMetricsData as any)[apiProvider.address] ?? null // TODO: link to Flaremetrics by URL when available
