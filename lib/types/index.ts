@@ -46,6 +46,7 @@ export interface FTSODataProviderBasic {
   currentVotePowerPercentage: number | null;
   lockedVotePowerPercentage: number | null;
   currentRewardRate: number | null;
+  projectedRewardRate: number | null;
   averageRewardRate: number | null;
   currentReward: number | null;
   totalReward: number | null;

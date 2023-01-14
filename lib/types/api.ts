@@ -13,6 +13,7 @@ export interface APIProvider {
   totalRewards: number;
   providerRewards: number;
   rewardRate: number;
+  projectedRewardRate: number;
   averageRewardRate: number;
   accuracy: number;
   availability: number;

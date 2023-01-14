@@ -82,6 +82,22 @@ const ProviderPage = ({
             return isAsc ? 1 : -1;
           }
           return (a.currentRewardRate - b.currentRewardRate) * (isAsc ? 1 : -1);
+        case "projectedRewardRate":
+          if (
+            a.projectedRewardRate === null ||
+            String(a.projectedRewardRate) === "NaN"
+          ) {
+            return isAsc ? -1 : 1;
+          }
+          if (
+            b.projectedRewardRate === null ||
+            String(b.projectedRewardRate) === "NaN"
+          ) {
+            return isAsc ? 1 : -1;
+          }
+          return (
+            (a.projectedRewardRate - b.projectedRewardRate) * (isAsc ? 1 : -1)
+          );
         case "name":
           return ("" + a.name).localeCompare(b.name) * (isAsc ? -1 : 1);
         case "availability":
@@ -179,6 +195,13 @@ const ProviderPage = ({
                 {/* <p className="text-gray-400 font-light text-xs">
                   (Avg. Reward Rate)
                 </p> */}
+              </TableColumn>
+              <TableColumn
+                onClick={() => handleSort("projectedRewardRate")}
+                asc={isAsc}
+                sorted={sortKey === "projectedRewardRate"}
+              >
+                <p>Projected Reward Rate</p>
               </TableColumn>
               <TableColumn
                 onClick={() => handleSort("fee")}
@@ -304,6 +327,13 @@ const ProviderPage = ({
                       ? (provider.averageRewardRate * 100).toFixed(4)
                       : "N/A"}
                   </p> */}
+                </TableCell>
+                <TableCell>
+                  <p className="font-medium">
+                    {provider.projectedRewardRate !== null
+                      ? (provider.projectedRewardRate * 100).toFixed(4)
+                      : "N/A"}
+                  </p>
                 </TableCell>
                 <TableCell>
                   <p className="font-medium">
