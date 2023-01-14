@@ -123,3 +123,11 @@ export interface FundMovementNode {
   initiatedTransactions?: FundMovement;
   receivedTransactions: FundMovement;
 }
+
+export interface RewardEpoch {
+  epochId: number;
+  votePowerLockBlockNumber: number;
+  votePowerLockBlockDate: Date;
+  start: Date;
+  end: Date;
+}

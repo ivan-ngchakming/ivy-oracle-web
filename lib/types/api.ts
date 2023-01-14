@@ -49,3 +49,11 @@ export interface APIFundMovementNode {
   initiatedTransactions: APIFundMovementTransaction[];
   receivedTransactions: APIFundMovementTransaction[];
 }
+
+export interface RewardEpochAPI {
+  epochId: number;
+  votePowerLockBlockNumber: number;
+  votePowerLockBlockDate: string;
+  start: string;
+  end: string;
+}

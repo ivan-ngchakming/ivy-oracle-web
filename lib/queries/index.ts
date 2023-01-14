@@ -4,6 +4,7 @@ import {
   mapDelegationStat,
   mapEthBlock,
   mapFTSODataProvider,
+  mapRewardEpoch,
 } from "../mappers";
 import { FTSODataProviderBasic } from "../types";
 import { APIDelegationStat } from "../types/api";
@@ -157,4 +158,11 @@ export const fetchFundMovements = async (
   const apiFundMovementNodes = await fetch(url).then((res) => res.json());
 
   return apiFundMovementNodes;
+};
+
+export const fetchRewardEpoch = async () => {
+  const rewardEpochAPI = await fetch(`${BASE_URL}/ftso/reward-epoch`).then(
+    (res) => res.json()
+  );
+  return mapRewardEpoch(rewardEpochAPI);
 };

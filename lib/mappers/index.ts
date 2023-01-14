@@ -1,6 +1,16 @@
 import { Chain, CHAIN } from "../constants";
-import { DelegationStat, EthBlock, FTSODataProviderBasic } from "../types";
-import { APIDelegationStat, APIEthBlock, APIProvider } from "../types/api";
+import {
+  DelegationStat,
+  EthBlock,
+  FTSODataProviderBasic,
+  RewardEpoch,
+} from "../types";
+import {
+  APIDelegationStat,
+  APIEthBlock,
+  APIProvider,
+  RewardEpochAPI,
+} from "../types/api";
 import { FTSODataProviderTowo } from "../types/external";
 import flareMetricsData from "../../assets/flaremetricLinks.json";
 
@@ -63,5 +73,15 @@ export const mapDelegationStat = (
     average: Number(apiDelegationStat.average),
     standardDeviation: Number(apiDelegationStat.standardDeviation),
     percentageChange24Hour: Number(apiDelegationStat.percentageChange24Hour),
+  };
+};
+
+export const mapRewardEpoch = (apiRewardEpoch: RewardEpochAPI): RewardEpoch => {
+  return {
+    epochId: apiRewardEpoch.epochId,
+    votePowerLockBlockNumber: apiRewardEpoch.votePowerLockBlockNumber,
+    votePowerLockBlockDate: new Date(apiRewardEpoch.votePowerLockBlockDate),
+    start: new Date(apiRewardEpoch.start),
+    end: new Date(apiRewardEpoch.end),
   };
 };

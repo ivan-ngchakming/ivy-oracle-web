@@ -8,15 +8,22 @@ import Table, {
   TableHead,
   TableRow,
 } from "../../../components/Table";
-import { SYMBOLS } from "../../../lib/constants";
-import { FTSODataProviderBasic } from "../../../lib/types";
+import { CHAIN, SYMBOLS } from "../../../lib/constants";
+import { FTSODataProviderBasic, RewardEpoch } from "../../../lib/types";
 import { truncateEthAddress } from "../../../utils";
 import NProgress from "nprogress";
 import Button from "../../../components/Button";
-import { fetchFTSODataProviders } from "../../../lib/queries";
+import { fetchFTSODataProviders, fetchRewardEpoch } from "../../../lib/queries";
 import Link from "next/link";
 import ToggleButton from "../../../components/ToggleButton";
 import classNames from "classnames";
+
+interface TimeRemaining {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const providers = await fetchFTSODataProviders();
@@ -29,12 +36,29 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
+const calculateTimeLeft = (targetDate: Date): TimeRemaining | null => {
+  let difference = +targetDate - +new Date();
+
+  if (difference > 0) {
+    return {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / 1000 / 60) % 60),
+      seconds: Math.floor((difference / 1000) % 60),
+    };
+  }
+
+  return null;
+};
+
 const ProviderPage = ({
   providers: initProviders,
 }: {
   providers: FTSODataProviderBasic[];
 }) => {
   const [providers, setProviders] = useState(initProviders);
+  const [rewardEpoch, setRewardEpoch] = useState<RewardEpoch | null>(null);
+  const [timeLeft, setTimeLeft] = useState<TimeRemaining | null>(null);
   const [fetching, setFetching] = useState(false);
   const [sortKey, setSortKey] = useState("accuracy");
   const [isAsc, setIsAsc] = useState(false);
@@ -122,23 +146,84 @@ const ProviderPage = ({
     });
   }, [providers, sortKey, isAsc]);
 
-  const refetchProviders = useCallback(async () => {
+  const refetch = useCallback(async () => {
     setFetching(true);
-    const providers = await fetchFTSODataProviders();
+    const [providers, rewardEpochFetched] = await Promise.all([
+      fetchFTSODataProviders(),
+      fetchRewardEpoch(),
+    ]);
     setProviders(providers);
+    setRewardEpoch(rewardEpochFetched);
     setFetching(false);
   }, []);
 
   useEffect(() => {
+    const timer = setInterval(() => {
+      if (rewardEpoch) {
+        const t = calculateTimeLeft(rewardEpoch.end);
+        setTimeLeft(t);
+        if (!t) {
+          refetch();
+        }
+      }
+    }, 1000);
+    return () => clearTimeout(timer);
+  });
+
+  useEffect(() => {
     NProgress.start();
-    refetchProviders().then(() => {
+    refetch().then(() => {
       NProgress.done();
     });
-  }, [refetchProviders]);
+  }, [refetch]);
 
   return (
     <Layout title="FTSO Providers" bannerTitle="FTSO Data Providers">
-      <div className="m-5 lg:m-28 mb-40">
+      <div className="m-5 lg:m-10 mb-40">
+        <div className="sm:mx-5 mb-10 p-4 border border-black rounded-md">
+          <h2 className="font-extrabold text-lg mb-4">Reward Epoch</h2>
+          {rewardEpoch ? (
+            <div className="flex flex-col gap-y-2">
+              <div className="flex gap-x-5 flex-wrap">
+                <div>
+                  <b>ID:</b> {rewardEpoch.epochId}
+                </div>
+                <div>
+                  <b>Start:</b> {rewardEpoch.start.toLocaleString()}
+                </div>
+                <div>
+                  <b>End:</b> {rewardEpoch.end.toLocaleString()}
+                </div>
+                {timeLeft && (
+                  <div>
+                    <b>Time Remaining:</b> {timeLeft.days} Days,{" "}
+                    {timeLeft.hours} Hours, {timeLeft.minutes} Minutes,{" "}
+                    {timeLeft.seconds} Seconds,
+                  </div>
+                )}
+              </div>
+              <div className="flex gap-x-5 flex-wrap">
+                <div>
+                  <b>Vote Power Lock Date:</b>{" "}
+                  {rewardEpoch.votePowerLockBlockDate.toLocaleString()}
+                </div>
+                <div>
+                  <b>Vote Power Lock Block:</b>{" "}
+                  <a
+                    className="hover:text-blue-700 transition-colors hover:cursor-pointer"
+                    href={`https://${CHAIN}-explorer.flare.network/block/${rewardEpoch.votePowerLockBlockNumber}/transactions`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {rewardEpoch.votePowerLockBlockNumber.toLocaleString()}
+                  </a>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div>Loading...</div>
+          )}
+        </div>
         <div className="flex sm:flex-row flex-col justify-between m-2 gap-y-2 items-start">
           <div className="flex justify-center items-center">
             <ToggleButton
@@ -147,11 +232,7 @@ const ProviderPage = ({
             />
             <span className="pl-2">Show vote power in %</span>
           </div>
-          <Button
-            className="w-32"
-            onClick={refetchProviders}
-            loading={fetching}
-          >
+          <Button className="w-32" onClick={refetch} loading={fetching}>
             Refresh
           </Button>
         </div>
