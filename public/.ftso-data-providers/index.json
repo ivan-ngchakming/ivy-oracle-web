@@ -1,0 +1,26 @@
+[
+	{
+		"chainId": 19,
+		"name": "LoveFTSO",
+		"description": "Scalable and reliable signal provider to the Songbird Network in Singapore",
+		"url": "https://loveftso.com",
+		"address": "0x2602f6456287A167B0214c3dbe8b4162f0Ec5409",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x2602f6456287A167B0214c3dbe8b4162f0Ec5409.png"
+	},
+	{
+		"chainId": 14,
+		"name": "LoveFTSO",
+		"description": "Scalable and reliable signal provider to the Flare Network in Singapore",
+		"url": "https://loveftso.com",
+		"address": "0xbeC604772722fe2E7A2a7b96339fFA71CeaBF4e7",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0xbeC604772722fe2E7A2a7b96339fFA71CeaBF4e7.png"
+	},
+	{
+		"chainId": 19,
+		"name": "Sigma Oracle",
+		"description": "Sigma Oracle is providing data to the Songbird network. Sigma Oracle is a passive income personal project.",
+		"url": "https://erikmr.com",
+		"address": "0x0A90265aff98cA7146F42422f2Ef46545867bA27",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x0A90265aff98cA7146F42422f2Ef46545867bA27.png"
+	}
+]
