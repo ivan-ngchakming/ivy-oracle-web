@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { truncateEthAddress } from "../utils";
 import { Route } from "../lib/constants/routes";
 import { Chain, CHAIN } from "../lib/constants";
+import Dropdown from "./Dropdown";
 
 const MENU_ITEMS = [
   { path: Route.FTSODataProvider, label: "Providers", iconClass: "fa-compass" },
@@ -116,7 +117,8 @@ function Navbar(props: { transparent: boolean }) {
           </ul>
           <ul>
             <li className="flex items-center">
-              <button
+              <Dropdown />
+              {/* <button
                 className={classNames(
                   props.transparent
                     ? "bg-white text-gray-800 active:bg-gray-100"
@@ -133,7 +135,7 @@ function Navbar(props: { transparent: boolean }) {
               >
                 <i className="fas fa-caret-square-o-right"></i>{" "}
                 {isConnected ? truncateEthAddress(address) : "Connect Wallet"}
-              </button>
+              </button> */}
             </li>
           </ul>
         </div>
