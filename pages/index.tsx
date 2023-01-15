@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import Card from "../components/Card";
 import Layout from "../components/Layout";
-import { CHAIN, FTSO_PROVIDER_ADDRESS } from "../lib/constants";
+import { Chain, CHAIN, FTSO_PROVIDER_ADDRESS } from "../lib/constants";
 import { Route } from "../lib/constants/routes";
 
 const IndexPage = () => {
@@ -36,34 +36,10 @@ const IndexPage = () => {
         {/* <h2 className="text-center mb-5 text-xl font-bold">Navigation</h2> */}
         <div className="flex justify-center gap-8 flex-wrap">
           <Card
-            title="STSO Data Providers"
-            actionLabel="View page"
-            actionType="link"
-            href={
-              CHAIN === "songbird"
-                ? Route.FTSODataProvider
-                : "https://songbird.ivyoracle.xyz" + Route.FTSODataProvider
-            }
-          >
-            <p className="pb-2">
-              See performance overview of Songbird Time Series Oracle providers
-              with metrics such accuracy, reward rates and vote power.
-            </p>
-            <p className="pb-2">
-              You can also find the detail break down of each STSO
-              provider&apos;s delegations, and their earnings for the current
-              reward epoch.
-            </p>
-          </Card>
-          <Card
             title="FTSO Data Providers"
             actionLabel="View page"
             actionType="link"
-            href={
-              CHAIN === "flare"
-                ? Route.FTSODataProvider
-                : "https://flare.ivyoracle.xyz" + Route.FTSODataProvider
-            }
+            href={Route.FTSODataProvider}
           >
             <p className="pb-2">
               See performance overview of Flare Time Series Oracle data
@@ -75,6 +51,29 @@ const IndexPage = () => {
               reward epoch.
             </p>
           </Card>
+          <Card
+            title="Delegator Statistics"
+            actionLabel="View page"
+            actionType="link"
+            href={Route.Delegation}
+          >
+            <p className="pb-2">
+              See delegations statistics of each FTSO data providers, including
+              count, average, standard deviation and 24 hour percentage change.
+            </p>
+          </Card>
+          {CHAIN == Chain.Flare && (
+            <Card
+              title="Validators"
+              actionLabel="View page"
+              actionType="link"
+              href={Route.Validator}
+            >
+              <p className="pb-2">
+                See all validators currently validating blocks on chain.
+              </p>
+            </Card>
+          )}
         </div>
       </div>
     </Layout>
