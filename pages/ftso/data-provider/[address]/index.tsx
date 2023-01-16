@@ -12,6 +12,7 @@ import Table, {
   TableHead,
   TableRow,
 } from "../../../../components/Table";
+import { NATIVE_SYMBOL } from "../../../../lib/constants";
 import {
   fetchDelegations,
   fetchFTSODataProvider,
@@ -194,7 +195,7 @@ const ProviderPage = ({
               <div className="font-bold">Rewards Rate</div>
               <div className="col-span-2 tracking-wider">
                 {provider.currentRewardRate !== null
-                  ? `${provider.currentRewardRate * 100} / 100 SGB`
+                  ? `${provider.currentRewardRate * 100} / 100 ${NATIVE_SYMBOL}`
                   : "N/A"}{" "}
               </div>
 
