@@ -38,5 +38,21 @@
 		"url": "https://tsovereign.xyz",
 		"address": "0x693C74E3f72E8ba4B6382FD9ea1eD120b62D97d4",
 		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x693C74E3f72E8ba4B6382FD9ea1eD120b62D97d4.png"
+	},
+	{
+		"chainId": 19,
+		"name": "FLR Labs",
+		"description": "",
+		"url": "https://flrlabs.com",
+		"address": "0x43F0a819DCCddEb05A282c78027873aB5Be35cf5",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x43F0a819DCCddEb05A282c78027873aB5Be35cf5.jpeg"
+	},
+	{
+		"chainId": 14,
+		"name": "FLR Labs",
+		"description": "",
+		"url": "https://flrlabs.com",
+		"address": "0x14b424Bc9E9B8091A40384ff3d8F0C3DfC1a2879",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x14b424Bc9E9B8091A40384ff3d8F0C3DfC1a2879.jpeg"
 	}
 ]
