@@ -32,7 +32,7 @@ export const fetchFTSODataProviders = async (): Promise<
       (p) => getAddress(p.address) === getAddress(provider.address)
     );
 
-    return mapFTSODataProvider(provider, towoInfo ?? ivyInfo);
+    return mapFTSODataProvider(provider, ivyInfo ?? towoInfo);
   });
   return providers;
 };
@@ -90,7 +90,7 @@ export const fetchFTSODataProvider = async (
     fetchFTSODataProviderTowo(address),
     fetchFTSODataProviderIvy(address),
   ]);
-  return mapFTSODataProvider(data, towoData ?? ivyData);
+  return mapFTSODataProvider(data, ivyData ?? towoData);
 };
 
 export const fetchDelegations = async ({
