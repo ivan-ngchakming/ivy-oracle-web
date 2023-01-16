@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import backgroundImage from "../assets/img/background.jpg";
 import classNames from "classnames";
+import { CHAIN } from "../lib/constants";
 
 const Layout = ({
   title,
@@ -21,7 +22,11 @@ const Layout = ({
   return (
     <div className="min-h-screen flex flex-col">
       <Head>
-        <title>{title ? `Ivy Oracle | ${title}` : "Ivy Oracle"}</title>
+        <title>
+          {title
+            ? `Ivy Oracle • ${CHAIN.toUpperCase()} | ${title}`
+            : `Ivy Oracle • ${CHAIN.toUpperCase()}`}
+        </title>
         <meta
           name="description"
           content="Ivy oracle FTSO data provider on Flare and Songbird"
