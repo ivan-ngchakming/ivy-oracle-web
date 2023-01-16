@@ -54,5 +54,13 @@
 		"url": "https://flrlabs.com",
 		"address": "0x14b424Bc9E9B8091A40384ff3d8F0C3DfC1a2879",
 		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x14b424Bc9E9B8091A40384ff3d8F0C3DfC1a2879.jpeg"
+	},
+	{
+		"chainId": 14,
+		"name": "Best FTSO",
+		"description": "Our goal is to offer users the most value for their delegation. Come check out our NFT club and earn more than just FLR rewards!",
+		"url": "https://bestftso.xyz",
+		"address": "0x510Da05b7bf9d7713752da662AEdb26770F30d19",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x510Da05b7bf9d7713752da662AEdb26770F30d19.png"
 	}
 ]
