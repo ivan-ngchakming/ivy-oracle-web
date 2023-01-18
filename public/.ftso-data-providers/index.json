@@ -78,5 +78,13 @@
 		"url": "https://poseidon-ftso.com",
 		"address": "0x8d5Ddf992D582AFA3b2062d56a7ffB8028AB59a2",
 		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x8d5Ddf992D582AFA3b2062d56a7ffB8028AB59a2.png"
+	},
+	{
+		"chainId": 19,
+		"name": "Animalove FTSO",
+		"description": "The Animalove official SGB/Flare data provider",
+		"url": "https://animalove.art",
+		"address": "0x9a434D1C354e7ffD98CA91ACEDa10f40228eC3D2",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x9a434D1C354e7ffD98CA91ACEDa10f40228eC3D2.png"
 	}
 ]
