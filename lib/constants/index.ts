@@ -45,6 +45,7 @@ export const SYMBOLS = [
   "ETH",
   "FIL",
   ...(CHAIN == Chain.Songbird ? ["SGB"] : []),
+  ...(CHAIN == Chain.Flare ? ["FLR"] : []),
 ];
 
 export const COLORS = [
