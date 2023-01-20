@@ -131,3 +131,7 @@ export interface RewardEpoch {
   start: Date;
   end: Date;
 }
+
+export interface Login {
+  message: string;
+}

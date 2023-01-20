@@ -57,3 +57,7 @@ export interface RewardEpochAPI {
   start: string;
   end: string;
 }
+
+export interface LoginAPI {
+  message: string;
+}
