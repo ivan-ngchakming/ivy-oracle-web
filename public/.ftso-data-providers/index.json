@@ -94,5 +94,13 @@
 		"url": "https://proofs.africa",
 		"address": "0x7808b9E0F7c488172B54B30f98C2FcF36D903B2c",
 		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x7808b9E0F7c488172B54B30f98C2FcF36D903B2c.png"
+	},
+	{
+		"chainId": 14,
+		"name": "Burst FTSO",
+		"description": "We strive to provide the best signals possible. Decentralization is extremely important to us, with this FTSO we will be helping the Flare blockchain achieve this.",
+		"url": "https://burstftso.xyz",
+		"address": "0x670a7Fd22cAa9C2Fb5B798078d084B29AB4bC63C",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x670a7Fd22cAa9C2Fb5B798078d084B29AB4bC63C.png"
 	}
 ]
