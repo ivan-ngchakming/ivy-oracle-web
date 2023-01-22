@@ -102,5 +102,21 @@
 		"url": "https://burstftso.xyz",
 		"address": "0x670a7Fd22cAa9C2Fb5B798078d084B29AB4bC63C",
 		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x670a7Fd22cAa9C2Fb5B798078d084B29AB4bC63C.png"
+	},
+	{
+		"chainId": 14,
+		"name": "Legacy sToadz FTSO",
+		"description": "Legacy sToadz address that will be de-listed shortly.",
+		"url": "N/A",
+		"address": "0xf9D68721929eF5811fcBbBc7C77ea897dCc8bB05",
+		"logoURI": "https://cdn.flaremetrics.io/flare/ftso/emblem/unknown@64.png"
+	},
+	{
+		"chainId": 19,
+		"name": "Legacy sToadz FTSO",
+		"description": "Legacy sToadz address that will be de-listed shortly.",
+		"url": "N/A",
+		"address": "0x879Fb0b354733674FD403286eBb2eB17EF97E5Ae",
+		"logoURI": "https://cdn.flaremetrics.io/flare/ftso/emblem/unknown@64.png"
 	}
 ]
