@@ -1,3 +1,5 @@
+import { Paginated } from ".";
+
 export interface APIProviderScheduledFeeChange {
   fee: number;
   validFromEpoch: number;
@@ -60,4 +62,31 @@ export interface RewardEpochAPI {
 
 export interface LoginAPI {
   message: string;
+}
+
+export interface BlockAPI {
+  blockHash: string;
+  blockNumber: number;
+  timestamp: string;
+}
+
+export interface TransactionAPI {
+  block: BlockAPI;
+  blockHash: string;
+  blockNumber: number;
+  fromAddress: string;
+  gas: number;
+  gasPrice: number;
+  nonce: number;
+  timestamp: string;
+  toAddress: string;
+  transactionHash: string;
+  transactionIndex: number;
+  value: number;
+}
+
+export interface AccountDetailAPI {
+  address: string;
+  delegationHistory: Paginated<any>;
+  transactions: Paginated<TransactionAPI>;
 }

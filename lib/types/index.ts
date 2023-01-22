@@ -135,3 +135,42 @@ export interface RewardEpoch {
 export interface Login {
   message: string;
 }
+
+export interface Block {
+  blockHash: string;
+  blockNumber: number;
+  timestamp: string;
+}
+
+export interface Transaction {
+  block: Block;
+  blockHash: string;
+  blockNumber: number;
+  fromAddress: string;
+  gas: number;
+  gasPrice: number;
+  nonce: number;
+  timestamp: string;
+  toAddress: string;
+  transactionHash: string;
+  transactionIndex: number;
+  value: number;
+}
+
+export interface DelegationEvent {
+  from: string;
+  to: string;
+  priorVotePower: number;
+  newVotePower: number;
+  blockNumber: number;
+  transactionIndex: number;
+  transactionHash: string;
+  logIndex: number;
+  id: number;
+}
+
+export interface AccountDetail {
+  address: string;
+  delegationHistory: Paginated<DelegationEvent>;
+  transactions: Paginated<Transaction>;
+}

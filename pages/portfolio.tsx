@@ -1,4 +1,5 @@
-import { BigNumber, ethers } from "ethers";
+import BigNumber from "bignumber.js";
+import { ethers } from "ethers";
 import { useCallback, useEffect, useState } from "react";
 import Button from "../components/Button";
 import Layout from "../components/Layout";
@@ -18,9 +19,9 @@ const PortfolioPage = () => {
     "0x02f0826ef6aD107Cfc861152B32B52fD11BaB9ED"
   );
 
-  const [balance, setBalance] = useState<BigNumber>(BigNumber.from(0));
-  const [wNat, setWNat] = useState<BigNumber>(BigNumber.from(0));
-  const [reward, setReward] = useState<BigNumber>(BigNumber.from(0));
+  const [balance, setBalance] = useState<BigNumber>(new BigNumber(0));
+  const [wNat, setWNat] = useState<BigNumber>(new BigNumber(0));
+  const [reward, setReward] = useState<BigNumber>(new BigNumber(0));
 
   const fetchBalances = useCallback(async () => {
     if (!address) {
@@ -28,7 +29,9 @@ const PortfolioPage = () => {
     }
     const _balance = await web3?.getBalance(address);
     if (_balance) {
-      setBalance(minimalTokenToTokenBigNumber(_balance));
+      setBalance(
+        minimalTokenToTokenBigNumber(new BigNumber(_balance.toString()))
+      );
     }
 
     setWNat(await getWNatBalance(address));
@@ -58,7 +61,12 @@ const PortfolioPage = () => {
           <p>WNat: {wNat.toNumber().toLocaleString()}</p>
           <p>Rewards: {reward.toNumber().toLocaleString()}</p>
           <p>
-            Total: {balance.add(wNat).add(reward).toNumber().toLocaleString()}
+            Total:{" "}
+            {balance
+              .plus(new BigNumber(wNat.toString()))
+              .plus(reward)
+              .toNumber()
+              .toLocaleString()}
           </p>
         </div>
       </div>

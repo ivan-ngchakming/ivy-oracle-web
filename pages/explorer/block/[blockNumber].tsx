@@ -7,7 +7,7 @@ import Table, {
   TableCell,
   TableRow,
 } from "../../../components/Table";
-import { fetchBlock } from "../../../lib/queries";
+import { fetchBlock } from "../../../lib/queries/explorer";
 import { EthBlock } from "../../../lib/types";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

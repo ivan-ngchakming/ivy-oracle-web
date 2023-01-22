@@ -1,11 +1,13 @@
 import { Chain, CHAIN } from "../constants";
 import {
+  AccountDetail,
   DelegationStat,
   EthBlock,
   FTSODataProviderBasic,
   RewardEpoch,
 } from "../types";
 import {
+  AccountDetailAPI,
   APIDelegationStat,
   APIEthBlock,
   APIProvider,
@@ -83,5 +85,15 @@ export const mapRewardEpoch = (apiRewardEpoch: RewardEpochAPI): RewardEpoch => {
     votePowerLockBlockDate: new Date(apiRewardEpoch.votePowerLockBlockDate),
     start: new Date(apiRewardEpoch.start),
     end: new Date(apiRewardEpoch.end),
+  };
+};
+
+export const mapAccountDetail = (
+  apiAccountDetail: AccountDetailAPI
+): AccountDetail => {
+  return {
+    address: apiAccountDetail.address,
+    delegationHistory: apiAccountDetail.delegationHistory,
+    transactions: apiAccountDetail.transactions,
   };
 };
