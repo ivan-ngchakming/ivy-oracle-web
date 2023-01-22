@@ -1,3 +1,5 @@
+import { Paginated } from "./common";
+
 interface RequestArguments {
   method: string;
   params?: unknown[] | object;
@@ -10,14 +12,6 @@ export type Ethereum = {
   on(chainId: string, handler: HandlerFunction): void;
   off(chainId: string, handler: HandlerFunction): void;
   isConnected(): boolean;
-};
-
-export type Paginated<T> = {
-  data: T[];
-  totalCount: number;
-  page: number;
-  limit: number;
-  hasMore: boolean;
 };
 
 export interface Delegation {
@@ -174,3 +168,5 @@ export interface AccountDetail {
   delegationHistory: Paginated<DelegationEvent>;
   transactions: Paginated<Transaction>;
 }
+
+export * from "./common";

@@ -1,4 +1,4 @@
-import { Paginated } from ".";
+import { Paginated } from "./common";
 
 export interface APIProviderScheduledFeeChange {
   fee: number;
