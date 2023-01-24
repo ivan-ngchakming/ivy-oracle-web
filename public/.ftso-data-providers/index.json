@@ -118,5 +118,21 @@
 		"url": "N/A",
 		"address": "0x879Fb0b354733674FD403286eBb2eB17EF97E5Ae",
 		"logoURI": "https://cdn.flaremetrics.io/flare/ftso/emblem/unknown@64.png"
+	},
+	{
+		"chainId": 19,
+		"name": "FTSO AU",
+		"description": "FTSO AU provide accurate and reliable price feeds to the Flare Network and a transparent, incentivised, risk-free delegation service. We do so by leveraging the distributed nature of the network and its participants.",
+		"url": "https://ftso.au",
+		"address": "0x499017ADB21D6f70480E4E6224cf4144071C1461",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x499017ADB21D6f70480E4E6224cf4144071C1461.png"
+	},
+	{
+		"chainId": 14,
+		"name": "FTSO AU",
+		"description": "FTSO AU provide accurate and reliable price feeds to the Flare Network and a transparent, incentivised, risk-free delegation service. We do so by leveraging the distributed nature of the network and its participants.",
+		"url": "https://ftso.au",
+		"address": "0x4990320858AE3528B645C60059281a66C3488888",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x4990320858AE3528B645C60059281a66C3488888.png"
 	}
 ]
