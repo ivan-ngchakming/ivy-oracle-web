@@ -134,5 +134,21 @@
 		"url": "https://ftso.au",
 		"address": "0x4990320858AE3528B645C60059281a66C3488888",
 		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x4990320858AE3528B645C60059281a66C3488888.png"
+	},
+	{
+		"chainId": 19,
+		"name": "O1 FTSO",
+		"description": "O1 FTSO is an open-minded data signals provider looking for a great partnership on the Flare and Songbird Network.",
+		"url": "https://o1ftso.com",
+		"address": "0x229458A754CD1aeBa8A0c87f59E22777D593B85a",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x229458A754CD1aeBa8A0c87f59E22777D593B85a.png"
+	},
+	{
+		"chainId": 14,
+		"name": "O1 FTSO",
+		"description": "O1 FTSO is an open-minded data signals provider looking for a great partnership on the Flare and Songbird Network.",
+		"url": "https://o1ftso.com",
+		"address": "0xBE304C28F3a050486b9733AE56cB5541B16c007B",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0xBE304C28F3a050486b9733AE56cB5541B16c007B.png"
 	}
 ]
