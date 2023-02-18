@@ -89,22 +89,6 @@
 	},
 	{
 		"chainId": 14,
-		"name": "African Proofs",
-		"description": "We are a Flare and Songbird blockchain networks data signals provider based in South Africa. We provide a consistent and honest account of real world information for use in the Flare Networks ecosystem of chains.",
-		"url": "https://proofs.africa",
-		"address": "0x7808b9E0F7c488172B54B30f98C2FcF36D903B2c",
-		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x7808b9E0F7c488172B54B30f98C2FcF36D903B2c.png"
-	},
-	{
-		"chainId": 14,
-		"name": "Burst FTSO",
-		"description": "We strive to provide the best signals possible. Decentralization is extremely important to us, with this FTSO we will be helping the Flare blockchain achieve this.",
-		"url": "https://burstftso.xyz",
-		"address": "0x670a7Fd22cAa9C2Fb5B798078d084B29AB4bC63C",
-		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0x670a7Fd22cAa9C2Fb5B798078d084B29AB4bC63C.png"
-	},
-	{
-		"chainId": 14,
 		"name": "Legacy sToadz FTSO",
 		"description": "Legacy sToadz address that will be de-listed shortly.",
 		"url": "N/A",
@@ -150,5 +134,21 @@
 		"url": "https://o1ftso.com",
 		"address": "0xBE304C28F3a050486b9733AE56cB5541B16c007B",
 		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0xBE304C28F3a050486b9733AE56cB5541B16c007B.png"
+	},
+	{
+		"chainId": 19,
+		"name": "Sirius FTSO",
+		"description": "Sirius FTSO is a provider of algorithms that run on the Flare network to give you the best price feeds.",
+		"url": "https://siriusftso.com",
+		"address": "0x14f17A0B6dEf7eCfc4F807904C27842b556d42be",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0xAd5E40Ff92B083c657d27eCc1c629256e0Af0eD8.png"
+	},
+	{
+		"chainId": 14,
+		"name": "Sirius FTSO",
+		"description": "Sirius FTSO is a provider of algorithms that run on the Flare network to give you the best price feeds.",
+		"url": "https://siriusftso.com",
+		"address": "0xAd5E40Ff92B083c657d27eCc1c629256e0Af0eD8",
+		"logoURI": "https://raw.githubusercontent.com/ivy-oracle/web/dev/public/.ftso-data-providers/logos/0xAd5E40Ff92B083c657d27eCc1c629256e0Af0eD8.png"
 	}
 ]
