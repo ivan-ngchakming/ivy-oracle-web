@@ -1,6 +1,7 @@
 {
-    "name": "Ivy Oracle",
+    "name": "Ivy Oracle Stake Pool",
     "description": "Ivy Oracle aims to promote and advocate for the wide adoption of blockchain technology.",
     "ticker": "IVY",
-    "homepage": "https://ivyoracle.xyz"
+    "homepage": "https://ivyoracle.xyz",
+    "verification":"2fbca63dd5dc9f240d"
 }
