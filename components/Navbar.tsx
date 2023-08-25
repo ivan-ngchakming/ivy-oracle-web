@@ -8,18 +8,24 @@ import { Route } from "../lib/constants/routes";
 import { Chain, CHAIN } from "../lib/constants";
 import Dropdown from "./Dropdown";
 
-const MENU_ITEMS = [
-  { path: Route.FTSODataProvider, label: "Providers", iconClass: "fa-compass" },
-  { path: Route.Delegation, label: "Delegations", iconClass: "fa-user" },
+type MenuItem = {
+  path: Route;
+  label: string;
+  iconClass: string;
+}
+
+const MENU_ITEMS: MenuItem[] = [
+  // { path: Route.FTSODataProvider, label: "Providers", iconClass: "fa-compass" },
+  // { path: Route.Delegation, label: "Delegations", iconClass: "fa-user" },
 ];
 
-if (CHAIN === Chain.Flare) {
-  MENU_ITEMS.push({
-    path: Route.Validator,
-    label: "Validators",
-    iconClass: "fa-check",
-  });
-}
+// if (CHAIN === Chain.Flare) {
+//   MENU_ITEMS.push({
+//     path: Route.Validator,
+//     label: "Validators",
+//     iconClass: "fa-check",
+//   });
+// }
 
 function Navbar(props: { transparent: boolean }) {
   const { connect, disconnect, isConnected, address } = useWeb3API();

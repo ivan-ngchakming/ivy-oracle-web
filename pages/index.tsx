@@ -35,7 +35,7 @@ const IndexPage = () => {
       <div className="mx-20 mt-10 mb-40">
         {/* <h2 className="text-center mb-5 text-xl font-bold">Navigation</h2> */}
         <div className="flex justify-center gap-8 flex-wrap">
-          <Card
+          {/* <Card
             title="FTSO Data Providers"
             actionLabel="View page"
             actionType="link"
@@ -73,7 +73,7 @@ const IndexPage = () => {
                 See all validators currently validating blocks on chain.
               </p>
             </Card>
-          )}
+          )} */}
         </div>
       </div>
     </Layout>
