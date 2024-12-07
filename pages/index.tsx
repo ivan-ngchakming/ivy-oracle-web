@@ -105,7 +105,7 @@ const IndexPage = () => {
         <div className="text-center">
           <h2 className="text-3xl font-bold mb-4">Get In Touch</h2>
           <p className="text-lg text-gray-600 mb-4">
-            Have questions? We'd love to hear from you.
+            Have questions? We&apos;d love to hear from you.
           </p>
           <div className="space-x-4 mb-8">
             <a
