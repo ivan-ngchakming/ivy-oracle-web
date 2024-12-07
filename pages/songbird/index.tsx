@@ -1,8 +1,13 @@
 import Layout from "../../components/Layout";
 import Card from "../../components/Card";
 import { Route } from "../../lib/constants/routes";
+import { useTokenPrice } from "../../hooks/useTokenPrice";
 
 const SongbirdLandingPage = () => {
+  const { price: sgbPrice, isLoading } = useTokenPrice({
+    coinGeckoId: 'songbird'
+  });
+
   return (
     <Layout
       contentHeight="75vh"
@@ -71,7 +76,13 @@ const SongbirdLandingPage = () => {
           <h2 className="text-3xl font-bold mb-8">Network Statistics</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white rounded-lg p-6 shadow">
-              <div className="text-3xl font-bold text-gray-800">$0.00</div>
+              <div className="text-3xl font-bold text-gray-800">
+                {isLoading ? (
+                  <span className="animate-pulse">Loading...</span>
+                ) : (
+                  `$${sgbPrice.toFixed(4)}`
+                )}
+              </div>
               <div className="text-sm text-gray-600">SGB Price</div>
             </div>
             <div className="bg-white rounded-lg p-6 shadow">
