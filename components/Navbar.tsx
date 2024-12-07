@@ -123,7 +123,7 @@ function Navbar(props: { transparent: boolean }) {
           </ul>
           <ul>
             <li className="flex items-center">
-              <Dropdown />
+              {/* <Dropdown /> */}
               {/* <button
                 className={classNames(
                   props.transparent
