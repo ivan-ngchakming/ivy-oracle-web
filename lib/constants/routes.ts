@@ -1,6 +1,6 @@
 export enum Route {
   Index = "/",
-  FTSODataProvider = "/ftso/data-provider",
-  Delegation = "/delegation",
-  Validator = "/validator",
+  Songbird = "/songbird",
+  Flare = "/flare",
+  Solana = "/solana",
 }

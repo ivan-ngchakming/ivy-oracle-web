@@ -75,9 +75,25 @@ function Footer() {
                   <li>
                     <Link
                       className="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
-                      href={Route.FTSODataProvider}
+                      href={Route.Flare}
                     >
-                      FTSO Data Providers
+                      Flare Network
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href={Route.Songbird}
+                    >
+                      Songbird Network  
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="text-gray-700 hover:text-gray-900 font-semibold block pb-2 text-sm"
+                      href={Route.Solana}
+                    >
+                      Solana Network
                     </Link>
                   </li>
                   <li>
