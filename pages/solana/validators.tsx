@@ -145,8 +145,8 @@ export default function ValidatorStatsPage() {
               </TableColumn>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {getSortedValidators().map((validator) => (
+          <TableBody loading={loading} rowCount={10} columnCount={6}>
+            {!loading && getSortedValidators().map((validator) => (
               <TableRow key={validator.identity}>
                 <TableCell>
                   <div className="relative group">
@@ -189,41 +189,18 @@ export default function ValidatorStatsPage() {
           </TableBody>
         </Table>
       </div>
-    </div>
-  );
-
-  if (loading) {
-    return (
-      <Layout title="Validators" bannerTitle="Solana Validators">
-        {renderTable()}
-        <div className="flex justify-center items-center min-h-[200px]">
-          Loading validator stats...
-        </div>
-      </Layout>
-    );
-  }
-
-  if (error) {
-    return (
-      <Layout title="Validators" bannerTitle="Solana Validators">
-        {renderTable()}
+      {error && (
         <div className="flex justify-center items-center min-h-[200px] text-red-500">
           Error: {error}
         </div>
-      </Layout>
-    );
-  }
-
-  if (!stats) {
-    return (
-      <Layout title="Validators" bannerTitle="Solana Validators">
-        {renderTable()}
+      )}
+      {!loading && !stats && (
         <div className="flex justify-center items-center min-h-[200px]">
           No validator stats available
         </div>
-      </Layout>
-    );
-  }
+      )}
+    </div>
+  );
 
   return (
     <Layout title="Validators" bannerTitle="Solana Validators">

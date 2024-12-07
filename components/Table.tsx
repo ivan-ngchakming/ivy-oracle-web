@@ -7,12 +7,14 @@ export const TableColumn = ({
   sorted,
   asc,
   onClick,
+  loading,
 }: {
   children?: React.ReactNode;
   className?: string;
   sorted?: boolean;
   asc?: boolean;
   onClick?: () => void;
+  loading?: boolean;
 }) => {
   const sortIndicator = asc ? (
     <i className="fa fa-arrow-up" aria-hidden="true"></i>
@@ -31,8 +33,14 @@ export const TableColumn = ({
       onClick={onClick}
     >
       <div className="flex items-center justify-center">
-        <div>{children}</div>
-        <div className="ml-2">{sorted && sortIndicator}</div>
+        {loading ? (
+          <div className="h-4 bg-gray-600 rounded animate-pulse w-20"></div>
+        ) : (
+          <>
+            <div>{children}</div>
+            <div className="ml-2">{sorted && sortIndicator}</div>
+          </>
+        )}
       </div>
     </th>
   );
@@ -43,11 +51,15 @@ export const TableCell = ({
   children,
   className,
   colSpan,
+  loading,
+  width = "w-20",
 }: {
   isIndex?: boolean;
   children?: React.ReactNode;
   className?: string;
   colSpan?: number;
+  loading?: boolean;
+  width?: string;
 }) => {
   return (
     <td
@@ -58,7 +70,11 @@ export const TableCell = ({
       )}
       colSpan={colSpan}
     >
-      {children}
+      {loading ? (
+        <div className={`h-4 bg-gray-200 rounded animate-pulse ${width}`}></div>
+      ) : (
+        children
+      )}
     </td>
   );
 };
@@ -74,10 +90,30 @@ export const TableHead = ({ children }: { children: React.ReactNode }) => {
 export const TableBody = ({
   children,
   className,
+  loading,
+  rowCount = 10,
+  columnCount = 6,
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
+  loading?: boolean;
+  rowCount?: number;
+  columnCount?: number;
 }) => {
+  if (loading) {
+    return (
+      <tbody className={className}>
+        {[...Array(rowCount)].map((_, rowIndex) => (
+          <TableRow key={`skeleton-row-${rowIndex}`}>
+            {[...Array(columnCount)].map((_, colIndex) => (
+              <TableCell key={`skeleton-cell-${colIndex}`} loading={true} />
+            ))}
+          </TableRow>
+        ))}
+      </tbody>
+    );
+  }
+
   return <tbody className={className}>{children}</tbody>;
 };
 
@@ -99,4 +135,5 @@ const Table = ({
     </table>
   );
 };
+
 export default Table;
