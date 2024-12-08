@@ -34,6 +34,7 @@
     "react-plotly.js": "^2.5.1",
     "react-select": "^5.4.0",
     "react-toastify": "^9.0.7",
+    "recharts": "^2.14.1",
     "web3": "^1.7.4"
   },
   "devDependencies": {
