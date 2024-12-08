@@ -127,7 +127,7 @@ const Table = ({
   return (
     <table
       className={classNames(
-        "text-center block w-full overflow-x-auto",
+        "table text-center block w-full",
         className ? className : "2xl:table"
       )}
     >

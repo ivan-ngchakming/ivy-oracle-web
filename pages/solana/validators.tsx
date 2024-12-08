@@ -94,100 +94,102 @@ export default function ValidatorStatsPage() {
         />
       </div>
       <div className="bg-white rounded-lg shadow overflow-hidden mb-24">
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableColumn 
-                onClick={() => handleSort('identity')}
-                sorted={sortField === 'identity'}
-                asc={sortDirection === 'asc'}
-                className="w-32"
-              >
-                Identity
-              </TableColumn>
-              <TableColumn 
-                onClick={() => handleSort('vote_account')}
-                sorted={sortField === 'vote_account'}
-                asc={sortDirection === 'asc'}
-                className="w-32"
-              >
-                Vote Account
-              </TableColumn>
-              <TableColumn 
-                className="w-24"
-                onClick={() => handleSort('epoch_credits_rank')}
-                sorted={sortField === 'epoch_credits_rank'}
-                asc={sortDirection === 'asc'}
-              >
-                Credits Rank
-              </TableColumn>
-              <TableColumn 
-                onClick={() => handleSort('activated_stake')}
-                sorted={sortField === 'activated_stake'}
-                asc={sortDirection === 'asc'}
-              >
-                Activated Stake
-              </TableColumn>
-              <TableColumn 
-                onClick={() => handleSort('epoch_credits')}
-                sorted={sortField === 'epoch_credits'}
-                asc={sortDirection === 'asc'}
-              >
-                Epoch Credits
-              </TableColumn>
-              <TableColumn 
-                className="w-24"
-                onClick={() => handleSort('commission')}
-                sorted={sortField === 'commission'}
-                asc={sortDirection === 'asc'}
-              >
-                Commission (%)
-              </TableColumn>
-            </TableRow>
-          </TableHead>
-          <TableBody loading={loading} rowCount={10} columnCount={6}>
-            {!loading && getSortedValidators().map((validator) => (
-              <TableRow key={validator.identity}>
-                <TableCell>
-                  <div className="relative group">
-                    <span 
-                      className="cursor-pointer"
-                      onClick={() => copy(validator.identity)}
-                    >
-                      {truncateAddress(validator.identity)}
-                    </span>
-                    <div className="absolute z-10 invisible group-hover:visible bg-gray-800 text-white p-1 rounded text-xs mt-1 ml-0">
-                      {validator.identity}
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <div className="relative group">
-                    <span
-                      className="cursor-pointer"
-                      onClick={() => copy(validator.vote_account)}
-                    >
-                      {truncateAddress(validator.vote_account)}
-                    </span>
-                    <div className="absolute z-10 invisible group-hover:visible bg-gray-800 text-white p-1 rounded text-xs mt-1 ml-0">
-                      {validator.vote_account}
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  {validator.epoch_credits_rank}
-                </TableCell>
-                <TableCell>
-                  {validator.activated_stake.toLocaleString()}
-                </TableCell>
-                <TableCell>
-                  {validator.epoch_credits.toLocaleString()}
-                </TableCell>
-                <TableCell>{validator.commission}</TableCell>
+        <div className="overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableColumn 
+                  onClick={() => handleSort('identity')}
+                  sorted={sortField === 'identity'}
+                  asc={sortDirection === 'asc'}
+                  className="w-32"
+                >
+                  Identity
+                </TableColumn>
+                <TableColumn 
+                  onClick={() => handleSort('vote_account')}
+                  sorted={sortField === 'vote_account'}
+                  asc={sortDirection === 'asc'}
+                  className="w-32"
+                >
+                  Vote Account
+                </TableColumn>
+                <TableColumn 
+                  className="w-24"
+                  onClick={() => handleSort('epoch_credits_rank')}
+                  sorted={sortField === 'epoch_credits_rank'}
+                  asc={sortDirection === 'asc'}
+                >
+                  Credits Rank
+                </TableColumn>
+                <TableColumn 
+                  onClick={() => handleSort('activated_stake')}
+                  sorted={sortField === 'activated_stake'}
+                  asc={sortDirection === 'asc'}
+                >
+                  Activated Stake
+                </TableColumn>
+                <TableColumn 
+                  onClick={() => handleSort('epoch_credits')}
+                  sorted={sortField === 'epoch_credits'}
+                  asc={sortDirection === 'asc'}
+                >
+                  Epoch Credits
+                </TableColumn>
+                <TableColumn 
+                  className="w-24"
+                  onClick={() => handleSort('commission')}
+                  sorted={sortField === 'commission'}
+                  asc={sortDirection === 'asc'}
+                >
+                  Commission (%)
+                </TableColumn>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody loading={loading} rowCount={10} columnCount={6}>
+              {!loading && getSortedValidators().map((validator) => (
+                <TableRow key={validator.identity}>
+                  <TableCell>
+                    <div className="relative group">
+                      <span 
+                        className="cursor-pointer"
+                        onClick={() => copy(validator.identity)}
+                      >
+                        {truncateAddress(validator.identity)}
+                      </span>
+                      <div className="absolute z-10 invisible group-hover:visible bg-gray-800 text-white p-1 rounded text-xs mt-1 ml-0">
+                        {validator.identity}
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="relative group">
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => copy(validator.vote_account)}
+                      >
+                        {truncateAddress(validator.vote_account)}
+                      </span>
+                      <div className="absolute z-10 invisible group-hover:visible bg-gray-800 text-white p-1 rounded text-xs mt-1 ml-0">
+                        {validator.vote_account}
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {validator.epoch_credits_rank}
+                  </TableCell>
+                  <TableCell>
+                    {validator.activated_stake.toLocaleString()}
+                  </TableCell>
+                  <TableCell>
+                    {validator.epoch_credits.toLocaleString()}
+                  </TableCell>
+                  <TableCell>{validator.commission}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </div>
       {error && (
         <div className="flex justify-center items-center min-h-[200px] text-red-500">
