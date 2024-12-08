@@ -10,7 +10,7 @@ import Table, {
   TableRow,
 } from "../../components/Table";
 import { toast } from "react-toastify";
-
+import { SOLANA_LAMPORTS_PER_SOL } from "../../lib/solana/constants";
 type SortField = 'identity' | 'vote_account' | 'commission' | 'activated_stake' | 'epoch_credits' | 'epoch_credits_rank';
 type SortDirection = 'asc' | 'desc';
 
@@ -179,7 +179,13 @@ export default function ValidatorStatsPage() {
                     {validator.epoch_credits_rank}
                   </TableCell>
                   <TableCell>
-                    {validator.activated_stake.toLocaleString()}
+                    {(() => {
+                      const sol = validator.activated_stake / SOLANA_LAMPORTS_PER_SOL;
+                      if (sol >= 1e9) return `${(sol / 1e9).toFixed(2)}B`;
+                      if (sol >= 1e6) return `${(sol / 1e6).toFixed(2)}M`;
+                      if (sol >= 1e3) return `${(sol / 1e3).toFixed(2)}K`;
+                      return sol.toFixed(2);
+                    })()}
                   </TableCell>
                   <TableCell>
                     {validator.epoch_credits.toLocaleString()}
