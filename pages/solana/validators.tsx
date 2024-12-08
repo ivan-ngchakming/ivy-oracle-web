@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { fetchValidatorStats } from "../../lib/solana/queries/validators";
-import { ValidatorStats } from "../../lib/solana/types";
+import { useEffect, useState, useCallback } from "react";
+import { fetchValidators } from "../../lib/solana/queries/validators";
+import { Validator } from "../../lib/solana/types";
 import Layout from "../../components/Layout";
 import Table, {
   TableBody,
@@ -11,22 +11,31 @@ import Table, {
 } from "../../components/Table";
 import { toast } from "react-toastify";
 import { SOLANA_LAMPORTS_PER_SOL } from "../../lib/solana/constants";
-type SortField = 'identity' | 'vote_account' | 'commission' | 'activated_stake' | 'epoch_credits' | 'epoch_credits_rank';
+type SortField = 'identity' | 'vote_pubkey' | 'commission' | 'activated_stake' | 'epoch_credits' | 'epoch_credits_rank' | 'name' | 'vote_skip_rate';
 type SortDirection = 'asc' | 'desc';
 
 export default function ValidatorStatsPage() {
-  const [stats, setStats] = useState<ValidatorStats | null>(null);
+  const [validators, setValidators] = useState<Validator[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sortField, setSortField] = useState<SortField>('epoch_credits_rank');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
 
   useEffect(() => {
     const loadStats = async () => {
       try {
-        const data = await fetchValidatorStats();
-        setStats(data);
+        const data = await fetchValidators();
+        setValidators(data);
       } catch (err) {
         setError("Failed to load validator stats");
         console.error(err);
@@ -39,7 +48,7 @@ export default function ValidatorStatsPage() {
   }, []);
 
   const truncateAddress = (address: string) => {
-    return `${address.slice(0, 8)}...${address.slice(-4)}`;
+    return address ? `${address.slice(0, 8)}...${address.slice(-4)}` : '';
   };
 
   const copy = async (text: string) => {
@@ -57,16 +66,34 @@ export default function ValidatorStatsPage() {
   };
 
   const getSortedValidators = () => {
-    if (!stats) return [];
-    
-    const filtered = stats.stats.filter(validator => 
-      validator.identity.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      validator.vote_account.toLowerCase().includes(searchTerm.toLowerCase())
+    if (!validators) return [];
+
+    const filtered = validators.filter(validator => 
+      validator.identity.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+      validator.vote_pubkey.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
+      (validator.name || '').toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
     
     return [...filtered].sort((a, b) => {
-      const aValue = a[sortField];
-      const bValue = b[sortField];
+      let aValue, bValue;
+      if (sortField === 'epoch_credits') {
+        aValue = a.stats?.epoch_credits;
+        bValue = b.stats?.epoch_credits;
+      } else if (sortField === 'epoch_credits_rank') {
+        aValue = a.stats?.epoch_credits_rank;
+        bValue = b.stats?.epoch_credits_rank;
+      } else if (sortField === 'vote_pubkey') {
+        aValue = a.vote_pubkey;
+        bValue = b.vote_pubkey;
+      } else {
+        aValue = a[sortField];
+        bValue = b[sortField];
+      }
+
+      // Handle null values - always sort them last
+      if (aValue === null && bValue === null) return 0;
+      if (aValue === null) return 1;
+      if (bValue === null) return -1;
       
       if (typeof aValue === 'number' && typeof bValue === 'number') {
         return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
@@ -87,7 +114,7 @@ export default function ValidatorStatsPage() {
       <div className="mb-4">
         <input
           type="text"
-          placeholder="Search by identity or vote account..."
+          placeholder="Search by name, identity or vote account..."
           className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -98,19 +125,33 @@ export default function ValidatorStatsPage() {
           <Table>
             <TableHead>
               <TableRow>
+                <TableColumn className="w-8">
+                  Logo
+                </TableColumn>
+                <TableColumn 
+                  onClick={() => handleSort('name')}
+                  sorted={sortField === 'name'}
+                  asc={sortDirection === 'asc'}
+                  className="w-32 max-w-[200px]"
+                  align="left"
+                >
+                  Name
+                </TableColumn>
                 <TableColumn 
                   onClick={() => handleSort('identity')}
                   sorted={sortField === 'identity'}
                   asc={sortDirection === 'asc'}
                   className="w-32"
+                  align="left"
                 >
                   Identity
                 </TableColumn>
                 <TableColumn 
-                  onClick={() => handleSort('vote_account')}
-                  sorted={sortField === 'vote_account'}
+                  onClick={() => handleSort('vote_pubkey')}
+                  sorted={sortField === 'vote_pubkey'}
                   asc={sortDirection === 'asc'}
                   className="w-32"
+                  align="left"
                 >
                   Vote Account
                 </TableColumn>
@@ -144,12 +185,32 @@ export default function ValidatorStatsPage() {
                 >
                   Commission (%)
                 </TableColumn>
+                <TableColumn 
+                  className="w-24"
+                  onClick={() => handleSort('vote_skip_rate')}
+                  sorted={sortField === 'vote_skip_rate'}
+                  asc={sortDirection === 'asc'}
+                >
+                  Skip Rate (%)
+                </TableColumn>
               </TableRow>
             </TableHead>
-            <TableBody loading={loading} rowCount={10} columnCount={6}>
+            <TableBody loading={loading} rowCount={10} columnCount={9}>
               {!loading && getSortedValidators().map((validator) => (
                 <TableRow key={validator.identity}>
                   <TableCell>
+                    {validator.logo_url && (
+                      <img 
+                        src={validator.logo_url} 
+                        alt={`${validator.name} logo`}
+                        className="w-6 h-6 rounded-full"
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell className="max-w-[200px] truncate text-left">
+                    {validator.name || 'Unknown'}
+                  </TableCell>
+                  <TableCell className="text-left">
                     <div className="relative group">
                       <span 
                         className="cursor-pointer"
@@ -162,21 +223,21 @@ export default function ValidatorStatsPage() {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="text-left">
                     <div className="relative group">
                       <span
                         className="cursor-pointer"
-                        onClick={() => copy(validator.vote_account)}
+                        onClick={() => copy(validator.vote_pubkey)}
                       >
-                        {truncateAddress(validator.vote_account)}
+                        {truncateAddress(validator.vote_pubkey)}
                       </span>
                       <div className="absolute z-10 invisible group-hover:visible bg-gray-800 text-white p-1 rounded text-xs mt-1 ml-0">
-                        {validator.vote_account}
+                        {validator.vote_pubkey}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
-                    {validator.epoch_credits_rank}
+                    {validator.stats.epoch_credits_rank ?? '-'}
                   </TableCell>
                   <TableCell>
                     {(() => {
@@ -188,9 +249,10 @@ export default function ValidatorStatsPage() {
                     })()}
                   </TableCell>
                   <TableCell>
-                    {validator.epoch_credits.toLocaleString()}
+                    {validator.stats.epoch_credits?.toLocaleString() ?? '-'}
                   </TableCell>
                   <TableCell>{validator.commission}</TableCell>
+                  <TableCell>{(validator.vote_skip_rate * 100).toFixed(2)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -202,7 +264,7 @@ export default function ValidatorStatsPage() {
           Error: {error}
         </div>
       )}
-      {!loading && !stats && (
+      {!loading && !validators && (
         <div className="flex justify-center items-center min-h-[200px]">
           No validator stats available
         </div>

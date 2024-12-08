@@ -4,6 +4,7 @@ import React from "react";
 export const TableColumn = ({
   children,
   className,
+  align = 'center',
   sorted,
   asc,
   onClick,
@@ -11,6 +12,7 @@ export const TableColumn = ({
 }: {
   children?: React.ReactNode;
   className?: string;
+  align?: 'left' | 'center' | 'right';
   sorted?: boolean;
   asc?: boolean;
   onClick?: () => void;
@@ -32,16 +34,23 @@ export const TableColumn = ({
       )}
       onClick={onClick}
     >
-      <div className="flex items-center justify-center">
         {loading ? (
-          <div className="h-4 bg-gray-600 rounded animate-pulse w-20"></div>
+          <div className="flex items-center justify-center">
+            <div className="h-4 bg-gray-600 rounded animate-pulse w-20"></div>
+          </div>
         ) : (
-          <>
+          <div className={classNames(
+            "flex items-center",
+            {
+              "justify-start": align === "left",
+              "justify-center": align === "center" || !align,
+              "justify-end": align === "right"
+            }
+          )}>
             <div>{children}</div>
             <div className="ml-2">{sorted && sortIndicator}</div>
-          </>
+          </div>
         )}
-      </div>
     </th>
   );
 };

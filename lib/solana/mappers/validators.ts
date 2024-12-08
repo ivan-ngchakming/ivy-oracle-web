@@ -1,24 +1,35 @@
-import { ValidatorStat, ValidatorStats } from "../types";
+import { Validator, ValidatorStats } from "../types";
 
-export const mapValidatorStat = (data: any): ValidatorStat => {
+export const mapValidatorStats = (data: any): ValidatorStats => {
+  if (!data) return {};
+
   return {
+    epoch_credits: data.epoch_credits ? Number(data.epoch_credits) : null,
+    epoch_credits_rank: data.epoch_credits_rank ? Number(data.epoch_credits_rank) : null,
+  };
+}
+
+export const mapValidator = (data: any): Validator => {
+  return {
+    id: data.id,
     identity: data.identity,
-    vote_account: data.vote_account,
-    absolute_slot: data.absolute_slot,
-    activated_stake: data.activated_stake,
+    vote_pubkey: data.vote_pubkey,
+    name: data.name,
+    description: data.description,
+    website: data.website,
+    logo_url: data.logo_url,
+    info: data.info || {},
     commission: data.commission,
-    epoch_credits: data.epoch_credits,
-    epoch_credits_rank: data.epoch_credits_rank,
-    last_vote: data.last_vote,
-    root_distance: data.root_distance,
-    root_slot: data.root_slot,
-    slot_index: data.slot_index,
-    vote_distance: data.vote_distance
+    activated_stake: data.activated_stake,
+    created_at: data.created_at,
+    updated_at: data.updated_at,
+    stake_changes: data.stake_changes || [],
+    comission_changes: data.comission_changes || [],
+    vote_skip_rate: data.vote_skip_rate || null,
+    stats: mapValidatorStats(data.stats),
   };
 };
 
-export const mapValidatorStats = (data: any): ValidatorStats => {
-  return {
-    stats: data.map(mapValidatorStat),
-  };
+export const mapValidators = (data: any): Validator[] => {
+  return data.map((validator: any) => mapValidator(validator));
 }

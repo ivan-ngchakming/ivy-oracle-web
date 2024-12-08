@@ -1,18 +1,39 @@
-export type ValidatorStat = {
-  identity: string;
-  vote_account: string;
-  absolute_slot: number;
+export interface StakeChange {
+  epoch: number;
   activated_stake: number;
-  commission: number;
-  epoch_credits: number;
-  epoch_credits_rank: number;
-  last_vote: number;
-  root_distance: number;
-  root_slot: number;
-  slot_index: number;
-  vote_distance: number;
-};
+  created_at: string;
+}
 
-export type ValidatorStats = {
-  stats: ValidatorStat[];
-};
+export interface CommissionChange {
+  epoch: number;
+  commission: number;
+  created_at: string;
+}
+
+export interface ValidatorStats {
+  epoch_credits?: number | null;
+  epoch_credits_rank?: number | null;
+  last_vote?: number | null ;
+  root_distance?: number | null;
+  root_slot?: number | null;
+  vote_distance?: number | null;
+}
+
+export interface Validator {
+  id: number;
+  identity: string;
+  vote_pubkey: string;
+  name?: string;
+  description?: string | null;
+  website?: string;
+  logo_url?: string;
+  commission: number;
+  activated_stake: number;
+  created_at: string;
+  updated_at: string;
+  info: Object;
+  stake_changes: StakeChange[];
+  comission_changes: CommissionChange[];
+  vote_skip_rate: number;
+  stats: ValidatorStats;
+}
