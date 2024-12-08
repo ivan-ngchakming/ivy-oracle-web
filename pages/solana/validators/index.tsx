@@ -1,16 +1,17 @@
 import { useEffect, useState, useCallback } from "react";
-import { fetchValidators } from "../../lib/solana/queries/validators";
-import { Validator } from "../../lib/solana/types";
-import Layout from "../../components/Layout";
+import { fetchValidators } from "../../../lib/solana/queries/validators";
+import { Validator } from "../../../lib/solana/types";
+import Layout from "../../../components/Layout";
 import Table, {
   TableBody,
   TableCell,
   TableColumn,
   TableHead,
   TableRow,
-} from "../../components/Table";
+} from "../../../components/Table";
 import { toast } from "react-toastify";
-import { SOLANA_LAMPORTS_PER_SOL } from "../../lib/solana/constants";
+import { SOLANA_LAMPORTS_PER_SOL } from "../../../lib/solana/constants";
+import Link from "next/link";
 type SortField = 'identity' | 'vote_pubkey' | 'commission' | 'activated_stake' | 'epoch_credits' | 'epoch_credits_rank' | 'name' | 'vote_skip_rate';
 type SortDirection = 'asc' | 'desc';
 
@@ -207,8 +208,12 @@ export default function ValidatorStatsPage() {
                       />
                     )}
                   </TableCell>
-                  <TableCell className="max-w-[200px] truncate text-left">
-                    {validator.name || 'Unknown'}
+                  <TableCell className="max-w-[200px] truncate text-left text-blue-500 hover:underline !font-bold">
+                    <Link 
+                      href={`/solana/validators/${validator.identity}`}
+                    >
+                      {validator.name || 'Unknown'}
+                    </Link>
                   </TableCell>
                   <TableCell className="text-left">
                     <div className="relative group">
