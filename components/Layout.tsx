@@ -24,8 +24,8 @@ const Layout = ({
       <Head>
         <title>
           {title
-            ? `Ivy Oracle • ${CHAIN.toUpperCase()} | ${title}`
-            : `Ivy Oracle • ${CHAIN.toUpperCase()}`}
+            ? `Ivy Oracle | ${title}`
+            : `Ivy Oracle`}
         </title>
         <meta
           name="description"
