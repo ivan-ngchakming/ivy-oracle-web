@@ -236,7 +236,7 @@ const ValidatorRankHistoryPanel = ({ identity }: { identity: string }) => {
 										}`}
 									>
 										{((rankHistory.series[0]._value - rankHistory.series[rankHistory.series.length - 1]._value) / rankHistory.series[0]._value * 100).toFixed(2)}% {
-											rankHistory.series[0]._value > rankHistory.series[rankHistory.series.length - 1]._value
+											rankHistory.series[0]._value >= rankHistory.series[rankHistory.series.length - 1]._value
 												? '↑'
 												: '↓'
 										}
