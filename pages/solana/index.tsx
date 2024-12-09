@@ -6,10 +6,11 @@ const SolanaLandingPage = () => {
 	const { price: solPrice, isLoading } = useTokenPrice({
 		coinGeckoId: 'solana'
 	});
-
+	
 	return (
 		<Layout
 			contentHeight="75vh"
+			chain="Solana"
 			content={
 				<div className="items-center flex flex-wrap">
 					<div className="w-full lg:w-8/12 px-4 ml-auto mr-auto text-center">
