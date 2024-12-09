@@ -47,7 +47,7 @@ const ValidatorVoteDistancePanel = ({ identity }: { identity: string }) => {
 
 	return (
 		<div className="bg-white rounded-lg shadow-lg p-6">
-			<h2 className="text-xl font-semibold mb-4">Validator Vote Distance</h2>
+			<h2 className="text-xl font-semibold mb-4">Vote Distance</h2>
 			
 			{loading && <div>Loading vote distance...</div>}
 			
@@ -114,7 +114,7 @@ const ValidatorRootDistancePanel = ({ identity }: { identity: string }) => {
 
 	return (
 		<div className="bg-white rounded-lg shadow-lg p-6">
-			<h2 className="text-xl font-semibold mb-4">Validator Root Distance</h2>
+			<h2 className="text-xl font-semibold mb-4">Root Distance</h2>
 			
 			{loading && <div>Loading root distance...</div>}
 			
@@ -179,7 +179,7 @@ const ValidatorRankHistoryPanel = ({ identity }: { identity: string }) => {
 
 	return (
 		<div className="bg-white rounded-lg shadow-lg p-6">
-			<h2 className="text-xl font-semibold mb-4">Validator Rank History</h2>
+			<h2 className="text-xl font-semibold mb-4">Rank History</h2>
 			
 			{loading && <div>Loading rank history...</div>}
 			
