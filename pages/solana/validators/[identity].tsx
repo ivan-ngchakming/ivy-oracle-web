@@ -232,13 +232,18 @@ const ValidatorRankHistoryPanel = ({ identity }: { identity: string }) => {
 										className={`text-lg ${
 											rankHistory.series[0]._value > rankHistory.series[rankHistory.series.length - 1]._value
 												? 'fill-green-500'
-												: 'fill-red-500'
+												: rankHistory.series[0]._value < rankHistory.series[rankHistory.series.length - 1]._value
+												? 'fill-red-500' 
+												: 'fill-gray-500'
 										}`}
 									>
-										{((rankHistory.series[0]._value - rankHistory.series[rankHistory.series.length - 1]._value) / rankHistory.series[0]._value * 100).toFixed(2)}% {
-											rankHistory.series[0]._value >= rankHistory.series[rankHistory.series.length - 1]._value
-												? '↑'
-												: '↓'
+										{rankHistory.series[0]._value === rankHistory.series[rankHistory.series.length - 1]._value
+											? 'No change'
+											: `${((rankHistory.series[0]._value - rankHistory.series[rankHistory.series.length - 1]._value) / rankHistory.series[0]._value * 100).toFixed(2)}% ${
+												rankHistory.series[0]._value > rankHistory.series[rankHistory.series.length - 1]._value
+													? '↑'
+													: '↓'
+											}`
 										}
 									</text>
 								</>
