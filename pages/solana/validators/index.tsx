@@ -278,7 +278,7 @@ export default function ValidatorStatsPage() {
   );
 
   return (
-    <Layout title="Validators" bannerTitle="Solana Validators">
+    <Layout title="Validators" bannerTitle="Solana Validators" chain="Solana">
       {renderTable()}
     </Layout>
   );

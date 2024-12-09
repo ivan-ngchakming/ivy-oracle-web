@@ -12,20 +12,22 @@ const Layout = ({
   content,
   contentHeight = "66px",
   bannerTitle,
+  chain,
 }: {
   title?: string;
   children?: React.ReactNode;
   content?: React.ReactNode;
   contentHeight?: string;
   bannerTitle?: React.ReactNode;
+  chain?: string;
 }) => {
   return (
     <div className="min-h-screen flex flex-col">
       <Head>
         <title>
           {title
-            ? `Ivy Oracle | ${title}`
-            : `Ivy Oracle`}
+            ? `Ivy Oracle${chain ? ` • ${chain}` : ''} | ${title}`
+            : `Ivy Oracle${chain ? ` • ${chain}` : ''}`}
         </title>
         <meta
           name="description"

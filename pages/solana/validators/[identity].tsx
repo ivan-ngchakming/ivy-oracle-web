@@ -417,6 +417,7 @@ export default function ValidatorDetailsPage() {
     <Layout
       title={`Validator - ${identity}`}
       bannerTitle="Validator Details"
+      chain="Solana"
     >
       <div className="container mx-auto px-4 py-8 mb-24">
         <div className="mb-6 ml-4">

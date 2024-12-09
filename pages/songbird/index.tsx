@@ -11,6 +11,7 @@ const SongbirdLandingPage = () => {
   return (
     <Layout
       contentHeight="75vh"
+      chain="Songbird"
       content={
         <div className="items-center flex flex-wrap">
           <div className="w-full lg:w-8/12 px-4 ml-auto mr-auto text-center">

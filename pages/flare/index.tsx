@@ -11,6 +11,7 @@ const FlareLandingPage = () => {
   return (
     <Layout
       contentHeight="75vh"
+      chain="Flare"
       content={
         <div className="items-center flex flex-wrap">
           <div className="w-full lg:w-8/12 px-4 ml-auto mr-auto text-center">
