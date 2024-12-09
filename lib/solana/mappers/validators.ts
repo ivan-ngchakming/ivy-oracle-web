@@ -1,4 +1,4 @@
-import { Validator, ValidatorStats } from "../types";
+import { TimeSeries, Validator, ValidatorStats } from "../types";
 
 export const mapValidatorStats = (data: any): ValidatorStats => {
   if (!data) return {};
@@ -32,4 +32,13 @@ export const mapValidator = (data: any): Validator => {
 
 export const mapValidators = (data: any): Validator[] => {
   return data.map((validator: any) => mapValidator(validator));
+}
+
+export const mapTimeSeries = (data: any): TimeSeries => {
+  return {
+    series: data.map((series: any) => ({
+      _time: series._time,
+      _value: series._value,
+    })),
+  };
 }

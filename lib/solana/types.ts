@@ -37,3 +37,12 @@ export interface Validator {
   vote_skip_rate: number;
   stats: ValidatorStats;
 }
+
+export interface TimeSeriesDataPoint {
+  _time: string;
+  _value: number;
+}
+
+export interface TimeSeries {
+  series: TimeSeriesDataPoint[];
+}
