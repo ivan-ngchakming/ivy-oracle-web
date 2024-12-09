@@ -162,9 +162,7 @@ const ValidatorRankHistoryPanel = ({ identity }: { identity: string }) => {
 			
 			try {
 				setLoading(true);
-				console.log("Fetching rank history for", identity);
 				const data = await fetchValidatorRankHistory(identity as string);
-				console.log("Rank history loaded", data.series[data.series.length - 1]._value);
 				setRankHistory(data);
 			} catch (err) {
 				setError("Failed to load rank history");
@@ -201,7 +199,7 @@ const ValidatorRankHistoryPanel = ({ identity }: { identity: string }) => {
 								dataKey="_time"
 								tickFormatter={(time) => new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
 							/>
-							<YAxis reversed={true} />
+							<YAxis />
 							<Tooltip
 								labelFormatter={(label) => new Date(label).toLocaleString()}
 								formatter={(value) => [`Rank: ${value}`, '']}
