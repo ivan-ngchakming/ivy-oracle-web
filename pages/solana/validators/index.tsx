@@ -192,7 +192,7 @@ export default function ValidatorStatsPage() {
                   sorted={sortField === 'vote_skip_rate'}
                   asc={sortDirection === 'asc'}
                 >
-                  Skip Rate (%)
+                  Vote Skip Rate (%)
                 </TableColumn>
               </TableRow>
             </TableHead>
