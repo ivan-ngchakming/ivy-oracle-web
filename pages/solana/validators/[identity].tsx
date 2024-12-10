@@ -60,8 +60,8 @@ const ValidatorVoteDistancePanel = ({ identity }: { identity: string }) => {
 							data={voteDistance.series}
 							margin={{
 								top: 5,
-								right: 30,
-								left: 20,
+								right: 5,
+								left: -20,
 								bottom: 5,
 							}}
 						>
@@ -127,8 +127,8 @@ const ValidatorRootDistancePanel = ({ identity }: { identity: string }) => {
 							data={rootDistance.series}
 							margin={{
 								top: 5,
-								right: 30,
-								left: 20,
+								right: 5,
+								left: -20,
 								bottom: 5,
 							}}
 						>
@@ -190,8 +190,8 @@ const ValidatorRankHistoryPanel = ({ identity }: { identity: string }) => {
 							data={rankHistory.series}
 							margin={{
 								top: 5,
-								right: 30,
-								left: 20,
+								right: 5,
+								left: -20,
 								bottom: 5,
 							}}
 						>
@@ -237,10 +237,10 @@ const ValidatorRankHistoryPanel = ({ identity }: { identity: string }) => {
 									>
 										{rankHistory.series[0]._value === rankHistory.series[rankHistory.series.length - 1]._value
 											? 'No change'
-											: `${((rankHistory.series[0]._value - rankHistory.series[rankHistory.series.length - 1]._value) / rankHistory.series[0]._value * 100).toFixed(2)}% ${
+											: `${(-(rankHistory.series[0]._value - rankHistory.series[rankHistory.series.length - 1]._value) / rankHistory.series[0]._value * 100).toFixed(2)}% ${
 												rankHistory.series[0]._value > rankHistory.series[rankHistory.series.length - 1]._value
-													? '↑'
-													: '↓'
+													? '↓'
+													: '↑'
 											}`
 										}
 									</text>
@@ -289,8 +289,8 @@ const ValidatorHeader = ({ identity }: { identity: string }) => {
 
 	return (
 		<div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-			<div className="flex justify-between items-start mb-8">
-				<div className="flex items-center gap-4">
+			<div className="flex flex-col sm:flex-row justify-between gap-8 mb-8">
+				<div className="flex flex-col sm:flex-row items-center gap-4">
 					{validator?.logo_url && (
 						<img
 							src={validator.logo_url}
@@ -298,11 +298,12 @@ const ValidatorHeader = ({ identity }: { identity: string }) => {
 							className="w-16 h-16 rounded-full"
 						/>
 					)}
-					<div>
+					<div className="text-center sm:text-left">
 						<h1 className="text-2xl font-bold">
 							{(() => {
-								if (!validator) return "Validator not found";
+								if (loading) return "Loading...";
 								if (error) return "Error loading validator";
+								if (!validator) return "Validator not found";
 								return validator.name || "Unknown Validator"})()
 							}
 						</h1>
@@ -311,38 +312,40 @@ const ValidatorHeader = ({ identity }: { identity: string }) => {
 						</p>
 					</div>
 				</div>
-				{validator && (<div className="flex gap-8">
-					<div>
-						<h2 className="text-sm font-semibold text-gray-600 mb-1">Vote Skip Rate</h2>
-						<p className="text-lg font-medium">
-							{validator.vote_skip_rate !== null
-								? `${(validator.vote_skip_rate * 100).toFixed(2)}%`
-								: "N/A"
-							}
-						</p>
+				{validator && (
+					<div className="flex flex-col sm:flex-row gap-4">
+						<div className="text-center">
+							<h2 className="text-sm font-semibold text-gray-600 mb-1">Vote Skip Rate</h2>
+							<p className="text-lg font-medium">
+								{validator.vote_skip_rate !== null
+									? `${(validator.vote_skip_rate * 100).toFixed(2)}%`
+									: "N/A"
+								}
+							</p>
+						</div>
+						<div className="text-center">
+							<h2 className="text-sm font-semibold text-gray-600 mb-1">Active Stake</h2>
+							<p className="text-lg font-medium">
+								{(() => {
+									const sol = validator.activated_stake / SOLANA_LAMPORTS_PER_SOL;
+									if (sol >= 1e9) return `${(sol / 1e9).toFixed(2)}B`;
+									if (sol >= 1e6) return `${(sol / 1e6).toFixed(2)}M`;
+									if (sol >= 1e3) return `${(sol / 1e3).toFixed(2)}K`;
+									return sol.toFixed(2);
+								})()}
+							</p>
+						</div>
+						<div className="text-center">
+							<h2 className="text-sm font-semibold text-gray-600 mb-1">Commission</h2>
+							<p className="text-lg font-medium">
+								{validator.commission !== null
+									? `${validator.commission}%`
+									: "N/A"
+								}
+							</p>
+						</div>
 					</div>
-					<div>
-						<h2 className="text-sm font-semibold text-gray-600 mb-1">Active Stake</h2>
-						<p className="text-lg font-medium">
-							{(() => {
-								const sol = validator.activated_stake / SOLANA_LAMPORTS_PER_SOL;
-								if (sol >= 1e9) return `${(sol / 1e9).toFixed(2)}B`;
-								if (sol >= 1e6) return `${(sol / 1e6).toFixed(2)}M`;
-								if (sol >= 1e3) return `${(sol / 1e3).toFixed(2)}K`;
-								return sol.toFixed(2);
-							})()}
-						</p>
-					</div>
-					<div>
-						<h2 className="text-sm font-semibold text-gray-600 mb-1">Commission</h2>
-						<p className="text-lg font-medium">
-							{validator.commission !== null
-								? `${validator.commission}%`
-								: "N/A"
-							}
-						</p>
-					</div>
-				</div>)}
+				)}
 			</div>
 			{/* Details Grid */}
 			{validator && !loading && !error && (<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
