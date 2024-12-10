@@ -7,22 +7,22 @@ export const fetchValidators = async () => {
   return mapValidators(data);
 };
 
-export const fetchValidator = async (identity: string) => {
-  const data = (await axios.get(`${SOLANA_API_URL}/api/validators/${identity}`)).data;
+export const fetchValidator = async (vote_pubkey: string) => {
+  const data = (await axios.get(`${SOLANA_API_URL}/api/validators/${vote_pubkey}`)).data;
   return mapValidator(data);
 };
 
-export const fetchValidatorRankHistory = async (identity: string) => {
-  const data = (await axios.get(`${SOLANA_API_URL}/api/validators/${identity}/rank_history`)).data;
+export const fetchValidatorRankHistory = async (vote_pubkey: string) => {
+  const data = (await axios.get(`${SOLANA_API_URL}/api/validators/${vote_pubkey}/rank_history`)).data;
   return mapTimeSeries(data.rank_history);
 };
 
-export const fetchValidatorVoteDistance = async (identity: string) => {
-  const data = (await axios.get(`${SOLANA_API_URL}/api/validators/${identity}/vote_distance`)).data;
+export const fetchValidatorVoteDistance = async (vote_pubkey: string) => {
+  const data = (await axios.get(`${SOLANA_API_URL}/api/validators/${vote_pubkey}/vote_distance`)).data;
   return mapTimeSeries(data.vote_distance);
 };
 
-export const fetchValidatorRootDistance = async (identity: string) => {
-  const data = (await axios.get(`${SOLANA_API_URL}/api/validators/${identity}/root_distance`)).data;
+export const fetchValidatorRootDistance = async (vote_pubkey: string) => {
+  const data = (await axios.get(`${SOLANA_API_URL}/api/validators/${vote_pubkey}/root_distance`)).data;
   return mapTimeSeries(data.root_distance);
 };

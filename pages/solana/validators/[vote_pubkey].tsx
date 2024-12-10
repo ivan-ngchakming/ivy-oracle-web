@@ -16,18 +16,18 @@ import {
 	ResponsiveContainer
 } from "recharts";
 
-const ValidatorVoteDistancePanel = ({ identity }: { identity: string }) => {
+const ValidatorVoteDistancePanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
 	const [voteDistance, setVoteDistance] = useState<TimeSeries | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		const loadVoteDistance = async () => {
-			if (!identity) return;
+			if (!vote_pubkey) return;
 			
 			try {
 				setLoading(true);
-				const data = await fetchValidatorVoteDistance(identity as string);
+				const data = await fetchValidatorVoteDistance(vote_pubkey as string);
 				// Convert values from negative to positive
 				data.series = data.series.map(point => ({
 					...point,
@@ -43,7 +43,7 @@ const ValidatorVoteDistancePanel = ({ identity }: { identity: string }) => {
 		};
 
 		loadVoteDistance();
-	}, [identity]);
+	}, [vote_pubkey]);
 
 	return (
 		<div className="bg-white rounded-lg shadow-lg p-6">
@@ -83,18 +83,18 @@ const ValidatorVoteDistancePanel = ({ identity }: { identity: string }) => {
 	);
 };
 
-const ValidatorRootDistancePanel = ({ identity }: { identity: string }) => {
+const ValidatorRootDistancePanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
 	const [rootDistance, setRootDistance] = useState<TimeSeries | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		const loadRootDistance = async () => {
-			if (!identity) return;
+			if (!vote_pubkey) return;
 			
 			try {
 				setLoading(true);
-				const data = await fetchValidatorRootDistance(identity as string);
+				const data = await fetchValidatorRootDistance(vote_pubkey as string);
 				// Convert values from negative to positive
 				data.series = data.series.map(point => ({
 					...point,
@@ -110,7 +110,7 @@ const ValidatorRootDistancePanel = ({ identity }: { identity: string }) => {
 		};
 
 		loadRootDistance();
-	}, [identity]);
+	}, [vote_pubkey]);
 
 	return (
 		<div className="bg-white rounded-lg shadow-lg p-6">
@@ -151,18 +151,18 @@ const ValidatorRootDistancePanel = ({ identity }: { identity: string }) => {
 };
 
 
-const ValidatorRankHistoryPanel = ({ identity }: { identity: string }) => {
+const ValidatorRankHistoryPanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
 	const [rankHistory, setRankHistory] = useState<TimeSeries | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		const loadRankHistory = async () => {
-			if (!identity) return;
+			if (!vote_pubkey) return;
 			
 			try {
 				setLoading(true);
-				const data = await fetchValidatorRankHistory(identity as string);
+				const data = await fetchValidatorRankHistory(vote_pubkey as string);
 				setRankHistory(data);
 			} catch (err) {
 				setError("Failed to load rank history");
@@ -173,7 +173,7 @@ const ValidatorRankHistoryPanel = ({ identity }: { identity: string }) => {
 		};
 
 		loadRankHistory();
-	}, [identity]);
+	}, [vote_pubkey]);
 
 	return (
 		<div className="bg-white rounded-lg shadow-lg p-6">
@@ -258,18 +258,18 @@ const ValidatorRankHistoryPanel = ({ identity }: { identity: string }) => {
 	)
 }
 
-const ValidatorHeader = ({ identity }: { identity: string }) => {
+const ValidatorHeader = ({ vote_pubkey }: { vote_pubkey: string }) => {
 	const [validator, setValidator] = useState<Validator | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
 	useEffect(() => {
 		const loadValidator = async () => {
-			if (!identity) return;
+			if (!vote_pubkey) return;
 
 			try {
 				setLoading(true);
-				const data = await fetchValidator(identity as string);
+				const data = await fetchValidator(vote_pubkey as string);
 				setValidator(data);
 			} catch (err) {
 				setError("Failed to load validator details");
@@ -280,7 +280,7 @@ const ValidatorHeader = ({ identity }: { identity: string }) => {
 		};
 
 		loadValidator();
-	}, [identity]);
+	}, [vote_pubkey]);
 
 	const copy = async (text: string) => {
 		await navigator.clipboard.writeText(text);
@@ -412,11 +412,11 @@ const ValidatorHeader = ({ identity }: { identity: string }) => {
 
 export default function ValidatorDetailsPage() {
 	const params = useParams();
-	const identity = params?.identity as string;
+	const vote_pubkey = params?.vote_pubkey as string;
 
   return (
     <Layout
-      title={`Validator - ${identity}`}
+      title={`Validator - ${vote_pubkey}`}
       bannerTitle="Validator Details"
       chain="Solana"
     >
@@ -431,14 +431,14 @@ export default function ValidatorDetailsPage() {
           </Link>
         </div>
 
-        <ValidatorHeader key={`header-${identity}`} identity={identity} />
+        <ValidatorHeader key={`header-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <ValidatorVoteDistancePanel key={`vote-${identity}`} identity={identity} />
-          <ValidatorRootDistancePanel key={`root-${identity}`} identity={identity} />
+          <ValidatorVoteDistancePanel key={`vote-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
+          <ValidatorRootDistancePanel key={`root-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
         </div>
         
-        <ValidatorRankHistoryPanel key={`rank-${identity}`} identity={identity} />
+        <ValidatorRankHistoryPanel key={`rank-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
 
       </div>
     </Layout>

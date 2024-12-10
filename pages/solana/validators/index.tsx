@@ -210,7 +210,7 @@ export default function ValidatorStatsPage() {
                   </TableCell>
                   <TableCell className="max-w-[200px] truncate text-left text-blue-500 hover:underline !font-bold">
                     <Link 
-                      href={`/solana/validators/${validator.identity}`}
+                      href={`/solana/validators/${validator.vote_pubkey}`}
                     >
                       {validator.name || 'Unknown'}
                     </Link>
