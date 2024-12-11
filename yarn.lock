@@ -987,6 +987,13 @@
   resolved "https://registry.npmjs.org/@types/d3/-/d3-3.5.47.tgz"
   integrity sha512-VkWIQoZXLFdcBGe5pdBKJmTU3fmpXvo/KV6ixvTzOMl1yJ2hbTXpfvsziag0kcaerPDwas2T0vxojwQG3YwivQ==
 
+"@types/dompurify@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@types/dompurify/-/dompurify-3.2.0.tgz#56610bf3e4250df57744d61fbd95422e07dfb840"
+  integrity sha512-Fgg31wv9QbLDA0SpTOXO3MaxySc4DKGLi8sna4/Utjo4r3ZRPdCt4UQee8BWr+Q5z21yifghREPJGYaEOEIACg==
+  dependencies:
+    dompurify "*"
+
 "@types/gtag.js@^0.0.12":
   version "0.0.12"
   resolved "https://registry.npmjs.org/@types/gtag.js/-/gtag.js-0.0.12.tgz"
@@ -1116,6 +1123,11 @@
   integrity sha512-Da66lEIFeIz9ltsdMZcpQvmrmmoqrfju8pm1BH8WbYjZSwUgCwXLb9C+9XYogwBITnbsSaMdVPb2ekf7TV+03w==
   dependencies:
     "@types/node" "*"
+
+"@types/trusted-types@^2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@types/trusted-types/-/trusted-types-2.0.7.tgz#baccb07a970b91707df3a3e8ba6896c57ead2d11"
+  integrity sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==
 
 "@typescript-eslint/parser@^5.21.0":
   version "5.31.0"
@@ -2545,6 +2557,13 @@ dom-walk@^0.1.0:
   version "0.1.2"
   resolved "https://registry.npmjs.org/dom-walk/-/dom-walk-0.1.2.tgz"
   integrity sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w==
+
+dompurify@*, dompurify@^3.2.3:
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.2.3.tgz#05dd2175225324daabfca6603055a09b2382a4cd"
+  integrity sha512-U1U5Hzc2MO0oW3DF+G9qYN0aT7atAou4AgI0XjWz061nyBPbdxkfdhfy5uMgGn6+oLFCfn44ZGbdDqCzVmlOWA==
+  optionalDependencies:
+    "@types/trusted-types" "^2.0.7"
 
 draw-svg-path@^1.0.0:
   version "1.0.0"

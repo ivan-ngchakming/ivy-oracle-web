@@ -12,6 +12,8 @@ import Table, {
 import { toast } from "react-toastify";
 import { SOLANA_LAMPORTS_PER_SOL } from "../../../lib/solana/constants";
 import Link from "next/link";
+import DOMPurify from 'dompurify';
+
 type SortField = 'identity' | 'vote_pubkey' | 'commission' | 'activated_stake' | 'epoch_credits' | 'epoch_credits_rank' | 'name' | 'vote_skip_rate';
 type SortDirection = 'asc' | 'desc';
 
@@ -212,7 +214,14 @@ export default function ValidatorStatsPage() {
                     <Link 
                       href={`/solana/validators/${validator.vote_pubkey}`}
                     >
-                      {validator.name || 'Unknown'}
+                      <span 
+                        className="whitespace-pre-wrap"
+                        dangerouslySetInnerHTML={{
+                          __html: validator.name ? 
+                            DOMPurify.sanitize(decodeURIComponent(escape(validator.name))) : 
+                            'Unknown'
+                        }}
+                      />
                     </Link>
                   </TableCell>
                   <TableCell className="text-left">

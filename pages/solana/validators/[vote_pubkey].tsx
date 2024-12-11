@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import Layout from "../../../components/Layout";
-import { Validator, TimeSeries } from "../../../lib/solana/types";
-import { fetchValidator, fetchValidatorRankHistory, fetchValidatorVoteDistance, fetchValidatorRootDistance } from "../../../lib/solana/queries/validators";
-import { toast } from "react-toastify";
-import { SOLANA_LAMPORTS_PER_SOL } from "../../../lib/solana/constants";
+import DOMPurify from 'dompurify';
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import Layout from "../../../components/Layout";
+import { SOLANA_LAMPORTS_PER_SOL } from "../../../lib/solana/constants";
+import { fetchValidator, fetchValidatorRankHistory, fetchValidatorRootDistance, fetchValidatorVoteDistance } from "../../../lib/solana/queries/validators";
+import { TimeSeries, Validator } from "../../../lib/solana/types";
 
 import {
-	LineChart,
 	Line,
-	XAxis,
-	YAxis,
+	LineChart,
+	ResponsiveContainer,
 	Tooltip,
-	ResponsiveContainer
+	XAxis,
+	YAxis
 } from "recharts";
 
 const ValidatorVoteDistancePanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
@@ -304,8 +305,16 @@ const ValidatorHeader = ({ vote_pubkey }: { vote_pubkey: string }) => {
 								if (loading) return "Loading...";
 								if (error) return "Error loading validator";
 								if (!validator) return "Validator not found";
-								return validator.name || "Unknown Validator"})()
-							}
+								return (
+									<span
+										dangerouslySetInnerHTML={{
+											__html: validator.name ? 
+												DOMPurify.sanitize(decodeURIComponent(escape(validator.name))) :
+												'Unknown Validator'
+										}}
+									/>
+								);
+							})()}
 						</h1>
 						<p className="text-gray-600">
 							Rank #{validator?.stats?.epoch_credits_rank || "N/A"}
@@ -383,7 +392,13 @@ const ValidatorHeader = ({ vote_pubkey }: { vote_pubkey: string }) => {
 						Description
 					</h2>
 					<p className="text-gray-800">
-						{validator.description || "No description available"}
+						<span
+							dangerouslySetInnerHTML={{
+								__html: validator.description ? 
+									DOMPurify.sanitize(decodeURIComponent(escape(validator.description))) :
+									"No description available"
+							}}
+						/>
 					</p>
 				</div>
 
