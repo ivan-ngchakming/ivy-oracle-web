@@ -202,12 +202,16 @@ export default function ValidatorStatsPage() {
               {!loading && getSortedValidators().map((validator) => (
                 <TableRow key={validator.identity}>
                   <TableCell>
-                    {validator.logo_url && (
+                    {validator.logo_url ? (
                       <img 
                         src={validator.logo_url} 
                         alt={`${validator.name} logo`}
                         className="w-6 h-6 rounded-full"
                       />
+                    ) : (
+                      <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">
+                        <span className="text-gray-500">?</span>
+                      </div>
                     )}
                   </TableCell>
                   <TableCell className="max-w-[200px] truncate text-left text-blue-500 hover:underline !font-bold">
