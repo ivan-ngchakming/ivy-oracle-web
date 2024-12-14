@@ -289,17 +289,17 @@ export default function ValidatorStatsPage() {
     <Layout title="Validators" bannerTitle="Solana Validators" chain="Solana">
       {/* Navigation Links */}
       <div className="flex justify-center gap-4 mb-8 mt-8">
-        <a href="/solana" className="text-blue-500 hover:text-blue-700 font-medium">
+        <Link href="/solana" className="text-blue-500 hover:text-blue-700 font-medium">
           Home
-        </a>
+        </Link>
         <span className="text-gray-400">|</span>
-        <a href="/solana/leader_schedule" className="text-blue-500 hover:text-blue-700 font-medium">
+        <Link href="/solana/leader_schedule" className="text-blue-500 hover:text-blue-700 font-medium">
           Leader Schedule
-        </a>
+        </Link>
         <span className="text-gray-400">|</span>
-        <a href="/solana/validators" className="text-blue-500 hover:text-blue-700 font-medium">
+        <Link href="/solana/validators" className="text-blue-500 hover:text-blue-700 font-medium">
           Validators Dashboard
-        </a>
+        </Link>
       </div>
 
       {renderTable()}
