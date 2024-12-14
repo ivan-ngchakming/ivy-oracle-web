@@ -86,7 +86,7 @@ const SolanaLandingPage = () => {
 							<p className="pb-2">
 								View detailed statistics about our Solana validator, including stake,
 								uptime, commission rate, and historical performance data. Track our
-								validator's contributions to the network in real-time.
+								validator&apos;s contributions to the network in real-time.
 							</p>
 						</Card>
 						<Card
