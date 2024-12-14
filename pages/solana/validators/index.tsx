@@ -14,6 +14,7 @@ import { SOLANA_LAMPORTS_PER_SOL } from "../../../lib/solana/constants";
 import Link from "next/link";
 import DOMPurify from 'dompurify';
 import { formatSol } from "../../../utils/solana";
+import Image from "next/image";
 
 type SortField = 'identity' | 'vote_pubkey' | 'commission' | 'activated_stake' | 'epoch_credits' | 'epoch_credits_rank' | 'name' | 'vote_skip_rate';
 type SortDirection = 'asc' | 'desc';
@@ -204,10 +205,12 @@ export default function ValidatorStatsPage() {
                 <TableRow key={validator.identity}>
                   <TableCell>
                     {validator.logo_url ? (
-                      <img
-                        src={validator.logo_url}
+                      <Image
+                        src={validator.logo_url.trimEnd()}
                         alt={`${validator.name} logo`}
-                        className="w-6 h-6 rounded-full"
+                        width={24}
+                        height={24}
+                        className="rounded-full"
                       />
                     ) : (
                       <div className="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">

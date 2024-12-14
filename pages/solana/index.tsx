@@ -84,9 +84,9 @@ const SolanaLandingPage = () => {
 							href={`/solana/validators/${SOLANA_VALIDATOR_VOTE_ACCOUNT}`}
 						>
 							<p className="pb-2">
-								Monitor all validators' performance metrics, including stake, uptime,
-								and commission rates. View detailed statistics and historical data
-								for our Solana network participation.
+								View detailed statistics about our Solana validator, including stake,
+								uptime, commission rate, and historical performance data. Track our
+								validator's contributions to the network in real-time.
 							</p>
 						</Card>
 						<Card
@@ -96,7 +96,7 @@ const SolanaLandingPage = () => {
 							href="/solana/validators"
 						>
 							<p className="pb-2">
-								Monitor all validators' performance metrics, including stake, uptime,
+								Monitor all validators&apos; performance metrics, including stake, uptime,
 								and commission rates. View detailed statistics and historical data
 								for our Solana network participation.
 							</p>

@@ -2,10 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [
-      "images.unsplash.com",
-      "raw.githubusercontent.com",
-      "cdn.flaremetrics.io",
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      }
     ],
   },
   typescript: {
