@@ -34,6 +34,7 @@
     "react-plotly.js": "^2.5.1",
     "react-select": "^5.4.0",
     "react-toastify": "^9.0.7",
+    "react-window": "^1.8.10",
     "recharts": "^2.14.1",
     "web3": "^1.7.4"
   },
@@ -48,6 +49,7 @@
     "@types/react": "^18.0.15",
     "@types/react-gtm-module": "^2.0.1",
     "@types/react-plotly.js": "^2.5.1",
+    "@types/react-window": "^1.8.8",
     "autoprefixer": "^10.4.7",
     "eslint": "8.20.0",
     "eslint-config-next": "12.2.3",

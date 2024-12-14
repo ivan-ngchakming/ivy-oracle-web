@@ -1,4 +1,4 @@
-import { TimeSeries, Validator, ValidatorStats, VotesData, LeaderSchedule } from "../types";
+import { TimeSeries, Validator, ValidatorStats, VotesData, LeaderSchedule, FullLeaderSchedule } from "../types";
 
 export const mapValidatorStats = (data: any): ValidatorStats => {
   if (!data) return {};
@@ -55,12 +55,20 @@ export const mapVotes = (data: any): VotesData => {
   };
 }
 
-export const mapLeaderSchedule = (data: any): LeaderSchedule[] => {
+export const mapValidatorLeaderSchedule = (data: any): LeaderSchedule[] => {
   if (!data) return [];
-  
+
   return Object.values(data).map((schedule: any) => ({
     slot: schedule.slot,
     absolute_slot: schedule.absolute_slot,
-    status: schedule.status
+    status: schedule.status,
+    validator_identity: schedule.validator_identity,
   }));
+}
+
+export const mapLeaderSchedule = (data: any): FullLeaderSchedule => {
+  return {
+    leader_schedule: mapValidatorLeaderSchedule(data.leader_schedule),
+    validators: data.validators
+  };
 }

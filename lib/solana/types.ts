@@ -63,4 +63,18 @@ export interface LeaderSchedule {
   slot: number;
   absolute_slot: number;
   status: 'CONFIRMED' | 'MISSED' | 'PENDING';
+  validator_identity?: string;
+}
+
+
+export interface LeaderScheduleValidatorInfo {
+  identity: string;
+  vote_pubkey: string;
+  previous_epoch_stake: number;
+}
+
+
+export interface FullLeaderSchedule {
+  leader_schedule: LeaderSchedule[];
+  validators: { [key: string]: LeaderScheduleValidatorInfo };
 }

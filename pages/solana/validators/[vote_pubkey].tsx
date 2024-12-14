@@ -16,6 +16,7 @@ import {
 	XAxis,
 	YAxis
 } from "recharts";
+import { formatSol } from '../../../utils/solana';
 
 const ValidatorVoteDistancePanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
 	const [voteDistance, setVoteDistance] = useState<TimeSeries | null>(null);
@@ -335,13 +336,7 @@ const ValidatorHeader = ({ vote_pubkey }: { vote_pubkey: string }) => {
 						<div className="text-center">
 							<h2 className="text-sm font-semibold text-gray-600 mb-1">Active Stake</h2>
 							<p className="text-lg font-medium">
-								{(() => {
-									const sol = validator.activated_stake / SOLANA_LAMPORTS_PER_SOL;
-									if (sol >= 1e9) return `${(sol / 1e9).toFixed(2)}B`;
-									if (sol >= 1e6) return `${(sol / 1e6).toFixed(2)}M`;
-									if (sol >= 1e3) return `${(sol / 1e3).toFixed(2)}K`;
-									return sol.toFixed(2);
-								})()}
+								{formatSol(validator.activated_stake)}
 							</p>
 						</div>
 						<div className="text-center">
