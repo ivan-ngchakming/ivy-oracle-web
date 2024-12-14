@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Layout from "../../../components/Layout";
 import { SOLANA_LAMPORTS_PER_SOL } from "../../../lib/solana/constants";
-import { fetchValidator, fetchValidatorRankHistory, fetchValidatorRootDistance, fetchValidatorVoteDistance, fetchValidatorVotes } from "../../../lib/solana/queries/validators";
-import { TimeSeries, Validator, Vote, VotesData } from "../../../lib/solana/types";
+import { fetchValidator, fetchValidatorLeaderSchedule, fetchValidatorRankHistory, fetchValidatorRootDistance, fetchValidatorVoteDistance, fetchValidatorVotes } from "../../../lib/solana/queries/validators";
+import { LeaderSchedule, TimeSeries, Validator, Vote, VotesData } from "../../../lib/solana/types";
 
 import {
 	Line,
@@ -516,9 +516,108 @@ const ValidatorVotesPanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
 };
 
 const ValidatorLeaderSchedulePanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
+	const [leaderSchedule, setLeaderSchedule] = useState<LeaderSchedule[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		const loadLeaderSchedule = async () => {
+			if (!vote_pubkey) return;
+			
+			try {
+				const data = await fetchValidatorLeaderSchedule(vote_pubkey);
+				setLeaderSchedule(data);
+			} catch (error) {
+				console.error('Error loading leader schedule:', error);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+
+		loadLeaderSchedule();
+	}, [vote_pubkey]);
+
+	const getScheduleSummary = () => {
+		const total = leaderSchedule.length;
+		const confirmed = leaderSchedule.filter(s => s.status === 'CONFIRMED').length;
+		const missed = leaderSchedule.filter(s => s.status === 'MISSED').length;
+		const pending = leaderSchedule.filter(s => s.status === 'PENDING').length;
+
+		return {
+			total,
+			confirmed,
+			missed,
+			pending,
+			confirmedRate: total ? ((confirmed / total) * 100).toFixed(1) : '0',
+			missedRate: total ? ((missed / total) * 100).toFixed(1) : '0',
+			pendingRate: total ? ((pending / total) * 100).toFixed(1) : '0'
+		};
+	};
+
 	return (
 		<div className="border bg-white rounded-lg shadow-lg p-6">
 			<h2 className="text-xl font-semibold mb-4">Leader Schedule</h2>
+
+			{isLoading ? (
+				<div className="flex justify-center items-center h-48">
+					<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500" />
+				</div>
+			) : leaderSchedule && leaderSchedule.length > 0 ? (
+				<div>
+					<div className="grid lg:grid-cols-4 gap-4 mb-6 grid-cols-2">
+						<div className="bg-gray-50 p-4 rounded-lg">
+							<p className="text-sm text-gray-600">Total Slots</p>
+							<p className="text-lg font-semibold text-gray-800">{getScheduleSummary().total}</p>
+						</div>
+						<div className="bg-green-50 p-4 rounded-lg">
+							<p className="text-sm text-green-600">Confirmed</p>
+							<p className="text-lg font-semibold text-green-800">
+								{getScheduleSummary().confirmed} ({getScheduleSummary().confirmedRate}%)
+							</p>
+						</div>
+						<div className="bg-red-50 p-4 rounded-lg">
+							<p className="text-sm text-red-600">Missed</p>
+							<p className="text-lg font-semibold text-red-800">
+								{getScheduleSummary().missed} ({getScheduleSummary().missedRate}%)
+							</p>
+						</div>
+						<div className="bg-yellow-50 p-4 rounded-lg">
+							<p className="text-sm text-yellow-600">Pending</p>
+							<p className="text-lg font-semibold text-yellow-800">
+								{getScheduleSummary().pending} ({getScheduleSummary().pendingRate}%)
+							</p>
+						</div>
+					</div>
+					<div className="overflow-x-auto h-[200px]">
+						<table className="min-w-full">
+							<thead className="sticky top-0 bg-white">
+								<tr>
+									<th className="px-4 py-2 text-left text-sm font-semibold text-gray-600">Slot Index</th>
+									<th className="px-4 py-2 text-left text-sm font-semibold text-gray-600">Slot</th>
+									<th className="px-4 py-2 text-left text-sm font-semibold text-gray-600">Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								{leaderSchedule.map((schedule: LeaderSchedule, index: number) => (
+									<tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : ''}>
+										<td className="px-4 py-2 text-sm">{schedule.slot.toLocaleString()}</td>
+										<td className="px-4 py-2 text-sm">{schedule.absolute_slot.toLocaleString()}</td>
+										<td className="px-4 py-2">
+											<span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+												${schedule.status === 'CONFIRMED' ? 'bg-green-100 text-green-800' :
+													schedule.status === 'MISSED' ? 'bg-red-100 text-red-800' :
+														'bg-yellow-100 text-yellow-800'}`}>
+												{schedule.status}
+											</span>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			) : (
+				<p className="text-gray-500 text-center py-8">No leader schedule data available</p>
+			)}
 		</div>
 	);
 }

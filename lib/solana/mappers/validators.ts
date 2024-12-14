@@ -1,4 +1,4 @@
-import { TimeSeries, Validator, ValidatorStats, VotesData } from "../types";
+import { TimeSeries, Validator, ValidatorStats, VotesData, LeaderSchedule } from "../types";
 
 export const mapValidatorStats = (data: any): ValidatorStats => {
   if (!data) return {};
@@ -53,4 +53,14 @@ export const mapVotes = (data: any): VotesData => {
       latency: vote.latency
     }))
   };
+}
+
+export const mapLeaderSchedule = (data: any): LeaderSchedule[] => {
+  if (!data) return [];
+  
+  return Object.values(data).map((schedule: any) => ({
+    slot: schedule.slot,
+    absolute_slot: schedule.absolute_slot,
+    status: schedule.status
+  }));
 }

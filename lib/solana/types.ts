@@ -58,3 +58,9 @@ export interface TimeSeriesDataPoint {
 export interface TimeSeries {
   series: TimeSeriesDataPoint[];
 }
+
+export interface LeaderSchedule {
+  slot: number;
+  absolute_slot: number;
+  status: 'CONFIRMED' | 'MISSED' | 'PENDING';
+}
