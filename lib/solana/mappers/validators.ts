@@ -1,4 +1,4 @@
-import { TimeSeries, Validator, ValidatorStats } from "../types";
+import { TimeSeries, Validator, ValidatorStats, VotesData } from "../types";
 
 export const mapValidatorStats = (data: any): ValidatorStats => {
   if (!data) return {};
@@ -40,5 +40,17 @@ export const mapTimeSeries = (data: any): TimeSeries => {
       _time: series._time,
       _value: series._value,
     })),
+  };
+}
+
+export const mapVotes = (data: any): VotesData => {
+  return {
+    node_pubkey: data.node_pubkey,
+    vote_pubkey: data.vote_pubkey,
+    authorized_withdrawer: data.authorized_withdrawer,
+    votes: data.votes.map((vote: any) => ({
+      slot: vote.slot,
+      latency: vote.latency
+    }))
   };
 }

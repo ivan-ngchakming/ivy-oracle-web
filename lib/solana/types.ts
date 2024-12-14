@@ -38,6 +38,18 @@ export interface Validator {
   stats: ValidatorStats;
 }
 
+export interface Vote {
+  slot: number;
+  latency: number;
+}
+
+export interface VotesData {
+  node_pubkey: string;
+  vote_pubkey: string;
+  authorized_withdrawer: string;
+  votes: Vote[];
+}
+
 export interface TimeSeriesDataPoint {
   _time: string;
   _value: number;

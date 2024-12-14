@@ -5,8 +5,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Layout from "../../../components/Layout";
 import { SOLANA_LAMPORTS_PER_SOL } from "../../../lib/solana/constants";
-import { fetchValidator, fetchValidatorRankHistory, fetchValidatorRootDistance, fetchValidatorVoteDistance } from "../../../lib/solana/queries/validators";
-import { TimeSeries, Validator } from "../../../lib/solana/types";
+import { fetchValidator, fetchValidatorRankHistory, fetchValidatorRootDistance, fetchValidatorVoteDistance, fetchValidatorVotes } from "../../../lib/solana/queries/validators";
+import { TimeSeries, Validator, Vote, VotesData } from "../../../lib/solana/types";
 
 import {
 	Line,
@@ -425,6 +425,104 @@ const ValidatorHeader = ({ vote_pubkey }: { vote_pubkey: string }) => {
 	);
 };
 
+const ValidatorVotesPanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
+	const [votesData, setVotesData] = useState<VotesData | null>(null);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<Error | null>(null);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			if (!vote_pubkey) return;
+
+			try {
+				setIsLoading(true);
+				const data = await fetchValidatorVotes(vote_pubkey);
+				setVotesData(data);
+				setError(null);
+			} catch (err) {
+				setError(err as Error);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+
+		fetchData();
+	}, [vote_pubkey]);
+
+	const votes = votesData?.votes || [];
+	const avgLatency = votes.reduce((sum: number, vote: Vote) => sum + vote.latency, 0) / votes.length;
+	const maxLatency = Math.max(...votes.map((vote: Vote) => vote.latency));
+	const minLatency = Math.min(...votes.map((vote: Vote) => vote.latency));
+
+	return (
+		<div className="border bg-white rounded-lg shadow-lg p-6">
+			<h2 className="text-xl font-semibold mb-4">Vote Latency</h2>
+			
+			<div className="grid grid-cols-3 gap-4 mb-6">
+				<div className="bg-gray-50 p-4 rounded-lg">
+					<p className="text-sm text-gray-600">Average Latency</p>
+					<p className="text-lg font-semibold text-gray-800">{isLoading ? "Loading..." : avgLatency.toFixed(2) + " slots"}</p>
+				</div>
+				<div className="bg-gray-50 p-4 rounded-lg">
+					<p className="text-sm text-gray-600">Max Latency</p>
+					<p className="text-lg font-semibold text-gray-800">{isLoading ? "Loading..." : maxLatency + " slots"}</p>
+				</div>
+				<div className="bg-gray-50 p-4 rounded-lg">
+					<p className="text-sm text-gray-600">Min Latency</p>
+					<p className="text-lg font-semibold text-gray-800">{isLoading ? "Loading..." : minLatency + " slots"}</p>
+				</div>
+			</div>
+
+			<div className="h-64">
+				<ResponsiveContainer width="100%" height="100%">
+					<LineChart 
+						data={votes}
+						margin={{
+							top: 35,
+							right: 35,
+							left: 35,
+							bottom: 45
+						}}
+					>
+						<XAxis 
+							dataKey="slot" 
+							type="number"
+							domain={['auto', 'auto']}
+							tickFormatter={(value) => value.toLocaleString()}
+							angle={-25}
+							dy={35}
+							dx={-40}
+						/>
+						<YAxis 
+							dataKey="latency"
+							label={{ value: 'Latency (slots)', angle: -90, position: 'insideLeft' }}
+							domain={[1, 'auto']}
+						/>
+						<Tooltip
+							formatter={(value: any) => [`${value} slots`, 'Latency']}
+							labelFormatter={(label) => `Slot ${label.toLocaleString()}`}
+						/>
+						<Line 
+							type="monotone" 
+							dataKey="latency" 
+							stroke="#6366f1" 
+							dot={false}
+						/>
+					</LineChart>
+				</ResponsiveContainer>
+			</div>
+		</div>
+	);
+};
+
+const ValidatorLeaderSchedulePanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
+	return (
+		<div className="border bg-white rounded-lg shadow-lg p-6">
+			<h2 className="text-xl font-semibold mb-4">Leader Schedule</h2>
+		</div>
+	);
+}
+
 export default function ValidatorDetailsPage() {
 	const params = useParams();
 	const vote_pubkey = params?.vote_pubkey as string;
@@ -448,7 +546,12 @@ export default function ValidatorDetailsPage() {
 
         <ValidatorHeader key={`header-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+		<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+			<ValidatorVotesPanel key={`votes-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
+			<ValidatorLeaderSchedulePanel key={`leader-schedule-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
+		</div>
+        
+		<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <ValidatorVoteDistancePanel key={`vote-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
           <ValidatorRootDistancePanel key={`root-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
         </div>
