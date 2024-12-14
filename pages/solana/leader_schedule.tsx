@@ -141,6 +141,21 @@ const LeaderSchedulePage = () => {
 	return (
 		<Layout title="Leader Schedule" bannerTitle="Leader Schedule" chain="Solana">
 			<div className="container mx-auto px-4 py-8 overflow-x-auto mb-16">
+				{/* Navigation Links */}
+				<div className="flex justify-center gap-4 mb-8">
+					<a href="/solana" className="text-blue-500 hover:text-blue-700 font-medium">
+						Home
+					</a>
+					<span className="text-gray-400">|</span>
+					<a href="/solana/leader_schedule" className="text-blue-500 hover:text-blue-700 font-medium">
+						Leader Schedule
+					</a>
+					<span className="text-gray-400">|</span>
+					<a href="/solana/validators" className="text-blue-500 hover:text-blue-700 font-medium">
+						Validators Dashboard
+					</a>
+				</div>
+
 				{/* Summary Section */}
 				<div className="mb-8 grid grid-cols-1 md:grid-cols-2 gap-6">
 					{/* Overall Stats */}

@@ -26,7 +26,7 @@ const ValidatorVoteDistancePanel = ({ vote_pubkey }: { vote_pubkey: string }) =>
 	useEffect(() => {
 		const loadVoteDistance = async () => {
 			if (!vote_pubkey) return;
-			
+
 			try {
 				setLoading(true);
 				const data = await fetchValidatorVoteDistance(vote_pubkey as string);
@@ -50,11 +50,11 @@ const ValidatorVoteDistancePanel = ({ vote_pubkey }: { vote_pubkey: string }) =>
 	return (
 		<div className="bg-white rounded-lg shadow-lg p-6">
 			<h2 className="text-xl font-semibold mb-4">Vote Distance</h2>
-			
+
 			{loading && <div>Loading vote distance...</div>}
-			
+
 			{error && <div className="text-red-500">{error}</div>}
-			
+
 			{voteDistance && voteDistance.series.length > 0 && (
 				<div className="w-full h-[200px]">
 					<ResponsiveContainer width="100%" height="100%">
@@ -93,7 +93,7 @@ const ValidatorRootDistancePanel = ({ vote_pubkey }: { vote_pubkey: string }) =>
 	useEffect(() => {
 		const loadRootDistance = async () => {
 			if (!vote_pubkey) return;
-			
+
 			try {
 				setLoading(true);
 				const data = await fetchValidatorRootDistance(vote_pubkey as string);
@@ -117,11 +117,11 @@ const ValidatorRootDistancePanel = ({ vote_pubkey }: { vote_pubkey: string }) =>
 	return (
 		<div className="bg-white rounded-lg shadow-lg p-6">
 			<h2 className="text-xl font-semibold mb-4">Root Distance</h2>
-			
+
 			{loading && <div>Loading root distance...</div>}
-			
+
 			{error && <div className="text-red-500">{error}</div>}
-			
+
 			{rootDistance && rootDistance.series.length > 0 && (
 				<div className="w-full h-[200px]">
 					<ResponsiveContainer width="100%" height="100%">
@@ -161,7 +161,7 @@ const ValidatorRankHistoryPanel = ({ vote_pubkey }: { vote_pubkey: string }) => 
 	useEffect(() => {
 		const loadRankHistory = async () => {
 			if (!vote_pubkey) return;
-			
+
 			try {
 				setLoading(true);
 				const data = await fetchValidatorRankHistory(vote_pubkey as string);
@@ -180,11 +180,11 @@ const ValidatorRankHistoryPanel = ({ vote_pubkey }: { vote_pubkey: string }) => 
 	return (
 		<div className="bg-white rounded-lg shadow-lg p-6">
 			<h2 className="text-xl font-semibold mb-4">Rank History</h2>
-			
+
 			{loading && <div>Loading rank history...</div>}
-			
+
 			{error && <div className="text-red-500">{error}</div>}
-			
+
 			{rankHistory && rankHistory.series.length > 0 && (
 				<div className="w-full h-[300px]">
 					<ResponsiveContainer width="100%" height="100%">
@@ -229,20 +229,18 @@ const ValidatorRankHistoryPanel = ({ vote_pubkey }: { vote_pubkey: string }) => 
 										y="55%"
 										textAnchor="middle"
 										dominantBaseline="middle"
-										className={`text-lg ${
-											rankHistory.series[0]._value > rankHistory.series[rankHistory.series.length - 1]._value
+										className={`text-lg ${rankHistory.series[0]._value > rankHistory.series[rankHistory.series.length - 1]._value
 												? 'fill-green-500'
 												: rankHistory.series[0]._value < rankHistory.series[rankHistory.series.length - 1]._value
-												? 'fill-red-500' 
-												: 'fill-gray-500'
-										}`}
+													? 'fill-red-500'
+													: 'fill-gray-500'
+											}`}
 									>
 										{rankHistory.series[0]._value === rankHistory.series[rankHistory.series.length - 1]._value
 											? 'No change'
-											: `${(-(rankHistory.series[0]._value - rankHistory.series[rankHistory.series.length - 1]._value) / rankHistory.series[0]._value * 100).toFixed(2)}% ${
-												rankHistory.series[0]._value > rankHistory.series[rankHistory.series.length - 1]._value
-													? '↓'
-													: '↑'
+											: `${(-(rankHistory.series[0]._value - rankHistory.series[rankHistory.series.length - 1]._value) / rankHistory.series[0]._value * 100).toFixed(2)}% ${rankHistory.series[0]._value > rankHistory.series[rankHistory.series.length - 1]._value
+												? '↓'
+												: '↑'
 											}`
 										}
 									</text>
@@ -309,7 +307,7 @@ const ValidatorHeader = ({ vote_pubkey }: { vote_pubkey: string }) => {
 								return (
 									<span
 										dangerouslySetInnerHTML={{
-											__html: validator.name ? 
+											__html: validator.name ?
 												DOMPurify.sanitize(decodeURIComponent(escape(validator.name))) :
 												'Unknown Validator'
 										}}
@@ -389,7 +387,7 @@ const ValidatorHeader = ({ vote_pubkey }: { vote_pubkey: string }) => {
 					<p className="text-gray-800">
 						<span
 							dangerouslySetInnerHTML={{
-								__html: validator.description ? 
+								__html: validator.description ?
 									DOMPurify.sanitize(decodeURIComponent(escape(validator.description))) :
 									"No description available"
 							}}
@@ -452,7 +450,7 @@ const ValidatorVotesPanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
 	return (
 		<div className="border bg-white rounded-lg shadow-lg p-6">
 			<h2 className="text-xl font-semibold mb-4">Vote Latency</h2>
-			
+
 			<div className="grid grid-cols-3 gap-4 mb-6">
 				<div className="bg-gray-50 p-4 rounded-lg">
 					<p className="text-sm text-gray-600">Average Latency</p>
@@ -470,7 +468,7 @@ const ValidatorVotesPanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
 
 			<div className="h-64">
 				<ResponsiveContainer width="100%" height="100%">
-					<LineChart 
+					<LineChart
 						data={votes}
 						margin={{
 							top: 35,
@@ -479,8 +477,8 @@ const ValidatorVotesPanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
 							bottom: 45
 						}}
 					>
-						<XAxis 
-							dataKey="slot" 
+						<XAxis
+							dataKey="slot"
 							type="number"
 							domain={['auto', 'auto']}
 							tickFormatter={(value) => value.toLocaleString()}
@@ -488,7 +486,7 @@ const ValidatorVotesPanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
 							dy={35}
 							dx={-40}
 						/>
-						<YAxis 
+						<YAxis
 							dataKey="latency"
 							label={{ value: 'Latency (slots)', angle: -90, position: 'insideLeft' }}
 							domain={[1, 'auto']}
@@ -497,10 +495,10 @@ const ValidatorVotesPanel = ({ vote_pubkey }: { vote_pubkey: string }) => {
 							formatter={(value: any) => [`${value} slots`, 'Latency']}
 							labelFormatter={(label) => `Slot ${label.toLocaleString()}`}
 						/>
-						<Line 
-							type="monotone" 
-							dataKey="latency" 
-							stroke="#6366f1" 
+						<Line
+							type="monotone"
+							dataKey="latency"
+							stroke="#6366f1"
 							dot={false}
 						/>
 					</LineChart>
@@ -517,7 +515,7 @@ const ValidatorLeaderSchedulePanel = ({ vote_pubkey }: { vote_pubkey: string }) 
 	useEffect(() => {
 		const loadLeaderSchedule = async () => {
 			if (!vote_pubkey) return;
-			
+
 			try {
 				const data = await fetchValidatorLeaderSchedule(vote_pubkey);
 				setLeaderSchedule(data);
@@ -621,38 +619,53 @@ export default function ValidatorDetailsPage() {
 	const params = useParams();
 	const vote_pubkey = params?.vote_pubkey as string;
 
-  return (
-    <Layout
-      title={`Validator - ${vote_pubkey}`}
-      bannerTitle="Validator Details"
-      chain="Solana"
-    >
-      <div className="container mx-auto px-4 py-8 mb-24">
-        <div className="mb-6 ml-4">
-          <Link
-            href="/solana/validators"
-            className="inline-flex items-center text-blue-500 hover:text-blue-700"
-          >
-            <i className="fas fa-arrow-left mr-2"></i>
-            <span>Back to Validators</span>
-          </Link>
-        </div>
+	return (
+		<Layout
+			title={`Validator - ${vote_pubkey}`}
+			bannerTitle="Validator Details"
+			chain="Solana"
+		>
+			<div className="container mx-auto px-4 py-8 mb-24">
+				{/* Navigation Links */}
+				<div className="flex justify-center gap-4 mb-8">
+					<a href="/solana" className="text-blue-500 hover:text-blue-700 font-medium">
+						Home
+					</a>
+					<span className="text-gray-400">|</span>
+					<a href="/solana/leader_schedule" className="text-blue-500 hover:text-blue-700 font-medium">
+						Leader Schedule
+					</a>
+					<span className="text-gray-400">|</span>
+					<a href="/solana/validators" className="text-blue-500 hover:text-blue-700 font-medium">
+						Validators Dashboard
+					</a>
+				</div>
 
-        <ValidatorHeader key={`header-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
+				<div className="mb-6 ml-4">
+					<Link
+						href="/solana/validators"
+						className="inline-flex items-center text-blue-500 hover:text-blue-700"
+					>
+						<i className="fas fa-arrow-left mr-2"></i>
+						<span>Back to Validators</span>
+					</Link>
+				</div>
 
-		<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-			<ValidatorVotesPanel key={`votes-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
-			<ValidatorLeaderSchedulePanel key={`leader-schedule-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
-		</div>
-        
-		<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-          <ValidatorVoteDistancePanel key={`vote-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
-          <ValidatorRootDistancePanel key={`root-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
-        </div>
-        
-        <ValidatorRankHistoryPanel key={`rank-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
+				<ValidatorHeader key={`header-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
 
-      </div>
-    </Layout>
-  );
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+					<ValidatorVotesPanel key={`votes-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
+					<ValidatorLeaderSchedulePanel key={`leader-schedule-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
+				</div>
+
+				<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+					<ValidatorVoteDistancePanel key={`vote-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
+					<ValidatorRootDistancePanel key={`root-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
+				</div>
+
+				<ValidatorRankHistoryPanel key={`rank-${vote_pubkey}`} vote_pubkey={vote_pubkey} />
+
+			</div>
+		</Layout>
+	);
 }

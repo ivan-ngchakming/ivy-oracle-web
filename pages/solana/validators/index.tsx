@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { SOLANA_LAMPORTS_PER_SOL } from "../../../lib/solana/constants";
 import Link from "next/link";
 import DOMPurify from 'dompurify';
+import { formatSol } from "../../../utils/solana";
 
 type SortField = 'identity' | 'vote_pubkey' | 'commission' | 'activated_stake' | 'epoch_credits' | 'epoch_credits_rank' | 'name' | 'vote_skip_rate';
 type SortDirection = 'asc' | 'desc';
@@ -71,12 +72,12 @@ export default function ValidatorStatsPage() {
   const getSortedValidators = () => {
     if (!validators) return [];
 
-    const filtered = validators.filter(validator => 
+    const filtered = validators.filter(validator =>
       validator.identity.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
       validator.vote_pubkey.toLowerCase().includes(debouncedSearchTerm.toLowerCase()) ||
       (validator.name || '').toLowerCase().includes(debouncedSearchTerm.toLowerCase())
     );
-    
+
     return [...filtered].sort((a, b) => {
       let aValue, bValue;
       if (sortField === 'epoch_credits') {
@@ -97,23 +98,23 @@ export default function ValidatorStatsPage() {
       if (aValue === null && bValue === null) return 0;
       if (aValue === null) return 1;
       if (bValue === null) return -1;
-      
+
       if (typeof aValue === 'number' && typeof bValue === 'number') {
         return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
       }
-      
+
       if (typeof aValue === 'string' && typeof bValue === 'string') {
-        return sortDirection === 'asc' 
+        return sortDirection === 'asc'
           ? aValue.localeCompare(bValue)
           : bValue.localeCompare(aValue);
       }
-      
+
       return 0;
     });
   };
 
   const renderTable = () => (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 pb-8">
       <div className="mb-4">
         <input
           type="text"
@@ -131,7 +132,7 @@ export default function ValidatorStatsPage() {
                 <TableColumn className="w-8">
                   Logo
                 </TableColumn>
-                <TableColumn 
+                <TableColumn
                   onClick={() => handleSort('name')}
                   sorted={sortField === 'name'}
                   asc={sortDirection === 'asc'}
@@ -140,7 +141,7 @@ export default function ValidatorStatsPage() {
                 >
                   Name
                 </TableColumn>
-                <TableColumn 
+                <TableColumn
                   onClick={() => handleSort('identity')}
                   sorted={sortField === 'identity'}
                   asc={sortDirection === 'asc'}
@@ -149,7 +150,7 @@ export default function ValidatorStatsPage() {
                 >
                   Identity
                 </TableColumn>
-                <TableColumn 
+                <TableColumn
                   onClick={() => handleSort('vote_pubkey')}
                   sorted={sortField === 'vote_pubkey'}
                   asc={sortDirection === 'asc'}
@@ -158,7 +159,7 @@ export default function ValidatorStatsPage() {
                 >
                   Vote Account
                 </TableColumn>
-                <TableColumn 
+                <TableColumn
                   className="w-24"
                   onClick={() => handleSort('epoch_credits_rank')}
                   sorted={sortField === 'epoch_credits_rank'}
@@ -166,21 +167,21 @@ export default function ValidatorStatsPage() {
                 >
                   Credits Rank
                 </TableColumn>
-                <TableColumn 
+                <TableColumn
                   onClick={() => handleSort('activated_stake')}
                   sorted={sortField === 'activated_stake'}
                   asc={sortDirection === 'asc'}
                 >
                   Activated Stake
                 </TableColumn>
-                <TableColumn 
+                <TableColumn
                   onClick={() => handleSort('epoch_credits')}
                   sorted={sortField === 'epoch_credits'}
                   asc={sortDirection === 'asc'}
                 >
                   Epoch Credits
                 </TableColumn>
-                <TableColumn 
+                <TableColumn
                   className="w-24"
                   onClick={() => handleSort('commission')}
                   sorted={sortField === 'commission'}
@@ -188,7 +189,7 @@ export default function ValidatorStatsPage() {
                 >
                   Commission (%)
                 </TableColumn>
-                <TableColumn 
+                <TableColumn
                   className="w-24"
                   onClick={() => handleSort('vote_skip_rate')}
                   sorted={sortField === 'vote_skip_rate'}
@@ -203,8 +204,8 @@ export default function ValidatorStatsPage() {
                 <TableRow key={validator.identity}>
                   <TableCell>
                     {validator.logo_url ? (
-                      <img 
-                        src={validator.logo_url} 
+                      <img
+                        src={validator.logo_url}
                         alt={`${validator.name} logo`}
                         className="w-6 h-6 rounded-full"
                       />
@@ -215,14 +216,14 @@ export default function ValidatorStatsPage() {
                     )}
                   </TableCell>
                   <TableCell className="max-w-[200px] truncate text-left text-blue-500 hover:underline !font-bold">
-                    <Link 
+                    <Link
                       href={`/solana/validators/${validator.vote_pubkey}`}
                     >
-                      <span 
+                      <span
                         className="whitespace-pre-wrap"
                         dangerouslySetInnerHTML={{
-                          __html: validator.name ? 
-                            DOMPurify.sanitize(decodeURIComponent(escape(validator.name))) : 
+                          __html: validator.name ?
+                            DOMPurify.sanitize(decodeURIComponent(escape(validator.name))) :
                             'Unknown'
                         }}
                       />
@@ -230,7 +231,7 @@ export default function ValidatorStatsPage() {
                   </TableCell>
                   <TableCell className="text-left">
                     <div className="relative group">
-                      <span 
+                      <span
                         className="cursor-pointer"
                         onClick={() => copy(validator.identity)}
                       >
@@ -258,13 +259,7 @@ export default function ValidatorStatsPage() {
                     {validator.stats.epoch_credits_rank ?? '-'}
                   </TableCell>
                   <TableCell>
-                    {(() => {
-                      const sol = validator.activated_stake / SOLANA_LAMPORTS_PER_SOL;
-                      if (sol >= 1e9) return `${(sol / 1e9).toFixed(2)}B`;
-                      if (sol >= 1e6) return `${(sol / 1e6).toFixed(2)}M`;
-                      if (sol >= 1e3) return `${(sol / 1e3).toFixed(2)}K`;
-                      return sol.toFixed(2);
-                    })()}
+                    {formatSol(validator.activated_stake)}
                   </TableCell>
                   <TableCell>
                     {validator.stats.epoch_credits?.toLocaleString() ?? '-'}
@@ -292,6 +287,21 @@ export default function ValidatorStatsPage() {
 
   return (
     <Layout title="Validators" bannerTitle="Solana Validators" chain="Solana">
+      {/* Navigation Links */}
+      <div className="flex justify-center gap-4 mb-8 mt-8">
+        <a href="/solana" className="text-blue-500 hover:text-blue-700 font-medium">
+          Home
+        </a>
+        <span className="text-gray-400">|</span>
+        <a href="/solana/leader_schedule" className="text-blue-500 hover:text-blue-700 font-medium">
+          Leader Schedule
+        </a>
+        <span className="text-gray-400">|</span>
+        <a href="/solana/validators" className="text-blue-500 hover:text-blue-700 font-medium">
+          Validators Dashboard
+        </a>
+      </div>
+
       {renderTable()}
     </Layout>
   );
