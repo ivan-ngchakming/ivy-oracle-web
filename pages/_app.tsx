@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
 import * as gtag from "../lib/gtm";
 import { Web3Provider } from "../lib/providers";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-3Y782ENM63";
 
@@ -48,6 +49,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
+      <SpeedInsights />
+      
       {/* Global Site Tag (gtag.js) - Google Analytics */}
 
       <Script
