@@ -7,6 +7,7 @@ import "./globals.css";
 import { draftMode } from "next/headers";
 import { DisableDraftMode } from "@/components/DisableDraftMode";
 import { VisualEditing } from "next-sanity";
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
   title: 'Ivy Oracle',
@@ -21,6 +22,7 @@ export default async function SiteLayout({
   return (
     <div className="bg-gray-200 w-full">
       <SpeedInsights />
+      <Analytics />
       {children}
       {(await draftMode()).isEnabled && (
         <>

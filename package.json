@@ -21,6 +21,7 @@
     "@sanity/types": "^3.84.0",
     "@sanity/ui": "^2.15.13",
     "@sanity/vision": "3",
+    "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.2.3",
     "bignumber.js": "^9.0.1",
