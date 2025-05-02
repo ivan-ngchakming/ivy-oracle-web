@@ -61,48 +61,6 @@ const IndexPage = () => {
           </p>
         </div>
 
-        {/* Services Section */}
-        <div className="mb-20">
-          <h2 className="text-3xl font-bold mb-8 text-center">Our Services</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card
-              title="Flare Network"
-              actionLabel="Learn More"
-              actionType="link"
-              href={Route.Flare}
-            >
-              <p className="pb-2">
-                Professional FTSO data provider delivering accurate price feeds and optimized rewards
-                for delegators. Low fees and transparent operations.
-              </p>
-            </Card>
-
-            <Card
-              title="Songbird Network"
-              actionLabel="Learn More"
-              actionType="link"
-              href={Route.Songbird}
-            >
-              <p className="pb-2">
-                Experienced signal provider on Songbird, offering reliable price oracle services
-                and comprehensive analytics tools for the community.
-              </p>
-            </Card>
-
-            <Card
-              title="Solana Network"
-              actionLabel="Learn More"
-              actionType="link"
-              href={Route.Solana}
-            >
-              <p className="pb-2">
-                High-performance validator infrastructure ensuring network security
-                and stability with enterprise-grade hardware.
-              </p>
-            </Card>
-          </div>
-        </div>
-
         {/* Contact Section */}
         <div className="text-center">
           <h2 className="text-3xl font-bold mb-4">Get In Touch</h2>

@@ -1,7 +1,7 @@
 import { defineQuery } from "next-sanity";
 import { draftMode } from "next/headers";
 import { client } from "@/sanity/client";
-import { Sections } from "@/components/Sections";
+import { Blocks } from "@/components/Blocks";
 import Layout from "@/components/Layout";
 
 const query = defineQuery(
@@ -35,11 +35,11 @@ export default async function Page({
       title={data.title}
       bannerTitle={data.title}
     >
-      <div className="container mx-auto min-h-[50vh]">
-        <Sections
+      <div className="container my-12 mx-auto min-h-[50vh]">
+        <Blocks
           documentId={data._id}
           documentType={data._type}
-          sections={data.sections}
+          blocks={data.blocks}
         />
       </div>
     </Layout>

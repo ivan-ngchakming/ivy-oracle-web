@@ -19,10 +19,11 @@ export const pageType = defineType({
       },
     }),
     defineField({
-      name: 'sections',
+      name: 'blocks',
       type: 'array',
       of: [
-        defineArrayMember({ type: 'text' }),
+        defineArrayMember({ type: 'infoSection' }),
+        defineArrayMember({ type: 'block' }),
       ]
     })
   ],
