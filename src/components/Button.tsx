@@ -19,6 +19,7 @@ export const buttonClassNames = cn(
   "shadow-md",
   "hover:bg-gray-700",
   "hover:shadow-lg",
+  "hover:cursor-pointer",
   "focus:bg-gray-700",
   "focus:shadow-lg",
   "focus:outline-none",

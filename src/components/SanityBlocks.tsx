@@ -3,7 +3,7 @@
 import {createDataAttribute, useOptimistic} from '@sanity/visual-editing'
 import type {SanityDocument} from '@sanity/client'
 import { config } from '@/sanity/client'
-import { BlockRenderer } from './BlockRenderer'
+import BlockRenderer from './blocks/BlockRenderer'
 
 type Block = {
   _key: string
@@ -22,7 +22,7 @@ type BlocksProps = {
   blocks?: Block[]
 }
 
-export function Blocks({documentId, documentType, blocks: initialBlocks}: BlocksProps) {
+export default function Blocks({documentId, documentType, blocks: initialBlocks}: BlocksProps) {
   const blocks = useOptimistic<Block[] | undefined, SanityDocument<PageData>>(
     initialBlocks,
     (currentBlocks, action) => {

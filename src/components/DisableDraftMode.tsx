@@ -5,29 +5,32 @@
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { disableDraftMode } from "../app/actions";
+import Button from "./Button";
 
 export function DisableDraftMode() {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   
-  if (window !== window.parent || !!window.opener) {
-    return null;
-  }
-
   const disable = () =>
+    // @ts-ignore
     startTransition(async () => {
       await disableDraftMode();
       router.refresh();
     });
 
   return (
-    <div>
+    <div style={{
+      position: 'fixed',
+      top: '1rem',
+      right: '1rem',
+      zIndex: 1000
+    }}>
       {pending ? (
         "Disabling draft mode..."
       ) : (
-        <button type="button" onClick={disable}>
+        <Button onClick={disable}>
           Disable draft mode
-        </button>
+        </Button>
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 import { defineQuery } from "next-sanity";
 import { draftMode } from "next/headers";
 import { client } from "@/sanity/client";
-import { Blocks } from "@/components/Blocks";
+import SanityBlocks from "@/components/SanityBlocks";
 import Layout from "@/components/Layout";
 
 const query = defineQuery(
@@ -28,7 +28,9 @@ export default async function Page({
       : undefined
   );
 
-  console.log(data);
+  if (!data) {
+    return <div>Page not found</div>;
+  }
 
   return (
     <Layout
@@ -36,7 +38,7 @@ export default async function Page({
       bannerTitle={data.title}
     >
       <div className="container my-12 mx-auto min-h-[50vh]">
-        <Blocks
+        <SanityBlocks
           documentId={data._id}
           documentType={data._type}
           blocks={data.blocks}

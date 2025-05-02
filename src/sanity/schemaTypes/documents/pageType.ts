@@ -24,6 +24,7 @@ export const pageType = defineType({
       of: [
         defineArrayMember({ type: 'infoSection' }),
         defineArrayMember({ type: 'block' }),
+        defineArrayMember({ type: 'imageType' }),
       ]
     })
   ],
